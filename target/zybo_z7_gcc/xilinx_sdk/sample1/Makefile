@@ -185,18 +185,18 @@ CFLAGS = $(COPTS) $(CDEFS) $(INCLUDES)
 #
 #  アプリケーションプログラムに関する定義
 #
-APPLNAME = sample1
-APPLDIRS = $(SRCDIR)/sample
-APPL_CFG = sample1.cfg
-APPL_CDL = sample1.cdl
+APPLNAME = rustSample
+APPLDIRS = $(SRCDIR)/sample/rustSample
+APPL_CFG = rustSample.cfg
+APPL_CDL = rustSample.cdl
 
 APPL_DIRS := $(APPLDIRS) $(SRCDIR)/library
 APPL_ASMOBJS :=
 ifdef USE_CXX
-	APPL_CXXOBJS := sample1.o
+	APPL_CXXOBJS := rustSample.o
 	APPL_COBJS :=
 else
-	APPL_COBJS := sample1.o
+	APPL_COBJS := rustSample.o
 endif
 APPL_COBJS := $(APPL_COBJS) $(TECS_USER_COBJS) $(TECS_OUTOFDOMAIN_COBJS) \
 				log_output.o vasyslog.o t_perror.o strerror.o
@@ -436,13 +436,31 @@ $(APPL_ASMOBJS) $(SYSSVC_ASMOBJS) $(KERNEL_ASMOBJS) $(CFG_ASMOBJS): \
 $(OBJDIR)/banner.o: $(filter-out $(OBJDIR)/banner.o,$(ALL2_OBJS)) \
 																$(LIBS_DEP)
 
+RUST_PROJECT = $(APPLDIRS)
+
+RUST_BINDING = $(RUST_PROJECT)/src/kernel_cfg.rs
+
+#  静的ライブライリへのパス
+ITRONRS_LIB_PATH = $(RUST_PROJECT)/target/armv7a-none-eabi/release
+# ITRONRS_LIB_PATH = $(RUST_PROJECT)/target/armv7a-none-eabi/debug
+#　itron-rs のライブラリ名
+ITRONRS_LIB = itron
+
+#
+#　bindgenの実行とrustのビルド
+#
+$(RUST_BINDING):
+	bindgen ./kernel_cfg.h -o $(RUST_BINDING) --default-enum-style rust --use-core --default-macro-constant-type signed
+	cd $(RUST_PROJECT) && cargo objcopy --release --lib -- --weaken
+	# cd $(RUST_PROJECT) && cargo objcopy --lib -- --weaken
+
 #
 #  全体のリンク
 #
-$(OBJFILE): $(ALL_OBJS) $(LIBS_DEP)
-	$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJ_LDFLAGS) -o $(OBJFILE) \
+$(OBJFILE): $(ALL_OBJS) $(LIBS_DEP) $(RUST_BINDING)
+	$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJ_LDFLAGS) -L$(ITRONRS_LIB_PATH) -o $(OBJFILE) \
 			$(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG_OBJS) \
-			$(ALL_LIBS) $(END_OBJS)
+			-l$(ITRONRS_LIB) $(ALL_LIBS) $(END_OBJS)
 
 #
 #  シンボルファイルの生成
@@ -485,6 +503,8 @@ clean:
 	rm -f cfg1_out.syms cfg1_out.srec $(CFG1_OUT)
 	rm -f cfg1_out.timestamp cfg1_out.c cfg1_out.db
 	rm -rf $(TECSGENDIR)
+	rm -rf $(RUST_BINDING)
+	cd $(RUST_PROJECT) && cargo clean
 ifndef KERNEL_LIB
 	rm -f libkernel.a
 endif

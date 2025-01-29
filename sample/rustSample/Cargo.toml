@@ -1,0 +1,12 @@
+[package]
+name = "rustSample"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+itron = { version = "= 0.1.9", features = ["fmp3", "nightly", "unstable"] }
+spin = "0.9.8"
+
+[lib]
+name = "itron"
+crate-type = ["staticlib"]

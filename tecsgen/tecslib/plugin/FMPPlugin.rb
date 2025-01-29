@@ -75,6 +75,7 @@ class FMPPlugin < ClassPlugin
     @name   = name
     @region = region
     @name   = name      # FMP
+    puts "FMPPlugin: initialize: region=#{@region.get_name}, name=#{@name}, option=#{option}"
     # @class1 = option1.to_sym
     # @class2 = option2.to_sym
     @class1 = option.to_sym
