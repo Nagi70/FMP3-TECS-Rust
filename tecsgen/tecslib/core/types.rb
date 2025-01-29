@@ -853,6 +853,8 @@ class StructType < Type
         end
         i += 1
       }
+    elsif initializer.instance_of?( C_EXP ) then
+      # C_EXP は 無常件に OK
     else
       cdl_error2( locale, "T1024 $1: unsuitable initializer for struct" , ident )
     end
@@ -957,7 +959,11 @@ class StructType < Type
       return st.get_members_decl
     end
 
-    return nil
+    # 不完全型の場合。
+    # import_C の中では構造体のメンバー定義がないものもありうる.
+    # TECS CDL では、構造体メンバーを先に定義する必要があり、ここへは来ないはず。
+    # return nil
+    return NamedList.new( nil, "in struct #{@tag}" )
   end
 
   def has_pointer?
@@ -1414,7 +1420,7 @@ class PtrType < Type
           i += 1
         }
       elsif val.instance_of?( C_EXP ) then
-
+        # tecsgen V1.8.RC11 から C_EXP も可とする
       else
         cdl_error2( locale, "T1035 $1: unsuitable initializer for pointer" , ident )
       end

@@ -34,7 +34,7 @@
 #   アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
 #   の責任を負わない．
 #  
-#   $Id: SignaturePlugin.rb 3218 2021-05-22 14:10:59Z okuma-top $
+#   $Id: SignaturePlugin.rb 3225 2021-09-26 05:08:38Z okuma-top $
 #++
 
 #== signature プラグインの共通の親クラス
@@ -157,6 +157,8 @@ EOT
     delim = ""
     if ! b_ret_void then
       file.print( "  retval = " )
+    else
+      file.print( "  " )
     end
 
     file.print( "#{@call_port_name}_#{func_name}(" )

@@ -95,6 +95,9 @@ begin
     STDERR.puts "#{$exe_name} : #{$version}"
     ARGV.each{ |file|
 
+      # file はファイルへのパスを表す文字列
+      print "file = #{file}\n"
+
       if /\@(.*)/ =~ file
         file_list = []
         begin
@@ -116,6 +119,10 @@ begin
       end
 
       file_list.each{ |f|
+
+        # f もファイルへのパスを表す文字列
+        print "f = #{f}\n"
+
         # C 言語のパーサインスタンスを生成
         c_parser = TCFLOW_Cparser.new
 
@@ -130,7 +137,7 @@ begin
 # if $b_summarize
 #   TCFlow::Function.print_summarize
 # else
-#    TCFlow::Function.print_all_functions
+  #  TCFlow::Function.print_all_functions
 # end
 
 # if $b_list

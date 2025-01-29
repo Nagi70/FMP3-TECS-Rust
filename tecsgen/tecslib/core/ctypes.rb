@@ -124,8 +124,16 @@ module CType
 #      cdl_warning( "W9999 $1 & $2 incompatible (\'long double\' is not supported.). Treated as $3." , self.get_type_str, another.get_type_str, self.get_type_str )
       self.to_long      
       return self
+    elsif self.instance_of?( CVoidType ) then
+      if another.is_const? then
+        @b_const = true
+      end
+      if another.is_volatile? then
+        @b_volatile = true
+      end
+      return self
     else
-      raise "merge: unknown type"
+      raise "merge: unknown type #{self.class.name}"
     end
   end
 

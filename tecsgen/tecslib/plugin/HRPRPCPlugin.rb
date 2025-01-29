@@ -3,7 +3,7 @@
 #  TECS Generator
 #      Generator for TOPPERS Embedded Component System
 #  
-#   Copyright (C) 2008-2020 by TOPPERS Project
+#   Copyright (C) 2008-2021 by TOPPERS Project
 #--
 #   上記著作権者は，以下の(1)〜(4)の条件を満たす場合に限り，本ソフトウェ
 #   ア（本ソフトウェアを改変したものを含む．以下同じ）を使用・複製・改
@@ -34,7 +34,7 @@
 #   アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
 #   の責任を負わない．
 #  
-#  $Id: HRPRPCPlugin.rb 3207 2021-03-14 02:03:22Z okuma-top $
+#  $Id: HRPRPCPlugin.rb 3241 2021-11-21 12:06:12Z okuma-top $
 #++
 
 require_tecsgen_lib "lib/GenOpaqueMarshaler.rb"
@@ -453,12 +453,13 @@ EOT
     end
     klass = class_type.get_option
     dbgPrint "HRPRPCPlugin#print_class_region_str_pre class_type=#{class_type.get_name} class=#{klass}\n"
+    print  "HRPRPCPlugin#print_class_region_str_pre class_type=#{class_type.get_name} class=#{klass}\n"
 
     nest_str = "    " * nest
-    if klass == :global then
+    if klass == :root then
       klass, region_name = get_default_class_and_region region
     else
-      return
+      return nest
     end
     region_name = region_name.to_s
     if region.is_root? then
@@ -484,7 +485,7 @@ EOT
       return
     end
     klass = class_type.get_option
-    if klass != :global then
+    if klass != :root then
       return
     end
     nest_str = "    " * nest

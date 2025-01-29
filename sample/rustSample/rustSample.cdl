@@ -13,7 +13,7 @@ celltype tPrint {
 [class(FMP,"CLS_ALL_PRC1")]
 region rProcessor1Symmetric{
 
-    [generate(ItronrsGenPlugin, "lib")]
+    [generate(RustFMP3Plugin, "lib")]
     cell tTaskRs Task1_1 {
         /* 呼び口の結合 */
         cTaskBody = rProcessor1Symmetric::Print1_1.ePrint;
@@ -33,7 +33,7 @@ region rProcessor1Symmetric{
 [class(FMP,"CLS_ALL_PRC2")]
 region rProcessor2Symmetric{
 
-    [generate(ItronrsGenPlugin, "lib")]
+    [generate(RustFMP3Plugin, "lib")]
     cell tTaskRs Task2_1 {
         /* 呼び口の結合 */
         cTaskBody = rProcessor2Symmetric::Print2_1.ePrint;

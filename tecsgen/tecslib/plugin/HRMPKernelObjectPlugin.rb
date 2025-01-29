@@ -3,7 +3,7 @@
 #  TECS Generator
 #      Generator for TOPPERS Embedded Component System
 #  
-#   Copyright (C) 2020 by TOPPERS Project
+#   Copyright (C) 2020-2021 by TOPPERS Project
 #--
 #   上記著作権者は，以下の(1)〜(4)の条件を満たす場合に限り，本ソフトウェ
 #   ア（本ソフトウェアを改変したものを含む．以下同じ）を使用・複製・改
@@ -34,7 +34,7 @@
 #   アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
 #   の責任を負わない．
 #  
-#  $Id: HRMPKernelObjectPlugin.rb 3203 2021-02-06 12:27:30Z okuma-top $
+#  $Id: HRMPKernelObjectPlugin.rb 3241 2021-11-21 12:06:12Z okuma-top $
 #++
 
 class HRMPKernelObjectPlugin < CelltypePlugin
@@ -122,8 +122,8 @@ class HRMPKernelObjectPlugin < CelltypePlugin
       if class_type == nil then
         cdl_error2( cell.get_locale, "HRMP9999 $1: not in class region", cell.get_name )
       elsif @@api[@plugin_arg_str][0] == :InClass then
-        if class_type.get_option.to_s == "global" then
-          cdl_error2( cell.get_locale, "HRMP9999 $1: cannot be placed in global region", cell.get_name )
+        if class_type.get_option.to_s == "root" then
+          cdl_error2( cell.get_locale, "HRMP9999 $1: cannot be placed in out-of-class region", cell.get_name )
         end
       end
     else
@@ -215,18 +215,7 @@ class HRMPKernelObjectPlugin < CelltypePlugin
       region = cell.get_owner
       croot  = region.get_class_root
       class_type = croot.get_class_type
-      if cell.get_celltype.is_active? then
-        # 処理単位のセルのクラス
-        coption = class_type.get_plugin.get_PU_kernel_class
-      else
-        # 非処理単位のセルのクラス
-        coption = class_type.get_plugin.get_NPU_kernel_class
-        dbgPrint "HRMPKernelObjectPlugin: cell=#{cell.get_name} @@api[@plugin_arg_str][0]=#{@@api[@plugin_arg_str][0] }\n"
-        # if @@api[@plugin_arg_str][0] == :InClass && coption == "global" then
-        #   # global に置くことはできない
-        #   coption = class_type.get_plugin.get_PU_kernel_class      #  仮：とりあえず global の場合、変更する
-        # end
-      end
+      coption = class_type.get_plugin.get_PU_kernel_class
 
       droot   = region.get_domain_root
       domain_type = droot.get_domain_type
@@ -243,17 +232,16 @@ class HRMPKernelObjectPlugin < CelltypePlugin
       else
         raise "unknown"
       end
-
       dbgPrint "HRMPKernelObjectPlugin: cell=#{cell.get_name} celltype=#{cell.get_celltype.get_name} coption=#{coption}\n"
       indent2 = indent
-      if coption != :global then
+      if coption != "root" then
         f.print "#{indent}CLASS(#{coption}){\n"
         indent2 = indent + "  "
       end
       print_cfg_cre f, cell, indent2
       print_cfg_sac f, cell, indent2
 
-      if coption != :global then
+      if coption != "root" then
         f.print "#{indent}}\n"
       end
       if doption != "OutOfDomain" then

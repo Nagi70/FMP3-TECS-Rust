@@ -151,6 +151,7 @@ tecslib/plugin/CellPlugin.rb
 tecslib/plugin/CelltypePlugin.rb
 tecslib/plugin/ClassPlugin.rb
 tecslib/plugin/CompositePlugin.rb
+tecslib/plugin/DomainPlugin.rb
 tecslib/plugin/HRMPPlugin.rb
 tecslib/plugin/HRPHandlerPlugin.rb
 tecslib/plugin/HRPKernelObjectManager.rb

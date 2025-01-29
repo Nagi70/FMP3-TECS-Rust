@@ -76,7 +76,7 @@ module GenAttMod
         end
         if region.get_class_root.get_class_type then
           opt_non_pu = region.get_class_root.get_class_type.get_option
-          if opt_non_pu != :"global" then
+          if opt_non_pu != :"root" then
             if indent == "" then
               cr = ""
             else
@@ -238,8 +238,8 @@ return #{ct.get_name}_#{func_head.get_name}(idx, par1, par2, par3, par4, par5, c
 }
 EOT
       }
+      file2.close
     }
-    file2.close
 
     val = "TFN_TECSGEN_ORIGIN"
     offset = 0

@@ -137,6 +137,7 @@ class Celltype
     # ID 指定されているセルに id 番号を与える
     id_specified_cells.each{ |c|
       id = c.get_specified_id
+      dbgPrint "id_specified_cells celltype=#{@name} cell=#{c.get_name} id=#{id} n_cell=#{@n_cell_gen}\n"
       if id > 0 then
         if id >= @n_cell_gen then
           cdl_error( "S3001 $1: id too large $2 (max=$3)", c.get_name, id, @n_cell_gen )
@@ -286,12 +287,22 @@ class Celltype
     # domain_type は一つのノードに一つしかないので、一つの要素を無条件で取り出す
     if @domain_class_roots2.length > 1 then
       @b_need_ptab = true
-      if $verbose then
-        cdl_info( "I9999 celltype '$1' has cells in multi-domain.\n", @name )
+      nr = @domain_class_roots2.keys[0].get_link_root
+      if nr.get_domain_type then
+        if nr.get_domain_type.get_kind != :OutOfDomain then
+          # link root が OutOfDomain でない場合エラーとする
+          # ptab を 置く場所に使われるため（mikan 本来なら OutOfDoamin のファイルに置けばよい)
+          cdl_error( "S9999 region '$1' is node/link root and not out of domain ($2). This is limitation in current version", nr.get_name, nr.get_domain_type.get_kind.to_s )
+        end
+      end
+      # node root
+      if @@domain_class_roots[ nr ] == nil then
+        @@domain_class_roots[ nr ] = []
       end
     end
 
     if $verbose then
+      cdl_info( "I9999 celltype '$1' has cells in multi-domain.\n", @name )
       @domain_class_roots2.each{ |sub_region, cell_list |
         delim = ""
         print "celltype=#{@name} subRegion=#{sub_region.get_name} cells={"

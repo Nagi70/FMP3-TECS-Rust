@@ -232,9 +232,100 @@ Structure of Palette Window
             @hilite_objs.reset( object )
             @sub_mode = :SM_EDIT_CELL_NAME
           end
-        elsif object.kind_of?( TECSModel::TmCell ) ||
+        elsif object.kind_of?( TECSModel::TmCell )
+          puts "#{$gen}/../#{$target}.cdl"
+          puts "cdl true" if File.exist?($gen + "/../#{$target}.cdl")
+          if File.exist?($gen + "/tecsflow.json") && File.exist?($gen + "/../#{$target}.cdl")
+            puts "object: #{object.get_name}"
+
+            cdl_time = File.mtime($gen + "/../#{$target}.cdl")
+            json_time = File.mtime($gen + "/tecsflow.json")
+
+            json_data = nil
+            if cdl_time < json_time
+              require 'json'
+              json_data = JSON.parse(File.read($gen + "/tecsflow.json"))
+            end
+
+            object_json = nil
+
+            json_data.each do |entry|
+              if entry["Cell"] == object.get_name.to_s && entry["Celltype"] == object.get_celltype.get_name.to_s
+                object_json = entry
+                break
+              end
+            end
+
+            if object_json != nil
+              object_json["Accessed"].each do |accessed|
+
+                current_tmcell = nil
+                active_cell = accessed["ActiveCell"]
+                @model.get_cell_list.each do |cell|
+                  if cell.get_name.to_s == active_cell && cell.get_celltype.get_name.to_s == accessed["Celltype"]
+                    current_tmcell = cell
+                    break
+                  end
+                end
+
+                call_port = accessed["Callport"]
+                callee_port = accessed["Calleeport"]
+                accessed["Path"].each do |path|
+                  @view.drawCellRectDirect current_tmcell, flow_flag = true
+                  if current_tmcell.get_celltype.is_active?
+                    @view.drawActiveCellInnerRectDirect current_tmcell, flow_flag = true
+                  end
+                  # @view.drawCell current_tmcell, flow_flag = true
+                  # 同じ名前の呼び口があるかもしれないので確認機構が必要かも
+                  cport = current_tmcell.get_cports[call_port.to_sym]
+                  break if cport == nil
+                  join = cport.get_join
+                  eport = join.get_eport
+                  break if eport.get_name.to_s != callee_port
+                  @view.drawJoin join, flow_flag = true
+                  @view.draw_entry_port_triangle eport, flow_flag = true
+                  @view.draw_port_name cport, flow_flag = true
+                  @view.draw_port_name eport, flow_flag = true
+                  # 接続されている次のセルを取得する
+                  break if eport.get_cell.get_name.to_s != path["CellName"] || eport.get_cell.get_celltype.get_name.to_s != path["Celltype"]
+                  current_tmcell = eport.get_cell
+                  call_port = path["Callport"]
+                  callee_port = path["Calleeport"]
+                end
+
+                # JSON の記述形式では最後のセルから自分のセルにつながる部分はないため、最後のセルにつながる join は個別で出力する
+                cports = current_tmcell.get_cports[call_port.to_sym]
+                join = cports.get_join
+                # @view.drawCell current_tmcell, flow_flag = true
+                @view.drawCellRectDirect current_tmcell, flow_flag = true
+                @view.drawJoin join, flow_flag = true
+                @view.draw_entry_port_triangle join.get_eport, flow_flag = true
+                @view.draw_port_name cports, flow_flag = true
+                @view.draw_port_name join.get_eport, flow_flag = true
+
+              end
+            end
+
+            @view.refresh_canvas
+
+          else
+            puts "tecsflow.json does not exist."
+          end
+          @sub_mode = :SM_MOVING_CELL_BAR
+          # p "FOUND Cell or Bar"
+          if state.shift_mask?
+            @hilite_objs.add( object )
+          elsif state.control_mask?
+            @hilite_objs.add_del( object )
+          elsif ! @hilite_objs.include? object
+            @hilite_objs.reset( object )
+          end
+          @view.draw_hilite_objects @hilite_objs
+          
+        elsif object.kind_of?( TECSModel::TmJoinBar )
+        # elsif object.kind_of?( TECSModel::TmCell ) ||
 #         if object.kind_of?( TECSModel::TmCell ) ||
-            object.kind_of?( TECSModel::TmJoinBar )
+            # object.kind_of?( TECSModel::TmJoinBar )
           @sub_mode = :SM_MOVING_CELL_BAR
           # p "FOUND Cell or Bar"
           if state.shift_mask?
@@ -802,8 +893,9 @@ EOT
       end
     end
 
-    def each  #proc
-      proc = Proc.new
+    def each &proc #proc
+      # Ruby3.0: obsolete
+      # proc = Proc.new
       @hilite_objs.each{ |obj|
         proc.call obj
       }

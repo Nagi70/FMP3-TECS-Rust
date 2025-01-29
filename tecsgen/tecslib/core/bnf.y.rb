@@ -740,7 +740,7 @@ statement
     | import
     | import_C
     | generate_statement
-    | error   # エラー回復ポイント
+    | error  # エラー回復ポイント
 
     
 statement_specifier_list
@@ -1753,9 +1753,6 @@ end
       b_in_comment2 = false
       b_in_string = false
 
-      # euc のコメントを utf8 として扱うと、コメントの終わりを誤る問題の対策
-      TECS_LANG::set_kcode_binary
-
       files.each {|file|
     lineno = 1
     begin
@@ -1885,7 +1882,6 @@ end
 
     ensure
       @@generator_nest -= 1
-      TECS_LANG::reset_kcode
     end
 
   end
@@ -1897,22 +1893,22 @@ end
       @@current_locale[@@generator_nest] = token[1].locale
 
       if token[0] == :IDENTIFIER then
-    # TYPE_NAME トークンへ置換え
-    if Namespace.is_typename?( token[1].val ) then
-      token[0] = :TYPE_NAME
-    elsif @in_specifier && RESERVED2[ token[1].val.to_s ] then
-      # 指定子キーワード（ '[', ']' 内でのみ有効)
-      token[0] = RESERVED2[ token[1].val.to_s ]
-    end
+        # TYPE_NAME トークンへ置換え
+        if Namespace.is_typename?( token[1].val ) then
+        token[0] = :TYPE_NAME
+        elsif @in_specifier && RESERVED2[ token[1].val.to_s ] then
+        # 指定子キーワード（ '[', ']' 内でのみ有効)
+        token[0] = RESERVED2[ token[1].val.to_s ]
+        end
       end
 
       if $debug then     # 070107 token 無効時ここを通さないようした (through 対応 -d の時に例外発生) 
-    locale = @@current_locale[@@generator_nest]
-    if token then
-      print( "#{locale[0]}: line #{locale[1]} : #{token[0]} '#{token[1].val}'\n" )
-    else
-      print( "#{locale[0]}: line #{locale[1]} : EOF\n" )
-    end
+        locale = @@current_locale[@@generator_nest]
+        if token then
+            print( "#{locale[0]}: line #{locale[1]} : #{token[0]} '#{token[1].val}'\n" )
+        else
+            print( "#{locale[0]}: line #{locale[1]} : EOF\n" )
+        end
       end
     else
       token = [ false, false ]
@@ -2160,34 +2156,30 @@ end
 #  Ruby2.0(1.9) 対応に伴い導入したクラス
 #  SJIS 以外では、ASCII-8BIT として入力する
 class TECSIO
-  def self.foreach(file) # ブロック引数 { |line| }
-    pr = Proc.new   # このメソッドのブロック引数を pr に代入
-    if $b_no_kcode then
-      msg = "E".encode $Ruby19_File_Encode
-      if( $Ruby19_File_Encode == "Shift_JIS" )
+  def self.foreach(file, &pr) # ブロック引数 { |line| }
+    # obsolete Ruby 3.0 では使えなくなった
+    # pr = Proc.new   # このメソッドのブロック引数を pr に代入
 
-    # Shift JIS は、いったん Windows-31J として読み込ませ、Shift_JIS に変換させる．
-    # コメント等に含まれる SJIS に不適切な文字コードは '?' または REPLACEMENT CHARACTER に変換される．
-    # EUC や UTF-8 で記述された CDL が混在していても、Ruby 例外が発生することなく処理を進めることができる．
-    # 文字コード指定が SJIS であって、文字列リテラルの中に、文字コードがSJIS 以外の非 ASCII が含まれている場合、
-    # Ruby 1.8 の tecsgen では文字コード指定に影響なく処理されたものが、Ruby 1.9 以降では '?' に置き換わる可能性がある．
+    msg = "E".encode $Ruby19_File_Encode
+    if( $Ruby19_File_Encode == "Shift_JIS" )
 
-    mode = "r:Windows-31J"
-      else
-    mode = "r:#{$Ruby19_File_Encode}"
-      end
-      # mode = "r"
+        # Shift JIS は、いったん Windows-31J として読み込ませ、Shift_JIS に変換させる．
+        # コメント等に含まれる SJIS に不適切な文字コードは '?' または REPLACEMENT CHARACTER に変換される．
+        # EUC や UTF-8 で記述された CDL が混在していても、Ruby 例外が発生することなく処理を進めることができる．
+        # 文字コード指定が SJIS であって、文字列リテラルの中に、文字コードがSJIS 以外の非 ASCII が含まれている場合、
+        # Ruby 1.8 の tecsgen では文字コード指定に影響なく処理されたものが、Ruby 1.9 以降では '?' に置き換わる可能性がある．
+
+        mode = "r:Windows-31J"
     else
-      msg = "E"
-      mode = "r"
+        mode = "r:#{$Ruby19_File_Encode}"
     end
 
     f = File.open( file, mode )
     begin
       f.each{ |line|
-    # dbgPrint line
-    line = str_code_convert( msg, line )
-    pr.call( line )
+        # dbgPrint line
+        line = str_code_convert( msg, line )
+        pr.call( line )
       }
     ensure
       f.close
@@ -2202,14 +2194,16 @@ class TECSIO
   #
   #msg_enc::Encode | String
   def self.str_code_convert( msg, str )
-    if $b_no_kcode == false then
-      return str              # Ruby V1.8 まで
-    end
     if msg.encoding != str.encoding then
-      option = { :invalid => :replace, :undef => :replace }   # 例外を発生させず、'?' に変換する(utf-8 は 0xfffd)
-      # return str.encode( msg.encoding, option )
-      str = str.encode( "utf-8", option )
-      return str.encode( msg.encoding, option )
+      begin
+        # option = { :invalid => :replace, :undef => :replace }   # 例外を発生させず、'?' に変換する(utf-8 は 0xfffd)
+        # return str.encode( msg.encoding, option )
+        # Ruby 3.0: option を Hash で指定すると例外(?)
+        #  option の指定は、デフォルトと同じであるため、option の指定をとりやめる
+        return str.encode( msg.encoding )
+      rescue
+        return str
+      end
     else
       return str
     end

@@ -34,7 +34,7 @@
 #   アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
 #   の責任を負わない．
 #  
-#  $Id: HRMPClassPlugin.rb 3207 2021-03-14 02:03:22Z okuma-top $
+#  $Id: HRMPClassPlugin.rb 3241 2021-11-21 12:06:12Z okuma-top $
 #++
 
 require_tecsgen_lib "HRPKernelObjectManager.rb"
@@ -48,7 +48,6 @@ class HRMPClassPlugin < ClassPlugin
 # @region::Region
 # @name::Symobl      :HRMP
 # @class1::String   クラス名
-# @class2::String
 
   include HRMPJoinManager
 
@@ -59,12 +58,12 @@ class HRMPClassPlugin < ClassPlugin
     },
     :class  => {
       :type         => "class",                 # fixed string (type name)
-      :class_name   => :string,                 # "CLS_PRC1", "CLS_ALL_PRC1", "GLOBAL" (TECS でのクラス名)
+      :class_name   => :string,                 # "CLS_PRC1", "CLS_ALL_PRC1", ":root" (TECS でのクラス名)
       :processorID  => :integer,                # 1, 2, 3...
-      :locality     => :string,                 # "only", "all", "global"
+      :locality     => :string,                 # "only", "all", "root"
     },
     :__class  => {                              # optional
-      :class_name_in_kernel => :string         # "CLS_PRC1", "CLS_ALL_PRC1", "GLOBAL" 
+      :class_name_in_kernel => :string         # "CLS_PRC1", "CLS_ALL_PRC1", ":root" 
                                                 # (HRMP3, FMP3 のクラス名; TECS と変えれるように設けている)
     }
   }
@@ -81,26 +80,13 @@ class HRMPClassPlugin < ClassPlugin
     dbgPrint "HRMPClassPlugin: initialize: region=#{region.get_name}, className=#{name}, option=#{option}\n"
     @region = region
     @name   = name      # HRMP
-    # @class1 = option1.to_sym
-    # @class2 = option2.to_sym
     @class1 = option.to_sym
-    @class2 = option.to_sym
+    @class_specified = @class1
     attr1 = @@class_info[ @class1 ]
     if attr1 == nil then
       cdl_error( "HRMP9999 $1 is not acceptable class in TECS", @class1.to_s )
+      @class1 = "root"    # root に置き換えて置く
       return
-    end
-    attr2 = @@class_info[ @class2 ]
-    if attr2 == nil then
-      cdl_error( "HRMP9999 $1 is not acceptable class in TECS", @class2.to_s )
-      return
-    end
-    if attr1[:locality] != "global" && attr2[:locality] != "global" && attr1[:processorID] != attr2[:processorID] then
-      cdl_error( "FMP9999 processor ID mismatch between $1 & $2", @class1.to_s, @class2.to_s )
-    elsif attr1[:locality]  == "global" && attr2[:locality]  != "global" then
-      cdl_error( "HRMP9999 class for processing unit is global but class for non-processing unit is not global" )
-    elsif attr1[:locality]  != "only" && attr2[:locality]  == "only" then
-      cdl_error( "HRMP9999 class for processing unit '$1' is wider than class for non-processing unit '$2'", @class1.to_s, @class2.to_s )
     end
   end
 
@@ -130,6 +116,7 @@ class HRMPClassPlugin < ClassPlugin
           attr[ :class_name ] = cls[ :class_name_in_kernel ]
         end
       }
+      @@class_info[ :root ] = {:processorID=>0, :class_name=>"root", :locality=>"root"}
     end
   end
 
@@ -151,19 +138,15 @@ class HRMPClassPlugin < ClassPlugin
       @class1.to_s
     end
   end
-  def get_NPU_kernel_class  # NPU: Non-Processing Unit
-    if @@class_info[ @class2 ] then
-      @@class_info[ @class2 ][ :class_name ]
-    else
-      @class2.to_s
-    end
-  end
 
+  # attr for Processing Unit 
   def get_PU_attr
     @@class_info[ @class1 ]
   end
+  # attr for Non-Processing Unit 
+  #  当初は PU と NPU で分けていたが、現在は分けていない
   def get_NPU_attr
-    @@class_info[ @class2 ]
+    @@class_info[ @class1 ]
   end
   def get_class_name
     get_PU_kernel_class
