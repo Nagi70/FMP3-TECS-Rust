@@ -189,36 +189,25 @@ class RustGenCelltypePlugin < CelltypePlugin
         # 正規表現パターンの配列を定義
         # yamlファイルなどの外部ファイルを利用して，パターンの追加を簡単にしていく
         patterns = [
-          /Option__(\w+)__/,
-          /Option_Ref__(\w+)__/,
-          /Option_Ref_mut__(\w+)__/,
-          /Option_Ref_a_mut__(\w+)__/,
-          /Ref__(\w+)__/,
-          /Ref_mut__(\w+)__/,
-          /Ref_a__(\w+)__/,
-          # 他にも必要なパターンがあれば追加
-        ]
-      
-        # 各パターンに対する変換ロジックを定義
-        conversion_rules = {
-          0 => lambda { |type_name| "Option<#{type_name}>" },
-          1 => lambda { |type_name| "Option<& #{type_name}>" },
-          2 => lambda { |type_name| "Option<&mut #{type_name}>" },
-          3 => lambda { |type_name| "Option<&'a mut #{type_name}>" },
-          4 => lambda { |type_name| "&#{type_name}" },
-          5 => lambda { |type_name| "&mut #{type_name}" },
-          6 => lambda { |type_name| "&'a #{type_name}" },
-          # 他にも必要な変換ルールがあれば追加
-        }
-      
-        # 各パターンに対して処理を行う
-        result = input.dup
-        patterns.each_with_index do |pattern, index|
-          result.gsub!(pattern) do |match|
-            type_name = $1
-            conversion_rules[index].call(type_name)
+            [/Option__(\w+)__/, ->(type) { "Option<#{type}>" }],
+            [/Option_Ref__(\w+)__/, ->(type) { "Option<& #{type}>" }],
+            [/Option_Ref_mut__(\w+)__/, ->(type) { "Option<&mut #{type}>" }],
+            [/Option_Ref_a_mut__(\w+)__/, ->(type) { "Option<&'a mut #{type}>" }],
+            [/Ref__(\w+)__/, ->(type) { "&#{type}" }],
+            [/Ref_mut__(\w+)__/, ->(type) { "&mut #{type}" }],
+            [/Ref_a__(\w+)__/, ->(type) { "&'a #{type}" }],
+            [/ITRONResult__empty__(\w+)__/, ->(err) { "Result<(), Error<#{err}>>" }],
+            [/ITRONResult__(\w+)__(\w+)__/, ->(ok, err) { "Result<#{ok}, Error<#{err}>>" }],
+            [/Result__empty__(\w+)__/, ->(err) { "Result<(), #{err}>" }],
+            [/Result__(\w+)__(\w+)__/, ->(ok, err) { "Result<#{ok}, #{err}>" }],
+          ]
+        
+          result = input.dup
+          patterns.each do |pattern, conversion|
+            result.gsub!(pattern) do
+              conversion.call(*$~.captures)  # `$~.captures` を展開して渡す
+            end
           end
-        end
       
         return result
     end

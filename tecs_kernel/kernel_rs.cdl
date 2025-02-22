@@ -52,6 +52,46 @@ import_C("tecs_kernel.h");
 
 typedef	int_t	TaskRef;
 //typedef	int_t	MutexRef;
+typedef int_t ITRONResult__empty__ActivateError__;
+typedef int_t ITRONResult__empty__ActivateOnError__;
+typedef int_t ITRONResult__usize__CancelActivateAllError__;
+typedef int_t ITRONResult__empty__SetPriorityError__;
+typedef int_t ITRONResult__Priority__PriorityError__;
+typedef int_t ITRONResult__empty__MigrateError__;
+typedef int_t ITRONResult__State__StateError__;
+typedef int_t ITRONResult__Info__InfoError__;
+typedef int_t ITRONResult__empty__WakeError__;
+typedef int_t ITRONResult__usize__CancelWakeAllError__;
+typedef int_t ITRONResult__empty__ReleaseWaitError__;
+typedef int_t ITRONResult__empty__SuspendError__;
+typedef int_t ITRONResult__empty__ResumeError__;
+typedef int_t ITRONResult__empty__RaiseTerminationError__;
+typedef int_t ITRONResult__empty__TerminateError__;
+
+
+/*
+ *  タスク操作のシグニチャ（タスクコンテキスト用）
+ */
+signature sTaskRS {
+	ITRONResult__empty__ActivateError__				activate(void);
+	ITRONResult__empty__ActivateOnError__			migrateAndActivate([in] ID prcid);           // FMP3
+	ITRONResult__usize__CancelActivateAllError__	cancelActivate(void);
+  	ITRONResult__empty__MigrateError__    			migrate([in] ID prcid);                      // FMP3
+	ITRONResult__State__StateError__				getTaskState(void);
+	ITRONResult__empty__SetPriorityError__			changePriority([in] PRI priority);
+	ER												changeSubPriority([in] uint_t subPriority);  // FMP3
+	ITRONResult__Priority__PriorityError__			getPriority(void);
+	ITRONResult__Info__InfoError__					refer(void);
+
+	ITRONResult__empty__WakeError__					wakeup(void);
+	ITRONResult__usize__CancelWakeAllError__		cancelWakeup(void);
+	ITRONResult__empty__ReleaseWaitError__			releaseWait(void);
+	ITRONResult__empty__SuspendError__				suspend(void);
+	ITRONResult__empty__ResumeError__				resume(void);
+
+	ITRONResult__empty__RaiseTerminationError__		raiseTerminate(void);
+	ITRONResult__empty__TerminateError__			terminate(void);
+};
 
 /*
  *  タスクのセルタイプ
@@ -61,7 +101,7 @@ typedef	int_t	TaskRef;
 //[active, generate(FMPObjectPlugin, "TASK"), idx_is_id]
 [active, generate(FMPObjectPlugin, "TASK")]
 celltype tTaskRs {
-	[inline] entry	sTask	eTask;
+	[inline] entry	sTaskRS	eTask;
 	[inline] entry	siTask	eiTask;
 	call	sTaskBody	cTaskBody;
 
