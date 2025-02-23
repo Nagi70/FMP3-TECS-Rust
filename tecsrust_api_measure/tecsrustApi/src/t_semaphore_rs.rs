@@ -19,23 +19,23 @@ pub struct EiNotificationHandlerForTSemaphoreRs<'a>{
 }
 
 #[link_section = ".rodata"]
-pub static RPROCESSOR1SYMMETRIC_SEMAPHORE: TSemaphoreRs = TSemaphoreRs {
+pub static RPROCESSORALLMIG_SEMAPHORE: TSemaphoreRs = TSemaphoreRs {
 	semaphore_ref: unsafe{SemaphoreRef::from_raw_nonnull(NonZeroI32::new(SEMID_1).unwrap())},
 };
 
 #[link_section = ".rodata"]
-pub static ESEMAPHOREFORRPROCESSOR1SYMMETRIC_SEMAPHORE: ESemaphoreForTSemaphoreRs = ESemaphoreForTSemaphoreRs {
-	cell: &RPROCESSOR1SYMMETRIC_SEMAPHORE,
+pub static ESEMAPHOREFORRPROCESSORALLMIG_SEMAPHORE: ESemaphoreForTSemaphoreRs = ESemaphoreForTSemaphoreRs {
+	cell: &RPROCESSORALLMIG_SEMAPHORE,
 };
 
 #[link_section = ".rodata"]
-pub static EISEMAPHOREFORRPROCESSOR1SYMMETRIC_SEMAPHORE: EiSemaphoreForTSemaphoreRs = EiSemaphoreForTSemaphoreRs {
-	cell: &RPROCESSOR1SYMMETRIC_SEMAPHORE,
+pub static EISEMAPHOREFORRPROCESSORALLMIG_SEMAPHORE: EiSemaphoreForTSemaphoreRs = EiSemaphoreForTSemaphoreRs {
+	cell: &RPROCESSORALLMIG_SEMAPHORE,
 };
 
 #[link_section = ".rodata"]
-pub static EINOTIFICATIONHANDLERFORRPROCESSOR1SYMMETRIC_SEMAPHORE: EiNotificationHandlerForTSemaphoreRs = EiNotificationHandlerForTSemaphoreRs {
-	cell: &RPROCESSOR1SYMMETRIC_SEMAPHORE,
+pub static EINOTIFICATIONHANDLERFORRPROCESSORALLMIG_SEMAPHORE: EiNotificationHandlerForTSemaphoreRs = EiNotificationHandlerForTSemaphoreRs {
+	cell: &RPROCESSORALLMIG_SEMAPHORE,
 };
 
 impl<> TSemaphoreRs<'_> {

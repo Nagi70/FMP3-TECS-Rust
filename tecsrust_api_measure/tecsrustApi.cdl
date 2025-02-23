@@ -125,6 +125,7 @@ celltype tMeasure {
 
 celltype tReset {
   call sTaskRs cTask;
+  call sTaskRs cTaskself;
   call sTaskRs cTaskmig;
   call sSemaphoreRs cSemaphore;
   entry sTaskBody eReset;
@@ -132,6 +133,12 @@ celltype tReset {
 
 celltype tTaskbodyRs2 {
   entry sTaskBody eTaskbody;
+};
+
+celltype tSelfReset {
+  call sTaskRs cTaskself;
+  entry sTaskBody eSelfReset;
+  call sSemaphoreRs cSemaphore;
 };
 
 [class(FMP,"CLS_PRC1")]
@@ -152,27 +159,30 @@ region rProcessor1Symmetric{
     [generate (RustFMP3Plugin, "lib")]
     cell tMeasure Measure {
       cTask = rProcessor2Symmetric::Task2_2.eTask;
-      cTaskmig = rProcessor1Symmetric::Taskmig.eTask;
-      cSemaphore = rProcessor1Symmetric::Semaphore.eSemaphore;
+      cTaskmig = rProcessorAllMig::Taskmig.eTask;
+      cSemaphore = rProcessorAllMig::Semaphore.eSemaphore;
     };
+};
 
+[class(FMP,"CLS_ALL_PRC1")]
+region rProcessorAllMig{
     [generate (RustFMP3Plugin, "SEMAPHORE, lib")]
     cell tSemaphoreRs Semaphore {
       id = C_EXP("SEMID_1");
       semaphore_ref = C_EXP("unsafe{SemaphoreRef::from_raw_nonnull(NonZeroI32::new(SEMID_1).unwrap())}");
-      initialCount = 0;
+      initialCount = 1;
     };
 
     [generate(RustFMP3Plugin, "TASK, lib")]
     cell tTaskRs Taskmig {
         /* 呼び口の結合 */
-        cTaskBody = rProcessor1Symmetric::Taskbody1_2.eTaskbody;
+        cTaskBody = rProcessorAllMig::Taskbody1_2.eTaskbody;
         /* 属性の設定 */
         id = C_EXP("TSKID_MIG");
         task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_MIG).unwrap())}");
         priority = 10;
         stackSize = 2048;
-        attribute = C_EXP("TA_NULL");
+        attribute = C_EXP("TA_ACT");
     };
 
     [generate (RustFMP3Plugin, "lib")]
@@ -198,14 +208,15 @@ region rProcessor2Symmetric{
     [generate (RustFMP3Plugin, "lib")]
     cell tReset Reset {
       cTask = rProcessor2Symmetric::Task2_2.eTask;
-      cTaskmig = rProcessor1Symmetric::Taskmig.eTask;
-      cSemaphore = rProcessor1Symmetric::Semaphore.eSemaphore;
+      cTaskself = rProcessor2Symmetric::Task2_1.eTask;
+      cTaskmig = rProcessorAllMig::Taskmig.eTask;
+      cSemaphore = rProcessorAllMig::Semaphore.eSemaphore;
     };
 
-        [generate(RustFMP3Plugin, "TASK, lib")]
+    [generate(RustFMP3Plugin, "TASK, lib")]
     cell tTaskRs Task2_2 {
         /* 呼び口の結合 */
-        cTaskBody = rProcessor2Symmetric::Taskbody2_2.eTaskbody;
+        cTaskBody = rProcessor2Symmetric::SelfReset.eSelfReset;
         /* 属性の設定 */
         id = C_EXP("TSKID_2_2");
         task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_2_2).unwrap())}");
@@ -215,7 +226,9 @@ region rProcessor2Symmetric{
     };
 
     [generate (RustFMP3Plugin, "lib")]
-    cell tTaskbodyRs2 Taskbody2_2 {
+    cell tSelfReset SelfReset {
+      cTaskself = rProcessor2Symmetric::Task2_2.eTask;
+      cSemaphore = rProcessorAllMig::Semaphore.eSemaphore;
     };
 };
 

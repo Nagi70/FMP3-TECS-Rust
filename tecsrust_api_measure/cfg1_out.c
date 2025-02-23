@@ -97,7 +97,7 @@
 #include "tInitializeRoutine_tecsgen.h"
 #line 5 "./gen/tecsgen.cfg"
 #include "tTerminateRoutine_tecsgen.h"
-#line 65 "./gen/tecsgen.cfg"
+#line 70 "./gen/tecsgen.cfg"
 #include "rust_tecs.h"
 
 #ifdef INT64_MAX
@@ -1102,143 +1102,143 @@ const signed_t TOPPERS_cfg_valueof_CLASS_56 = (signed_t)(CLS_PRC4);
 #line 124 "../arch/arm_gcc/common/gic_ipi.cfg"
 #endif
 
-#line 21 "./gen/tecsgen.cfg"
+#line 24 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_57 = 57;
 #define TSKID_tTask_rProcessor1Migratable_LogTask_Task	(<>)
-#line 21 "./gen/tecsgen.cfg"
+#line 24 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_tskatr_57 = (unsigned_t)(TA_ACT);
-#line 21 "./gen/tecsgen.cfg"
+#line 24 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_itskpri_57 = (signed_t)(3);
-#line 21 "./gen/tecsgen.cfg"
+#line 24 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_stksz_57 = (unsigned_t)(4096);
-#line 19 "./gen/tecsgen.cfg"
+#line 22 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_57 = (signed_t)(CLS_ALL_PRC1);
 
-#line 26 "./gen/tecsgen.cfg"
+#line 29 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_58 = 58;
 #define SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_ReceiveSemaphore	(<>)
-#line 26 "./gen/tecsgen.cfg"
+#line 29 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_sematr_58 = (unsigned_t)(TA_TPRI);
-#line 26 "./gen/tecsgen.cfg"
+#line 29 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_isemcnt_58 = (unsigned_t)(0);
-#line 26 "./gen/tecsgen.cfg"
+#line 29 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_maxsem_58 = (unsigned_t)(1);
-#line 24 "./gen/tecsgen.cfg"
+#line 27 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_58 = (signed_t)(CLS_ALL_PRC1);
 
-#line 28 "./gen/tecsgen.cfg"
+#line 31 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_59 = 59;
 #define SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore	(<>)
-#line 28 "./gen/tecsgen.cfg"
+#line 31 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_sematr_59 = (unsigned_t)(TA_TPRI);
-#line 28 "./gen/tecsgen.cfg"
+#line 31 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_isemcnt_59 = (unsigned_t)(1);
-#line 28 "./gen/tecsgen.cfg"
+#line 31 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_maxsem_59 = (unsigned_t)(1);
-#line 24 "./gen/tecsgen.cfg"
+#line 27 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_59 = (signed_t)(CLS_ALL_PRC1);
 
-#line 33 "./gen/tecsgen.cfg"
+#line 36 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_60 = 60;
-#line 33 "./gen/tecsgen.cfg"
+#line 36 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_intno_60 = (unsigned_t)(INTNO_SIO);
-#line 33 "./gen/tecsgen.cfg"
+#line 36 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_intatr_60 = (unsigned_t)(TA_NULL);
-#line 33 "./gen/tecsgen.cfg"
+#line 36 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_intpri_60 = (signed_t)(INTPRI_SIO);
-#line 31 "./gen/tecsgen.cfg"
+#line 34 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_60 = (signed_t)(CLS_PRC1);
 
-#line 38 "./gen/tecsgen.cfg"
+#line 41 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_61 = 61;
 #define ISRID_tISR_rProcessor1Migratable_SIOPortTarget1_ISRInstance	(<>)
-#line 38 "./gen/tecsgen.cfg"
+#line 41 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_isratr_61 = (unsigned_t)(TA_NULL);
-#line 38 "./gen/tecsgen.cfg"
+#line 41 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_intno_61 = (unsigned_t)(INTNO_SIO);
-#line 38 "./gen/tecsgen.cfg"
+#line 41 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_isrpri_61 = (signed_t)(ISRPRI_SIO);
-#line 36 "./gen/tecsgen.cfg"
+#line 39 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_61 = (signed_t)(CLS_PRC1);
 
-#line 43 "./gen/tecsgen.cfg"
+#line 46 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_62 = 62;
-#line 43 "./gen/tecsgen.cfg"
+#line 46 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_iniatr_62 = (unsigned_t)(TA_NULL);
-#line 41 "./gen/tecsgen.cfg"
+#line 44 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_62 = (signed_t)(CLS_PRC1);
 
-#line 48 "./gen/tecsgen.cfg"
+#line 51 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_63 = 63;
-#line 48 "./gen/tecsgen.cfg"
+#line 51 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_teratr_63 = (unsigned_t)(TA_NULL);
-#line 46 "./gen/tecsgen.cfg"
+#line 49 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_63 = (signed_t)(CLS_PRC1);
 
-#line 50 "./gen/tecsgen.cfg"
+#line 53 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_64 = 64;
-#line 50 "./gen/tecsgen.cfg"
+#line 53 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_teratr_64 = (unsigned_t)(TA_NULL);
-#line 46 "./gen/tecsgen.cfg"
+#line 49 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_64 = (signed_t)(CLS_PRC1);
 
-#line 55 "./gen/tecsgen.cfg"
+#line 58 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_65 = 65;
 #define TSKID_1_1	(<>)
-#line 55 "./gen/tecsgen.cfg"
+#line 58 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_tskatr_65 = (unsigned_t)(TA_ACT);
-#line 55 "./gen/tecsgen.cfg"
+#line 58 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_itskpri_65 = (signed_t)(7);
-#line 55 "./gen/tecsgen.cfg"
+#line 58 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_stksz_65 = (unsigned_t)(2048);
-#line 53 "./gen/tecsgen.cfg"
+#line 56 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_65 = (signed_t)(CLS_PRC1);
 
-#line 57 "./gen/tecsgen.cfg"
+#line 62 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_66 = 66;
 #define TSKID_MIG	(<>)
-#line 57 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_valueof_tskatr_66 = (unsigned_t)(TA_NULL);
-#line 57 "./gen/tecsgen.cfg"
+#line 62 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_tskatr_66 = (unsigned_t)(TA_ACT);
+#line 62 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_itskpri_66 = (signed_t)(10);
-#line 57 "./gen/tecsgen.cfg"
+#line 62 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_stksz_66 = (unsigned_t)(2048);
-#line 53 "./gen/tecsgen.cfg"
-const signed_t TOPPERS_cfg_valueof_CLASS_66 = (signed_t)(CLS_PRC1);
+#line 60 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_CLASS_66 = (signed_t)(CLS_ALL_PRC1);
 
-#line 61 "./gen/tecsgen.cfg"
+#line 66 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_67 = 67;
 #define TSKID_2_1	(<>)
-#line 61 "./gen/tecsgen.cfg"
+#line 66 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_tskatr_67 = (unsigned_t)(TA_ACT);
-#line 61 "./gen/tecsgen.cfg"
+#line 66 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_itskpri_67 = (signed_t)(7);
-#line 61 "./gen/tecsgen.cfg"
+#line 66 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_stksz_67 = (unsigned_t)(2048);
-#line 59 "./gen/tecsgen.cfg"
+#line 64 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_67 = (signed_t)(CLS_PRC2);
 
-#line 63 "./gen/tecsgen.cfg"
+#line 68 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_68 = 68;
 #define TSKID_2_2	(<>)
-#line 63 "./gen/tecsgen.cfg"
+#line 68 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_tskatr_68 = (unsigned_t)(TA_NULL);
-#line 63 "./gen/tecsgen.cfg"
+#line 68 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_itskpri_68 = (signed_t)(10);
-#line 63 "./gen/tecsgen.cfg"
+#line 68 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_stksz_68 = (unsigned_t)(2048);
-#line 59 "./gen/tecsgen.cfg"
+#line 64 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_68 = (signed_t)(CLS_PRC2);
 
-#line 69 "./gen/tecsgen.cfg"
+#line 74 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_69 = 69;
 #define SEMID_1	(<>)
-#line 69 "./gen/tecsgen.cfg"
+#line 74 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_sematr_69 = (unsigned_t)(TA_NULL);
-#line 69 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_valueof_isemcnt_69 = (unsigned_t)(0);
-#line 69 "./gen/tecsgen.cfg"
+#line 74 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_isemcnt_69 = (unsigned_t)(1);
+#line 74 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_valueof_maxsem_69 = (unsigned_t)(1);
-#line 67 "./gen/tecsgen.cfg"
-const signed_t TOPPERS_cfg_valueof_CLASS_69 = (signed_t)(CLS_PRC1);
+#line 72 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_CLASS_69 = (signed_t)(CLS_ALL_PRC1);
 

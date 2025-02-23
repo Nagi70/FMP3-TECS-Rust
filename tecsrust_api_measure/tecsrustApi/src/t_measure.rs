@@ -20,8 +20,8 @@ pub struct ETaskbodyForTMeasure<'a>{
 #[link_section = ".rodata"]
 pub static RPROCESSOR1SYMMETRIC_MEASURE: TMeasure<ETaskForTTaskRs, ETaskForTTaskRs, ESemaphoreForTSemaphoreRs> = TMeasure {
 	c_task: &ETASKFORRPROCESSOR2SYMMETRIC_TASK2_2,
-	c_taskmig: &ETASKFORRPROCESSOR1SYMMETRIC_TASKMIG,
-	c_semaphore: &ESEMAPHOREFORRPROCESSOR1SYMMETRIC_SEMAPHORE,
+	c_taskmig: &ETASKFORRPROCESSORALLMIG_TASKMIG,
+	c_semaphore: &ESEMAPHOREFORRPROCESSORALLMIG_SEMAPHORE,
 };
 
 #[link_section = ".rodata"]

@@ -5,6 +5,7 @@ use core::num::NonZeroI32;
 
 use itron::abi::*;
 use itron::task::*;
+use itron::task::State::*;
 use itron::semaphore::*;
 use itron::error::Error;
 use itron::processor::Processor;
@@ -26,8 +27,8 @@ impl STaskBody for ETaskbodyForTMeasure<'_>{
 	fn main(&'static self) {
 		let (c_task, c_taskmig, c_semaphore) = self.cell.get_cell_ref();
 
-		print!("TECS/Rust dispatch: act_tsk,", );
-		delay(duration!(ms: 100)).expect("delay failed");
+		print!("Processor1: TECS/Rust mig_tsk,", );
+		delay(duration!(ms: 1000)).expect("delay failed");
 
 		let mut dispatch_time :HrtCnt = 0;
 		let mut dispatch_end :HrtCnt = 0;
@@ -55,7 +56,7 @@ impl STaskBody for ETaskbodyForTMeasure<'_>{
 		let mut wait_result :Result<(), Error<WaitError>> = Ok(());
 
 		let set_priority :Priority = 6;
-		let default_priority :Priority = 7;
+		let default_priority :Priority = 10;
 
 		let processor1 = Processor::from_raw_nonnull(NonZeroI32::new(1).unwrap());
 		let processor2 = Processor::from_raw_nonnull(NonZeroI32::new(2).unwrap());
@@ -65,46 +66,248 @@ impl STaskBody for ETaskbodyForTMeasure<'_>{
 
 		for i in 0..N{
 
+			wait_result = c_semaphore.wait();
+			// print!("Processor1: act_tsk",);
+
+			// let refer = c_taskmig.refer();
+			// match refer {
+			// 	Ok(info) => {
+			// 		match info.state() {
+			// 			Running => {
+			// 				print!("Running", );
+			// 			},
+			// 			Ready => {
+			// 				print!("Ready", );
+			// 			},
+			// 			Waiting => {
+			// 				print!("Waiting", );
+			// 			},
+			// 			Suspended => {
+			// 				print!("Suspended", );
+			// 			},
+			// 			WaitingSuspended => {
+			// 				print!("WaitingSuspended", );
+			// 			},
+			// 			Dormant => {
+			// 				print!("Dormant", );
+			// 			},
+			// 		}
+			// 	},
+			// 	Err(_) => {
+			// 		print!("info error", );
+			// 	},
+			// }
+
 			unsafe{ 
-				_ = loc_cpu();
+				// _ = loc_cpu();
 				start = fch_hrt();
 			}
 
-			act_result = c_task.activate();
+			// act_result = c_task.activate();
 			// acto_result = c_task.migrate_and_activate(&processor2);
 			// get_result = c_task.get_priority();
 			// chg_result = c_task.change_priority(&set_priority);
 
-			// sig_result = c_semaphore.signal();
-			// mig_result = c_taskmig.migrate(&processor2); // mig_tsk は 呼び出したタスクと同じプロセッサに割り付けられているタスクのみに適用可能
+			// wait_result = c_semaphore.wait();
+			mig_result = c_taskmig.migrate(&processor2); // mig_tsk は 呼び出したタスクと同じプロセッサに割り付けられているタスクのみに適用可能
 			
 			// ter_result = c_taskmig.terminate(); // ter_tsk は 呼び出したタスクと同じプロセッサに割り付けられているタスクのみに適用可能
 
 			unsafe{ 
 				end = fch_hrt();
-				_ = unl_cpu();
+				// _ = unl_cpu();
 			}
 
-			duration = end - start;
+			duration = end - start - overhead;
 			print!("%tu,", duration );
 
+			// let refer = c_task.refer();
+			// match refer {
+			// 	Ok(info) => {
+			// 		match info.state() {
+			// 			Running => {
+			// 				print!("Running", );
+			// 			},
+			// 			Ready => {
+			// 				print!("Ready", );
+			// 			},
+			// 			Waiting => {
+			// 				print!("Waiting", );
+			// 			},
+			// 			Suspended => {
+			// 				print!("Suspended", );
+			// 			},
+			// 			WaitingSuspended => {
+			// 				print!("WaitingSuspended", );
+			// 			},
+			// 			Dormant => {
+			// 				print!("Dormant", );
+			// 			},
+			// 		}
+			// 	},
+			// 	Err(_) => {
+			// 		print!("info error", );
+			// 	},
+			// }
+
 			// c_task.activate() ↓
-			wait_result = c_semaphore.wait();
+			// sig_result = c_semaphore.signal();
+			// match act_result {
+			// 	Ok(_) => {
+			// 		print!("activation success",);
+			// 	},
+			// 	Err(error) => {
+			// 		match error {
+			// 			BadContext => {
+			// 				print!("BadContext", );
+			// 			},
+			// 			BadId => {
+			// 				print!("BadId", );
+			// 			},
+			// 			BadState => {
+			// 				print!("BadState", );
+			// 			},
+			// 			AccessDenied => {
+			// 				print!("AccessDenied", );
+			// 			},
+			// 		}
+			// 	},
+			// }
+
+			// c_task.get_priority(); ↓
+			// sig_result = c_semaphore.signal();
+			// match get_result {
+			// 	Ok(pri) => {
+			// 		print!("get_pri succcess %tu", pri);
+			// 	},
+			// 	Err(_) => {
+			// 		print!("get_pri error", );
+			// 	},
+			// }
 
 			// c_task.migrate_and_activate(&processor2) ↓
 			// c_task.terminate();
 			// c_task.migrate(&processor1);
 
 			// c_task.change_priority(&set_priority) ↓
+			// sig_result = c_semaphore.signal();
+			// get_result = c_task.get_priority();
+			// match get_result {
+			// 	Ok(pri) => {
+			// 		print!("get_pri succcess %tu", pri);
+			// 	},
+			// 	Err(_) => {
+			// 		print!("get_pri error", );
+			// 	},
+			// }
+			// match chg_result {
+			// 	Ok(_) => {
+			// 		print!("chg_pri succcess", );
+			// 	},
+			// 	Err(_) => {
+			// 		print!("chg_pri error", );
+			// 	},
+			// }
 			// chg_result = c_task.change_priority(&default_priority);
+			// get_result = c_task.get_priority();
+			// match get_result {
+			// 	Ok(pri) => {
+			// 		print!("get_pri succcess %tu", pri);
+			// 	},
+			// 	Err(_) => {
+			// 		print!("get_pri error", );
+			// 	},
+			// }
 
 			// c_taskmig.migrate(&processor2) ↓
-			// wait_result = c_semaphore.wait();
+			sig_result = c_semaphore.signal();
+			// match mig_result {
+			// 	Ok(_) => {
+			// 		print!("mig_tsk succcess", );
+			// 	},
+			// 	Err(error) => {
+			// 		match error {
+			// 			BadContext => {
+			// 				print!("BadContext", );
+			// 			},
+			// 			BadId => {
+			// 				print!("BadId", );
+			// 			},
+			// 			AccessDenied => {
+			// 				print!("AccessDenied", );
+			// 			},
+			// 			BadParam => {
+			// 				print!("BadParam", );
+			// 			},
+			// 		}
+			// 	},
+			// }
 			
 			// c_taskmig.terminate() ↓
+			// sig_result = c_semaphore.signal();
+			// match ter_result {
+			// 	Ok(_) => {
+			// 		print!("ter_tsk succcess", );
+			// 	},
+			// 	Err(error) => {
+			// 		match error {
+			// 			BadContext => {
+			// 				print!("BadContext", );
+			// 			},
+			// 			BadId => {
+			// 				print!("BadId", );
+			// 			},
+			// 			AccessDenied => {
+			// 				print!("AccessDenied", );
+			// 			},
+			// 			BadState => {
+			// 				print!("BadState", );
+			// 			},
+			// 			BadParam => {
+			// 				print!("BadParam", );
+			// 			},
+			// 		}
+			// 	},
+			// }
+			// let refer2 = c_taskmig.refer();
+			// match refer2 {
+			// 	Ok(info) => {
+			// 		match info.state() {
+			// 			Running => {
+			// 				print!("Running", );
+			// 			},
+			// 			Ready => {
+			// 				print!("Ready", );
+			// 			},
+			// 			Waiting => {
+			// 				print!("Waiting", );
+			// 			},
+			// 			Suspended => {
+			// 				print!("Suspended", );
+			// 			},
+			// 			WaitingSuspended => {
+			// 				print!("WaitingSuspended", );
+			// 			},
+			// 			Dormant => {
+			// 				print!("Dormant", );
+			// 			},
+			// 		}
+			// 	},
+			// 	Err(_) => {
+			// 		print!("info error", );
+			// 	},
+			// }
 			// act_result = c_taskmig.activate();
+			// match act_result {
+			// 	Ok(_) => {
+			// 		print!("act_tsk succcess", );
+			// 	},
+			// 	Err(_) => {
+			// 		print!("act_tsk error", );
+			// 	},
+			// }
 
-			delay(duration!(ms: 10)).expect("delay failed");
+			delay(duration!(ms: 50)).expect("delay failed");
 		}
 		
 	}

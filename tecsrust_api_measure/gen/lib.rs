@@ -19,6 +19,8 @@ mod t_reset;
 mod t_reset_impl;
 mod t_taskbody_rs2;
 mod t_taskbody_rs2_impl;
+mod t_self_reset;
+mod t_self_reset_impl;
 
 #[panic_handler]
 fn panic(_panic: &core::panic::PanicInfo<'_>) -> ! {
@@ -34,8 +36,8 @@ pub extern "C" fn tecs_rust_start_r_processor1_symmetric__task1_1(_: usize) {
 }
 
 #[no_mangle]
-pub extern "C" fn tecs_rust_start_r_processor1_symmetric__taskmig(_: usize) {
-	RPROCESSOR1SYMMETRIC_TASKMIG.c_task_body.main();
+pub extern "C" fn tecs_rust_start_r_processor_all_mig__taskmig(_: usize) {
+	RPROCESSORALLMIG_TASKMIG.c_task_body.main();
 }
 
 #[no_mangle]

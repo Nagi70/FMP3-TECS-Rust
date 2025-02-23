@@ -82,20 +82,20 @@ const ID _kernel_tmax_tskid = (TMIN_TSKID + TNUM_TSKID - 1);
 
 static STK_T _kernel_stack_TSKID_tTask_rProcessor1Migratable_LogTask_Task[COUNT_STK_T(4096)] __attribute__((section(".stack_CLS_ALL_PRC1"),nocommon));
 static STK_T _kernel_stack_TSKID_1_1[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC1"),nocommon));
-static STK_T _kernel_stack_TSKID_MIG[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC1"),nocommon));
+static STK_T _kernel_stack_TSKID_MIG[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_ALL_PRC1"),nocommon));
 static STK_T _kernel_stack_TSKID_2_1[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC2"),nocommon));
 static STK_T _kernel_stack_TSKID_2_2[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC2"),nocommon));
 const TINIB _kernel_tinib_table[TNUM_TSKID] = {
 	{ (TA_ACT), (EXINF)((intptr_t)&tTask_INIB_tab[0]), (TASK)(tTask_start), INT_PRIORITY(3), ROUND_STK_T(4096), _kernel_stack_TSKID_tTask_rProcessor1Migratable_LogTask_Task, 1, 0x3 },
 	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor1_symmetric__task1_1), INT_PRIORITY(7), ROUND_STK_T(2048), _kernel_stack_TSKID_1_1, 1, 0x1 },
-	{ (TA_NULL), (EXINF)(0), (TASK)(tecs_rust_start_r_processor1_symmetric__taskmig), INT_PRIORITY(10), ROUND_STK_T(2048), _kernel_stack_TSKID_MIG, 1, 0x1 },
+	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor_all_mig__taskmig), INT_PRIORITY(10), ROUND_STK_T(2048), _kernel_stack_TSKID_MIG, 1, 0x3 },
 	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor2_symmetric__task2_1), INT_PRIORITY(7), ROUND_STK_T(2048), _kernel_stack_TSKID_2_1, 2, 0x2 },
 	{ (TA_NULL), (EXINF)(0), (TASK)(tecs_rust_start_r_processor2_symmetric__task2_2), INT_PRIORITY(10), ROUND_STK_T(2048), _kernel_stack_TSKID_2_2, 2, 0x2 }
 };
 
 static TCB _kernel_tcb_TSKID_tTask_rProcessor1Migratable_LogTask_Task __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 static TCB _kernel_tcb_TSKID_1_1 __attribute__((section(".kernel_data_CLS_PRC1"),nocommon));
-static TCB _kernel_tcb_TSKID_MIG __attribute__((section(".kernel_data_CLS_PRC1"),nocommon));
+static TCB _kernel_tcb_TSKID_MIG __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 static TCB _kernel_tcb_TSKID_2_1 __attribute__((section(".kernel_data_CLS_PRC2"),nocommon));
 static TCB _kernel_tcb_TSKID_2_2 __attribute__((section(".kernel_data_CLS_PRC2"),nocommon));
 
@@ -122,12 +122,12 @@ const ID _kernel_tmax_semid = (TMIN_SEMID + TNUM_SEMID - 1);
 const SEMINIB _kernel_seminib_table[TNUM_SEMID] = {
 	{ (TA_TPRI), (0), (1) },
 	{ (TA_TPRI), (1), (1) },
-	{ (TA_NULL), (0), (1) }
+	{ (TA_NULL), (1), (1) }
 };
 
 static SEMCB _kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_ReceiveSemaphore __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 static SEMCB _kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
-static SEMCB _kernel_semcb_SEMID_1 __attribute__((section(".kernel_data_CLS_PRC1"),nocommon));
+static SEMCB _kernel_semcb_SEMID_1 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 
 SEMCB	*const _kernel_p_semcb_table[TNUM_SEMID] = {
 	&_kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_ReceiveSemaphore,
