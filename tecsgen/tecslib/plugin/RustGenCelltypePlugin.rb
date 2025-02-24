@@ -541,6 +541,10 @@ class RustGenCelltypePlugin < CelltypePlugin
         file.print "pub struct #{get_rust_celltype_name(celltype)}"
         if check_only_entryport_celltype(celltype) then
         else
+            # TODO: ライフタイムアノテーションは、呼び口がある場合のみ生成するようにしており、属性や変数に参照をもつ構造体がないことを前提としている
+            if callport_list.length == 0 then
+                return
+            end
             # 受け口以外の要素が無い場合は，ジェネリクスを生成しない
             file.print "<'a"
             # use_jenerics_alphabet と callport_list の要素数が等しいことを前提としている
@@ -755,7 +759,7 @@ class RustGenCelltypePlugin < CelltypePlugin
     end
 
     # 受け口構造体の定義を生成
-    def gen_rust_entry_structure file, celltype
+    def gen_rust_entry_structure file, celltype, callport_list
         celltype.get_port_list.each{ |port|
             if port.get_port_type == :ENTRY then
                 # 受け口構造体の定義を生成
@@ -766,6 +770,12 @@ class RustGenCelltypePlugin < CelltypePlugin
                 file.print "\tpub cell: &'a #{get_rust_celltype_name(celltype)}"
                 if check_only_entryport_celltype(celltype) then
                 else
+                    # TODO: ライフタイムアノテーションは、呼び口がある場合のみ生成するようにしており、属性や変数に参照をもつ構造体がないことを前提としている
+                    if callport_list.length == 0 then
+                        file.print ",\n"
+                        file.print "}\n\n"
+                        next
+                    end
                     file.print "<'a"
                     celltype.get_port_list.each{ |port|
                         # ジェネリクスの代入を生成
@@ -808,8 +818,8 @@ class RustGenCelltypePlugin < CelltypePlugin
             if port.get_port_type == :ENTRY then
                 sig = port.get_signature
 
-                file.print "impl #{camel_case(snake_case(port.get_signature.get_global_name.to_s))} for #{camel_case(snake_case(port.get_name.to_s))}For#{get_rust_celltype_name(celltype)}<'_"
-                file.print ">"
+                file.print "impl #{camel_case(snake_case(port.get_signature.get_global_name.to_s))} for #{camel_case(snake_case(port.get_name.to_s))}For#{get_rust_celltype_name(celltype)}"
+                file.print "<'_>"
                 file.print "{\n\n"
 
                 sig_param_str_list, _, lifetime_flag = get_sig_param_str sig
@@ -972,22 +982,28 @@ class RustGenCelltypePlugin < CelltypePlugin
                 file.print " #{get_rust_celltype_name(celltype)}"
                 if check_only_entryport_celltype(celltype) then
                 else
-                    file.print "<'"
+                    file.print "<"
                     # ライフタイムアノテーションの生成部
                     # TODO：ライフタイムについては，もう少し厳格にする必要がある
                     if celltype.get_var_list.length != 0 then
                         celltype.get_var_list.each{ |var|
                             var_type_name = var.get_type.get_type_str
                             if check_lifetime_annotation(var_type_name) then
-                                file.print "a"
+                                file.print "'a"
                                 break
                             else
-                                file.print "_"
-                                break
+                                # TODO: ライフタイムアノテーションは、呼び口がある場合のみ生成するようにしており、属性や変数に参照をもつ構造体がないことを前提としている
+                                if callport_list.length >= 1 then
+                                    file.print "'_"
+                                    break
+                                end
                             end
                         }
                     else
-                        file.print "_"
+                        # TODO: ライフタイムアノテーションは、呼び口がある場合のみ生成するようにしており、属性や変数に参照をもつ構造体がないことを前提としている
+                        if callport_list.length >= 1 then
+                            file.print "'_"
+                        end
                     end
                     callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
                         if check_gen_dyn_for_port(callport) == nil then
@@ -1649,7 +1665,7 @@ class RustGenCelltypePlugin < CelltypePlugin
 
         print "#{@celltype.get_global_name.to_s}: gen_rust_entry_structure\n"
         # 受け口構造体の定義と初期化を生成
-        gen_rust_entry_structure file, @celltype
+        gen_rust_entry_structure file, @celltype, callport_list
 
         print "#{@celltype.get_global_name.to_s}: gen_rust_entryport_structure_initialize\n"
         # ロックガード構造体の定義を生成
