@@ -137,6 +137,28 @@ celltype tMioLed {
   };
 };
 
+
+signature sXUartMeasure {
+  void open(void);
+  bool_t putChar([in] uint8_t c);
+};
+
+celltype tXUartTaskbody {
+  call sXUartMeasure cXUart;
+  entry sTaskBody eTaskbody;
+};
+
+celltype tXUart {
+  entry sXUartMeasure eXUart;
+  attr {
+    uint32_t base_address;
+    uint32_t mode;
+    uint32_t baudgen;
+    uint32_t bauddiv;
+  };
+};
+
+
 [class(FMP,"CLS_PRC1")]
 region rProcessor1Symmetric{
 
@@ -160,6 +182,31 @@ region rProcessor1Symmetric{
     [generate(RustFMP3Plugin, "lib")]
     cell tMioLed MioLed {
     };
+
+    [generate(RustFMP3Plugin, "TASK, lib")]
+    cell tTaskRs UartTask {
+      /* 呼び口の結合 */
+      cTaskBody = rProcessor1Symmetric::UartTaskbody.eTaskbody;
+      /* 属性の設定 */
+      id = C_EXP("TSKID_UART");
+      task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_UART).unwrap())}");
+      priority = 7;
+      stackSize = 2048;
+      attribute = C_EXP("TA_NULL");
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tXUartTaskbody UartTaskbody {
+      cXUart = Uart.eXUart;
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tXUart Uart {
+      base_address = C_EXP("0xE0001000");
+      mode = C_EXP("0x0020");
+      baudgen = C_EXP("0x007c");
+      bauddiv = C_EXP("0x06");
+    };
 };
 
 signature sButton {
@@ -180,19 +227,20 @@ celltype tButton {
   };
 };
 
+
 [class(FMP,"CLS_PRC2")]
 region rProcessor2Symmetric{
 
     [generate(RustFMP3Plugin, "TASK, lib")]
     cell tTaskRs ButtonTask {
-        /* 呼び口の結合 */
-        cTaskBody = rProcessor2Symmetric::ButtonTaskbody.eTaskbody;
-        /* 属性の設定 */
-        id = C_EXP("TSKID_BUTTON");
-        task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_BUTTON).unwrap())}");
-        priority = 7;
-        stackSize = 2048;
-        attribute = C_EXP("TA_ACT");
+      /* 呼び口の結合 */
+      cTaskBody = rProcessor2Symmetric::ButtonTaskbody.eTaskbody;
+      /* 属性の設定 */
+      id = C_EXP("TSKID_BUTTON");
+      task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_BUTTON).unwrap())}");
+      priority = 7;
+      stackSize = 2048;
+      attribute = C_EXP("TA_NULL");
     };
 
     [generate(RustFMP3Plugin, "lib")]

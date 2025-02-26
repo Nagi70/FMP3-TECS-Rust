@@ -2,15 +2,15 @@
 #ifndef TOPPERS_KERNEL_CFG_H
 #define TOPPERS_KERNEL_CFG_H
 
-#define TNUM_TSKID	3
+#define TNUM_TSKID	4
 #define TSKID_tTask_rProcessor1Migratable_LogTask_Task	1
 #define TSKID_LED	2
-#define TSKID_BUTTON	3
+#define TSKID_UART	3
+#define TSKID_BUTTON	4
 
-#define TNUM_SEMID	3
+#define TNUM_SEMID	2
 #define SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_ReceiveSemaphore	1
 #define SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore	2
-#define SEMID_1	3
 
 #define TNUM_FLGID	0
 

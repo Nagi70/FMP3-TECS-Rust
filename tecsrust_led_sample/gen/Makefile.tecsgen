@@ -83,6 +83,7 @@ SIGNATURE_HEADERS = \
 	$(GEN_DIR)/sSysLog_tecsgen.h \
 	$(GEN_DIR)/sLogTask_tecsgen.h \
 	$(GEN_DIR)/sLed_tecsgen.h \
+	$(GEN_DIR)/sXUartMeasure_tecsgen.h \
 	$(GEN_DIR)/sButton_tecsgen.h \
 # SIGNATURE_HEADERS terminator
 
@@ -398,6 +399,7 @@ RUST_PLUGIN_SIGNATURE = \
 	$(GEN_DIR)/../$(APPLNAME)/src/s_sys_log.rs \
 	$(GEN_DIR)/../$(APPLNAME)/src/s_log_task.rs \
 	$(GEN_DIR)/../$(APPLNAME)/src/s_led.rs \
+	$(GEN_DIR)/../$(APPLNAME)/src/s_xuart_measure.rs \
 	$(GEN_DIR)/../$(APPLNAME)/src/s_button.rs \
 # RUST_PLUGIN_SIGNATURE terminator
 
@@ -406,6 +408,8 @@ RUST_PLUGIN_CELLTYPE_SRCS = \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_task_rs_impl.rs \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_led_taskbody_impl.rs \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_mio_led_impl.rs \
+ 	$(GEN_DIR)/../$(APPLNAME)/src/t_xuart_taskbody_impl.rs \
+ 	$(GEN_DIR)/../$(APPLNAME)/src/t_xuart_impl.rs \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_button_taskbody_impl.rs \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_button_impl.rs \
 # RUST_PLUGIN_CELLTYPE_SRCS terminator
@@ -415,6 +419,8 @@ RUST_PLUGIN_TECSGEN_SRCS = \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_task_rs.rs \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_led_taskbody.rs \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_mio_led.rs \
+ 	$(GEN_DIR)/../$(APPLNAME)/src/t_xuart_taskbody.rs \
+ 	$(GEN_DIR)/../$(APPLNAME)/src/t_xuart.rs \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_button_taskbody.rs \
  	$(GEN_DIR)/../$(APPLNAME)/src/t_button.rs \
 # RUST_PLUGIN_TECSGEN_SRCS terminator

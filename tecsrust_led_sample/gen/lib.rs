@@ -14,6 +14,11 @@ mod t_led_taskbody_impl;
 mod s_led;
 mod t_mio_led;
 mod t_mio_led_impl;
+mod t_xuart_taskbody;
+mod t_xuart_taskbody_impl;
+mod s_xuart_measure;
+mod t_xuart;
+mod t_xuart_impl;
 mod t_button_taskbody;
 mod t_button_taskbody_impl;
 mod s_button;
@@ -31,6 +36,11 @@ use s_task_body::*;
 #[no_mangle]
 pub extern "C" fn tecs_rust_start_r_processor1_symmetric__led_task(_: usize) {
 	RPROCESSOR1SYMMETRIC_LEDTASK.c_task_body.main();
+}
+
+#[no_mangle]
+pub extern "C" fn tecs_rust_start_r_processor1_symmetric__uart_task(_: usize) {
+	RPROCESSOR1SYMMETRIC_UARTTASK.c_task_body.main();
 }
 
 #[no_mangle]

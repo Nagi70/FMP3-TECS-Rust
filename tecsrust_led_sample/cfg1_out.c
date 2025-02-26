@@ -97,7 +97,7 @@
 #include "tInitializeRoutine_tecsgen.h"
 #line 5 "./gen/tecsgen.cfg"
 #include "tTerminateRoutine_tecsgen.h"
-#line 61 "./gen/tecsgen.cfg"
+#line 63 "./gen/tecsgen.cfg"
 #include "rust_tecs.h"
 
 #ifdef INT64_MAX
@@ -1194,27 +1194,27 @@ const unsigned_t TOPPERS_cfg_valueof_stksz_65 = (unsigned_t)(2048);
 #line 53 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_65 = (signed_t)(CLS_PRC1);
 
-#line 59 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_static_api_66 = 66;
-#define TSKID_BUTTON	(<>)
-#line 59 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_valueof_tskatr_66 = (unsigned_t)(TA_ACT);
-#line 59 "./gen/tecsgen.cfg"
-const signed_t TOPPERS_cfg_valueof_itskpri_66 = (signed_t)(7);
-#line 59 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_valueof_stksz_66 = (unsigned_t)(2048);
 #line 57 "./gen/tecsgen.cfg"
-const signed_t TOPPERS_cfg_valueof_CLASS_66 = (signed_t)(CLS_PRC2);
+const unsigned_t TOPPERS_cfg_static_api_66 = 66;
+#define TSKID_UART	(<>)
+#line 57 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_tskatr_66 = (unsigned_t)(TA_NULL);
+#line 57 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_itskpri_66 = (signed_t)(7);
+#line 57 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_stksz_66 = (unsigned_t)(2048);
+#line 53 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_CLASS_66 = (signed_t)(CLS_PRC1);
 
-#line 5 "tecsrustLED.cfg"
+#line 61 "./gen/tecsgen.cfg"
 const unsigned_t TOPPERS_cfg_static_api_67 = 67;
-#define SEMID_1	(<>)
-#line 5 "tecsrustLED.cfg"
-const unsigned_t TOPPERS_cfg_valueof_sematr_67 = (unsigned_t)(TA_NULL);
-#line 5 "tecsrustLED.cfg"
-const unsigned_t TOPPERS_cfg_valueof_isemcnt_67 = (unsigned_t)(1);
-#line 5 "tecsrustLED.cfg"
-const unsigned_t TOPPERS_cfg_valueof_maxsem_67 = (unsigned_t)(1);
-#line 3 "tecsrustLED.cfg"
-const signed_t TOPPERS_cfg_valueof_CLASS_67 = (signed_t)(CLS_ALL_PRC1);
+#define TSKID_BUTTON	(<>)
+#line 61 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_tskatr_67 = (unsigned_t)(TA_NULL);
+#line 61 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_itskpri_67 = (signed_t)(7);
+#line 61 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_stksz_67 = (unsigned_t)(2048);
+#line 59 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_CLASS_67 = (signed_t)(CLS_PRC2);
 

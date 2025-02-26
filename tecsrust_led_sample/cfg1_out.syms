@@ -17,9 +17,9 @@
 00100124 R __start_rodata
 00100124 T _etext
 00100128 R TOPPERS_cfg_valueof_CLASS_67
-00100130 R TOPPERS_cfg_valueof_maxsem_67
-00100138 R TOPPERS_cfg_valueof_isemcnt_67
-00100140 R TOPPERS_cfg_valueof_sematr_67
+00100130 R TOPPERS_cfg_valueof_stksz_67
+00100138 R TOPPERS_cfg_valueof_itskpri_67
+00100140 R TOPPERS_cfg_valueof_tskatr_67
 00100148 R TOPPERS_cfg_static_api_67
 00100150 R TOPPERS_cfg_valueof_CLASS_66
 00100158 R TOPPERS_cfg_valueof_stksz_66

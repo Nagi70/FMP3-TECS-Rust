@@ -1,7 +1,7 @@
 use itron::task::TaskRef;
 use core::num::NonZeroI32;
 use crate::kernel_cfg::*;
-use crate::{s_task_body::*, t_led_taskbody::*, t_button_taskbody::*};
+use crate::{s_task_body::*, t_led_taskbody::*, t_xuart_taskbody::*, t_button_taskbody::*};
 
 pub struct TTaskRs<'a>
 {
@@ -49,6 +49,32 @@ pub static EIACTIVATENOTIFICATIONHANDLERFORRPROCESSOR1SYMMETRIC_LEDTASK: EiActiv
 #[link_section = ".rodata"]
 pub static EIWAKEUPNOTIFICATIONHANDLERFORRPROCESSOR1SYMMETRIC_LEDTASK: EiWakeUpNotificationHandlerForTTaskRs = EiWakeUpNotificationHandlerForTTaskRs {
 	cell: &RPROCESSOR1SYMMETRIC_LEDTASK,
+};
+
+#[link_section = ".rodata"]
+pub static RPROCESSOR1SYMMETRIC_UARTTASK: TTaskRs = TTaskRs {
+	c_task_body: &ETASKBODYFORRPROCESSOR1SYMMETRIC_UARTTASKBODY,
+	task_ref: unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_UART).unwrap())},
+};
+
+#[link_section = ".rodata"]
+pub static ETASKFORRPROCESSOR1SYMMETRIC_UARTTASK: ETaskForTTaskRs = ETaskForTTaskRs {
+	cell: &RPROCESSOR1SYMMETRIC_UARTTASK,
+};
+
+#[link_section = ".rodata"]
+pub static EITASKFORRPROCESSOR1SYMMETRIC_UARTTASK: EiTaskForTTaskRs = EiTaskForTTaskRs {
+	cell: &RPROCESSOR1SYMMETRIC_UARTTASK,
+};
+
+#[link_section = ".rodata"]
+pub static EIACTIVATENOTIFICATIONHANDLERFORRPROCESSOR1SYMMETRIC_UARTTASK: EiActivateNotificationHandlerForTTaskRs = EiActivateNotificationHandlerForTTaskRs {
+	cell: &RPROCESSOR1SYMMETRIC_UARTTASK,
+};
+
+#[link_section = ".rodata"]
+pub static EIWAKEUPNOTIFICATIONHANDLERFORRPROCESSOR1SYMMETRIC_UARTTASK: EiWakeUpNotificationHandlerForTTaskRs = EiWakeUpNotificationHandlerForTTaskRs {
+	cell: &RPROCESSOR1SYMMETRIC_UARTTASK,
 };
 
 #[link_section = ".rodata"]

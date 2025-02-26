@@ -49,7 +49,7 @@ const XUART_SR_RXEMPTY: u32 = 0x0002;
 const XUART_BAUDGEN_115K: u32 = 0x7c;
 const XUART_BAUDDIV_115K: u32 = 0x06;
 
-const semaphore: SemaphoreRef = unsafe{SemaphoreRef::from_raw_nonnull(NonZeroI32::new(SEMID_1).unwrap())};
+// const semaphore: SemaphoreRef = unsafe{SemaphoreRef::from_raw_nonnull(NonZeroI32::new(SEMID_1).unwrap())};
 
 
 impl STaskBody for ETaskbodyForTButtonTaskbody<'_>{
@@ -113,58 +113,56 @@ impl STaskBody for ETaskbodyForTButtonTaskbody<'_>{
 		// 	}
 		// }
 
-		unsafe{
-			write_volatile((XUART_BASE_ADDRESS + XUART_IDR_OFFSET) as *mut u32, XUART_IXR_ALL);
+		// unsafe{
+		// 	write_volatile((XUART_BASE_ADDRESS + XUART_IDR_OFFSET) as *mut u32, XUART_IXR_ALL);
 
-			write_volatile((XUART_BASE_ADDRESS + XUART_ISR_OFFSET) as *mut u32, read_volatile((XUART_ISR_OFFSET) as *const u32));
+		// 	write_volatile((XUART_BASE_ADDRESS + XUART_ISR_OFFSET) as *mut u32, read_volatile((XUART_BASE_ADDRESS + XUART_ISR_OFFSET) as *const u32));
 
-			write_volatile((XUART_BASE_ADDRESS + XUART_CR_OFFSET) as *mut u32,
-						   XUART_CR_TXRST | XUART_CR_RXRST | XUART_CR_TX_DIS | XUART_CR_RX_DIS);
+		// 	write_volatile((XUART_BASE_ADDRESS + XUART_CR_OFFSET) as *mut u32,
+		// 				   XUART_CR_TXRST | XUART_CR_RXRST | XUART_CR_TX_DIS | XUART_CR_RX_DIS);
 			
-			write_volatile((XUART_BASE_ADDRESS + XUART_BAUDGEN_OFFSET) as *mut u32, XUART_BAUDGEN_115K);
-			write_volatile((XUART_BASE_ADDRESS + XUART_BAUDDIV_OFFSET) as *mut u32, XUART_BAUDDIV_115K);
+		// 	write_volatile((XUART_BASE_ADDRESS + XUART_BAUDGEN_OFFSET) as *mut u32, XUART_BAUDGEN_115K);
+		// 	write_volatile((XUART_BASE_ADDRESS + XUART_BAUDDIV_OFFSET) as *mut u32, XUART_BAUDDIV_115K);
 
-			write_volatile((XUART_BASE_ADDRESS + XUART_MR_OFFSET) as *mut u32,
-						   XUART_MR_CHARLEN_8 | XUART_MR_PARITY_NONE | XUART_MR_STOPBIT_1);
+		// 	write_volatile((XUART_BASE_ADDRESS + XUART_MR_OFFSET) as *mut u32,
+		// 				   XUART_MR_CHARLEN_8 | XUART_MR_PARITY_NONE | XUART_MR_STOPBIT_1);
 
-			write_volatile((XUART_BASE_ADDRESS + XUART_BAUDDIV_OFFSET) as *mut u32, XUART_BAUDDIV_115K);
+		// 	write_volatile((XUART_BASE_ADDRESS + XUART_RXWM_OFFSET) as *mut u32, 0x01);
 			
-			write_volatile((XUART_BASE_ADDRESS + XUART_RXWM_OFFSET) as *mut u32, 0x01);
-			
-			write_volatile((XUART_BASE_ADDRESS + XUART_RXTOUT_OFFSET) as *mut u32, 0x10);
+		// 	write_volatile((XUART_BASE_ADDRESS + XUART_RXTOUT_OFFSET) as *mut u32, 0x10);
 
-			write_volatile((XUART_BASE_ADDRESS + XUART_CR_OFFSET) as *mut u32,
-						   XUART_CR_TX_EN | XUART_CR_RX_EN | XUART_CR_STOPPRK);
-		}
+		// 	write_volatile((XUART_BASE_ADDRESS + XUART_CR_OFFSET) as *mut u32,
+		// 				   XUART_CR_TX_EN | XUART_CR_RX_EN | XUART_CR_STOPPRK);
+		// }
 
 
-		loop{
-			semaphore.wait();
-			for _ in 0..2 {
-				unsafe{
-					if((read_volatile((XUART_BASE_ADDRESS + XUART_SR_OFFSET) as *const u32) & XUART_SR_TXFULL) == 0x00)
-					{
-						write_volatile((XUART_BASE_ADDRESS + XUART_FIFO_OFFSET) as *mut u32, b'\t' as u32);
-					}
-				}
-			}
+		// loop{
+		// 	semaphore.wait();
+		// 	for _ in 0..2 {
+		// 		unsafe{
+		// 			if((read_volatile((XUART_BASE_ADDRESS + XUART_SR_OFFSET) as *const u32) & XUART_SR_TXFULL) == 0x00)
+		// 			{
+		// 				write_volatile((XUART_BASE_ADDRESS + XUART_FIFO_OFFSET) as *mut u32, b'\t' as u32);
+		// 			}
+		// 		}
+		// 	}
 
-			unsafe{
-				if((read_volatile((XUART_BASE_ADDRESS + XUART_SR_OFFSET) as *const u32) & XUART_SR_TXFULL) == 0x00)
-				{
-					write_volatile((XUART_BASE_ADDRESS + XUART_FIFO_OFFSET) as *mut u32, b'N' as u32);
-				}
-			}
+		// 	unsafe{
+		// 		if((read_volatile((XUART_BASE_ADDRESS + XUART_SR_OFFSET) as *const u32) & XUART_SR_TXFULL) == 0x00)
+		// 		{
+		// 			write_volatile((XUART_BASE_ADDRESS + XUART_FIFO_OFFSET) as *mut u32, b'N' as u32);
+		// 		}
+		// 	}
 
-			unsafe{
-				if((read_volatile((XUART_BASE_ADDRESS + XUART_SR_OFFSET) as *const u32) & XUART_SR_TXFULL) == 0x00)
-				{
-					write_volatile((XUART_BASE_ADDRESS + XUART_FIFO_OFFSET) as *mut u32, b'\n' as u32);
-				}
-			}
-			semaphore.signal();
-			delay(duration!(ms: 1000)).expect("delay failed");
-		}
+		// 	unsafe{
+		// 		if((read_volatile((XUART_BASE_ADDRESS + XUART_SR_OFFSET) as *const u32) & XUART_SR_TXFULL) == 0x00)
+		// 		{
+		// 			write_volatile((XUART_BASE_ADDRESS + XUART_FIFO_OFFSET) as *mut u32, b'\n' as u32);
+		// 		}
+		// 	}
+		// 	semaphore.signal();
+		// 	delay(duration!(ms: 1000)).expect("delay failed");
+		// }
 
 	}
 }
