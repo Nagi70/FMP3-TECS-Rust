@@ -162,4 +162,54 @@ region rProcessor1Symmetric{
     };
 };
 
+signature sButton {
+  bool_t isPushed(void);
+};
+
+celltype tButtonTaskbody {
+  call sButton cButton1;
+  call sButton cButton2;
+  entry sTaskBody eTaskbody;
+};
+
+celltype tButton {
+  entry sButton eButton;
+  attr{
+    uint32_t data_1_ro = C_EXP("0xE000A064");
+    uint32_t gpio_offset = 19;
+  };
+};
+
+[class(FMP,"CLS_PRC2")]
+region rProcessor2Symmetric{
+
+    [generate(RustFMP3Plugin, "TASK, lib")]
+    cell tTaskRs ButtonTask {
+        /* 呼び口の結合 */
+        cTaskBody = rProcessor2Symmetric::ButtonTaskbody.eTaskbody;
+        /* 属性の設定 */
+        id = C_EXP("TSKID_BUTTON");
+        task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_BUTTON).unwrap())}");
+        priority = 7;
+        stackSize = 2048;
+        attribute = C_EXP("TA_ACT");
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tButtonTaskbody ButtonTaskbody {
+      cButton1 = Button4.eButton;
+      cButton2 = Button5.eButton;
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tButton Button4{
+      gpio_offset = 19;
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tButton Button5{
+      gpio_offset = 20;
+    };
+};
+
 

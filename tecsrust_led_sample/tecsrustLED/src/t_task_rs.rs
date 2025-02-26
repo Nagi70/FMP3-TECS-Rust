@@ -1,34 +1,32 @@
 use itron::task::TaskRef;
 use core::num::NonZeroI32;
 use crate::kernel_cfg::*;
-use crate::{s_task_body::*, t_led_taskbody::*};
+use crate::{s_task_body::*, t_led_taskbody::*, t_button_taskbody::*};
 
-pub struct TTaskRs<'a, T>
-where
-	T: STaskBody,
+pub struct TTaskRs<'a>
 {
-	pub c_task_body: &'a T,
+	pub c_task_body: &'a (dyn STaskBody + Sync + Send),
 	task_ref: TaskRef<'a>,
 }
 
 pub struct ETaskForTTaskRs<'a>{
-	pub cell: &'a TTaskRs<'a, ETaskbodyForTLedTaskbody<'a>>,
+	pub cell: &'a TTaskRs<'a>,
 }
 
 pub struct EiTaskForTTaskRs<'a>{
-	pub cell: &'a TTaskRs<'a, ETaskbodyForTLedTaskbody<'a>>,
+	pub cell: &'a TTaskRs<'a>,
 }
 
 pub struct EiActivateNotificationHandlerForTTaskRs<'a>{
-	pub cell: &'a TTaskRs<'a, ETaskbodyForTLedTaskbody<'a>>,
+	pub cell: &'a TTaskRs<'a>,
 }
 
 pub struct EiWakeUpNotificationHandlerForTTaskRs<'a>{
-	pub cell: &'a TTaskRs<'a, ETaskbodyForTLedTaskbody<'a>>,
+	pub cell: &'a TTaskRs<'a>,
 }
 
 #[link_section = ".rodata"]
-pub static RPROCESSOR1SYMMETRIC_LEDTASK: TTaskRs<ETaskbodyForTLedTaskbody> = TTaskRs {
+pub static RPROCESSOR1SYMMETRIC_LEDTASK: TTaskRs = TTaskRs {
 	c_task_body: &ETASKBODYFORRPROCESSOR1SYMMETRIC_LEDTASKBODY,
 	task_ref: unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LED).unwrap())},
 };
@@ -53,9 +51,35 @@ pub static EIWAKEUPNOTIFICATIONHANDLERFORRPROCESSOR1SYMMETRIC_LEDTASK: EiWakeUpN
 	cell: &RPROCESSOR1SYMMETRIC_LEDTASK,
 };
 
-impl<T: STaskBody> TTaskRs<'_, T> {
+#[link_section = ".rodata"]
+pub static RPROCESSOR2SYMMETRIC_BUTTONTASK: TTaskRs = TTaskRs {
+	c_task_body: &ETASKBODYFORRPROCESSOR2SYMMETRIC_BUTTONTASKBODY,
+	task_ref: unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_BUTTON).unwrap())},
+};
+
+#[link_section = ".rodata"]
+pub static ETASKFORRPROCESSOR2SYMMETRIC_BUTTONTASK: ETaskForTTaskRs = ETaskForTTaskRs {
+	cell: &RPROCESSOR2SYMMETRIC_BUTTONTASK,
+};
+
+#[link_section = ".rodata"]
+pub static EITASKFORRPROCESSOR2SYMMETRIC_BUTTONTASK: EiTaskForTTaskRs = EiTaskForTTaskRs {
+	cell: &RPROCESSOR2SYMMETRIC_BUTTONTASK,
+};
+
+#[link_section = ".rodata"]
+pub static EIACTIVATENOTIFICATIONHANDLERFORRPROCESSOR2SYMMETRIC_BUTTONTASK: EiActivateNotificationHandlerForTTaskRs = EiActivateNotificationHandlerForTTaskRs {
+	cell: &RPROCESSOR2SYMMETRIC_BUTTONTASK,
+};
+
+#[link_section = ".rodata"]
+pub static EIWAKEUPNOTIFICATIONHANDLERFORRPROCESSOR2SYMMETRIC_BUTTONTASK: EiWakeUpNotificationHandlerForTTaskRs = EiWakeUpNotificationHandlerForTTaskRs {
+	cell: &RPROCESSOR2SYMMETRIC_BUTTONTASK,
+};
+
+impl<> TTaskRs<'_> {
 	#[inline]
-	pub fn get_cell_ref(&'static self) -> (&'static T, &'static TaskRef) {
+	pub fn get_cell_ref(&'static self) -> (&'static dyn STaskBody, &'static TaskRef) {
 		(
 			self.c_task_body,
 			&self.task_ref

@@ -14,6 +14,11 @@ mod t_led_taskbody_impl;
 mod s_led;
 mod t_mio_led;
 mod t_mio_led_impl;
+mod t_button_taskbody;
+mod t_button_taskbody_impl;
+mod s_button;
+mod t_button;
+mod t_button_impl;
 
 #[panic_handler]
 fn panic(_panic: &core::panic::PanicInfo<'_>) -> ! {
@@ -26,4 +31,9 @@ use s_task_body::*;
 #[no_mangle]
 pub extern "C" fn tecs_rust_start_r_processor1_symmetric__led_task(_: usize) {
 	RPROCESSOR1SYMMETRIC_LEDTASK.c_task_body.main();
+}
+
+#[no_mangle]
+pub extern "C" fn tecs_rust_start_r_processor2_symmetric__button_task(_: usize) {
+	RPROCESSOR2SYMMETRIC_BUTTONTASK.c_task_body.main();
 }
