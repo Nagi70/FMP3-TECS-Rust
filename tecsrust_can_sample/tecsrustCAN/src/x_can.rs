@@ -175,19 +175,23 @@ use itron::task::*;
 use itron::time::{duration, Duration, timeout, Timeout};
 
  /// Function to read a register value
- pub unsafe fn x_can_read_reg(base_address: *const u32, reg_offset: u32) -> u32 {
-    let temp = base_address.add(reg_offset as usize / 4);
-    print!("Read from: %tX", temp as u32);
-    delay(duration!(ms: 100)).expect("delay failed");
-     ptr::read_volatile(base_address.add(reg_offset as usize / 4))
+ pub fn x_can_read_reg(base_address: *const u32, reg_offset: u32) -> u32 {
+    // let temp = base_address.add(reg_offset as usize / 4);
+    // print!("Read from: %tX", temp as u32);
+    // delay(duration!(ms: 100)).expect("delay failed");
+    unsafe{
+        ptr::read_volatile(base_address.add(reg_offset as usize / 4))
+    }
  }
  
  /// Function to write a register value
- pub unsafe fn x_can_write_reg(base_address: *mut u32, reg_offset: u32, data: u32) {
-    let temp = base_address.add(reg_offset as usize / 4);
-    print!("Write to: %tX", temp as u32);
-    delay(duration!(ms: 100)).expect("delay failed");
-     ptr::write_volatile(base_address.add(reg_offset as usize / 4), data);
+ pub fn x_can_write_reg(base_address: *mut u32, reg_offset: u32, data: u32) {
+    // let temp = base_address.add(reg_offset as usize / 4);
+    // print!("Write to: %tX", temp as u32);
+    // delay(duration!(ms: 100)).expect("delay failed");
+    unsafe{
+        ptr::write_volatile(base_address.add(reg_offset as usize / 4), data);
+    }
  }
 
  /// Function to create an ID value for CAN frames
