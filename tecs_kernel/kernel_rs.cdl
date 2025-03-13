@@ -284,3 +284,22 @@ celltype tIsrRs {
 		write("$ct$_factory.h", "#include \"kernel_cfg.h\"");
 	};
 };
+
+
+/*
+ *  初期化ルーチンのセルタイプ
+ *
+ *  初期化ルーチンはカーネルドメインに所属させなければならない．
+ */
+[active, generate(FMPHandlerPlugin, "INIT_ROUTINE")]
+celltype tInitializeRoutineRs {
+	call	sRoutineBody	cInitializeRoutineBody;
+
+	attr {
+		[omit] ATR		attribute = C_EXP("TA_NULL");
+	};
+
+	FACTORY {
+		write("tecsgen.cfg", "#include \"$ct$_tecsgen.h\"");
+	};
+};
