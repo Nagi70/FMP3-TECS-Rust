@@ -50,49 +50,28 @@
  */
 import_C("tecs_kernel.h");
 
-typedef	int_t	TaskRef;
-//typedef	int_t	MutexRef;
-typedef int_t ITRONResult__empty__ActivateError__;
-typedef int_t ITRONResult__empty__ActivateOnError__;
-typedef int_t ITRONResult__usize__CancelActivateAllError__;
-typedef int_t ITRONResult__empty__SetPriorityError__;
-typedef int_t Priority;
-typedef int_t ITRONResult__Priority__PriorityError__;
-typedef int_t ITRONResult__empty__MigrateError__;
-typedef int_t Processor;
-typedef int_t ITRONResult__State__StateError__;
-typedef int_t ITRONResult__Info__InfoError__;
-typedef int_t ITRONResult__empty__WakeError__;
-typedef int_t ITRONResult__usize__CancelWakeAllError__;
-typedef int_t ITRONResult__empty__ReleaseWaitError__;
-typedef int_t ITRONResult__empty__SuspendError__;
-typedef int_t ITRONResult__empty__ResumeError__;
-typedef int_t ITRONResult__empty__RaiseTerminationError__;
-typedef int_t ITRONResult__empty__TerminateError__;
-
-
 /*
  *  タスク操作のシグニチャ（タスクコンテキスト用）
  */
 signature sTaskRs {
-	ITRONResult__empty__ActivateError__				activate(void);
-	ITRONResult__empty__ActivateOnError__			migrateAndActivate([in] Processor prcid);           // FMP3
-	ITRONResult__usize__CancelActivateAllError__	cancelActivate(void);
-  	ITRONResult__empty__MigrateError__    			migrate([in] Processor prcid);                      // FMP3
-	ITRONResult__State__StateError__				getTaskState(void);
-	ITRONResult__empty__SetPriorityError__			changePriority([in] Priority priority);
-	ER												changeSubPriority([in] uint_t subPriority);  // FMP3
-	ITRONResult__Priority__PriorityError__			getPriority(void);
-	ITRONResult__Info__InfoError__					refer(void);
+	PLType("Result<(), itron::error::Error<itron::task::ActivateError>>")				activate(void);
+	PLType("Result<(), itron::error::Error<itron::task::ActivateOnError>>")			migrateAndActivate([in] PLType("itron::processor::Processor") prcid);           // FMP3
+	PLType("Result<usize, itron::error::Error<itron::task::CancelActivateAllError>>") cancelActivate(void);
+	PLType("Result<(), itron::error::Error<itron::task::MigrateError>>")              migrate([in] PLType("itron::processor::Processor") prcid);                      // FMP3
+	PLType("Result<itron::task::State, itron::error::Error<itron::task::StateError>>")             getTaskState(void);
+	PLType("Result<(), itron::error::Error<itron::task::SetPriorityError>>")          	changePriority([in] PLType("itron::task::Priority") priority);
+	PLType("itron::abi::ER")                                                                    changeSubPriority([in] uint_t subPriority);  // FMP3
+	PLType("Result<itron::task::Priority, itron::error::Error<itron::task::PriorityError>>")       getPriority(void);
+	PLType("Result<itron::task::Info, itron::error::Error<itron::task::InfoError>>")               refer(void);
 
-	ITRONResult__empty__WakeError__					wakeup(void);
-	ITRONResult__usize__CancelWakeAllError__		cancelWakeup(void);
-	ITRONResult__empty__ReleaseWaitError__			releaseWait(void);
-	ITRONResult__empty__SuspendError__				suspend(void);
-	ITRONResult__empty__ResumeError__				resume(void);
+	PLType("Result<(), itron::error::Error<itron::task::WakeError>>")                 wakeup(void);
+	PLType("Result<usize, itron::error::Error<itron::task::CancelWakeAllError>>")     cancelWakeup(void);
+	PLType("Result<(), itron::error::Error<itron::task::ReleaseWaitError>>")          releaseWait(void);
+	PLType("Result<(), itron::error::Error<itron::task::SuspendError>>")              suspend(void);
+	PLType("Result<(), itron::error::Error<itron::task::ResumeError>>")               resume(void);
 
-	ITRONResult__empty__RaiseTerminationError__		raiseTerminate(void);
-	ITRONResult__empty__TerminateError__			terminate(void);
+	PLType("Result<(), itron::error::Error<itron::task::RaiseTerminationError>>")     raiseTerminate(void);
+	PLType("Result<(), itron::error::Error<itron::task::TerminateError>>")            terminate(void);
 };
 
 /*
@@ -111,9 +90,9 @@ celltype tTaskRs {
 	[inline] entry	siNotificationHandler	eiWakeUpNotificationHandler;
 
 	attr {
-		[omit] ID				id = C_EXP("TSKID_$id$");
-		TaskRef			task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_$id$).unwrap())}");
-		[omit] ATR		attribute = C_EXP("TA_NULL");
+		[omit] ID				id = PL_EXP("TSKID_$id$");
+		PLType("itron::task::TaskRef<'static>")			task_ref = PL_EXP("unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_$id$).unwrap())}");
+		[omit] ATR		attribute = PL_EXP("TA_NULL");
 		[omit] PRI		priority;
 		[omit] size_t	stackSize;
 		[omit] size_t	systemStackSize = 0;
@@ -128,24 +107,16 @@ celltype tTaskRs {
 	*/
 };
 
-typedef int_t SemaphoreRef;
-typedef int_t ITRONResult__empty__SignalError__;
-typedef int_t ITRONResult__empty__WaitError__;
-typedef int_t ITRONResult__empty__PollError__;
-typedef int_t ITRONResult__empty__WaitTimeoutError__;
-typedef int_t Timeout;
-typedef int_t ITRONResult__empty__InitializeError__;
-
 /*
  *  セマフォ操作のシグニチャ（タスクコンテキスト用）
  */
 signature sSemaphoreRs {
-	ITRONResult__empty__SignalError__			signal(void);
-	ITRONResult__empty__WaitError__				wait(void);
-	ITRONResult__empty__PollError__				waitPolling(void);
-	ITRONResult__empty__WaitTimeoutError__		waitTimeout([in] Timeout timeout);
-	ITRONResult__empty__InitializeError__		initialize(void);
-	ITRONResult__Info__InfoError__				refer(void);
+	PLType("Result<(), itron::error::Error<itron::semaphore::SignalError>>")			signal(void);
+	PLType("Result<(), itron::error::Error<itron::semaphore::WaitError>>")				wait(void);
+	PLType("Result<(), itron::error::Error<itron::semaphore::PollError>>")				waitPolling(void);
+	PLType("Result<(), itron::error::Error<itron::semaphore::WaitTimeoutError>>")		waitTimeout([in] PLType("itron::time::Timeout") timeout);
+	PLType("Result<(), itron::error::Error<itron::semaphore::InitializeError>>")		initialize(void);
+	PLType("Result<itron::semaphore::Info, itron::error::Error<itron::semaphore::InfoError>>")				refer(void);
 };
 
 /*
@@ -159,9 +130,9 @@ celltype tSemaphoreRs {
 	[inline] entry	siNotificationHandler	eiNotificationHandler;
 
 	attr {
-		[omit]ID				id = C_EXP("SEMID_$id$");
-		SemaphoreRef	semaphore_ref = C_EXP("unsafe{SemaphoreRef::from_raw_nonnull(NonZeroI32::new(SEMID_$id$).unwrap())}");
-		[omit] ATR		attribute = C_EXP("TA_NULL");
+		[omit]ID				id = PL_EXP("SEMID_$id$");
+		PLType("itron::semaphore::SemaphoreRef<'static>")	semaphore_ref = PL_EXP("unsafe{itron::semaphore::SemaphoreRef::from_raw_nonnull(NonZeroI32::new(SEMID_$id$).unwrap())}");
+		[omit] ATR		attribute = PL_EXP("TA_NULL");
 		[omit] uint_t	initialCount;
 		[omit] uint_t	maxCount = 1;
 	};
@@ -173,29 +144,19 @@ celltype tSemaphoreRs {
 	*/
 };
 
-typedef int_t DataqueueRef;
-typedef int_t ITRONResult__empty__SendError__;
-typedef uint_t DataElement;
-typedef int_t ITRONResult__empty__TrySendError__;
-typedef int_t ITRONResult__empty__SendTimeoutError__;
-typedef int_t ITRONResult__empty__SendForcedError__;
-typedef int_t ITRONResult__DataElement__RecvError__;
-typedef int_t ITRONResult__DataElement__TryRecvError__;
-typedef int_t ITRONResult__DataElement__RecvTimeoutError__;
-
 /*
  *  データキュー操作のシグニチャ（タスクコンテキスト用）
  */
 signature sDataqueueRs {
-	ITRONResult__empty__SendError__ 					send([in] DataElement data);
-	ITRONResult__empty__TrySendError__ 					sendPolling([in] DataElement data);
-	ITRONResult__empty__SendTimeoutError__ 				sendTimeout([in] DataElement data, [in] Timeout timeout);
-	ITRONResult__empty__SendForcedError__ 				sendForce([in] DataElement data);
-	ITRONResult__DataElement__RecvError__ 				receive(void);
-	ITRONResult__DataElement__TryRecvError__ 			receivePolling(void);
-	ITRONResult__DataElement__RecvTimeoutError__ 		receiveTimeout([in] Timeout timeout);
-	ITRONResult__empty__InitializeError__ 				initialize(void);
-	ITRONResult__Info__InfoError__						refer(void);
+	PLType("Result<(), itron::error::Error<itron::dataqueue::SendError>>") 						send([in] PLType("itron::dataqueue::DataElement") data);
+	PLType("Result<(), itron::error::Error<itron::dataqueue::TrySendError>>") 					sendPolling([in] PLType("itron::dataqueue::DataElement") data);
+	PLType("Result<(), itron::error::Error<itron::dataqueue::SendTimeoutError>>") 				sendTimeout([in] PLType("itron::dataqueue::DataElement") data, [in] PLType("itron::time::Timeout") timeout);
+	PLType("Result<(), itron::error::Error<itron::dataqueue::SendForcedError>>") 				sendForce([in] PLType("itron::dataqueue::DataElement") data);
+	PLType("Result<itron::dataqueue::DataElement, itron::error::Error<itron::dataqueue::RecvError>>") 				receive(void);
+	PLType("Result<itron::dataqueue::DataElement, itron::error::Error<itron::dataqueue::TryRecvError>>") 			receivePolling(void);
+	PLType("Result<itron::dataqueue::DataElement, itron::error::Error<itron::dataqueue::RecvTimeoutError>>") 		receiveTimeout([in] PLType("itron::time::Timeout") timeout);
+	PLType("Result<(), itron::error::Error<itron::dataqueue::InitializeError>>") 				initialize(void);
+	PLType("Result<itron::dataqueue::Info, itron::error::Error<itron::dataqueue::InfoError>>")						refer(void);
 };
 
 /*
@@ -203,8 +164,8 @@ signature sDataqueueRs {
  */
 [context("non-task")]
 signature siDataqueueRs {
-	ITRONResult__empty__TrySendError__ 			sendPolling([in] DataElement data);
-	ITRONResult__empty__SendForcedError__ 		sendForce([in] DataElement data);
+	PLType("Result<(), itron::error::Error<itron::dataqueue::TrySendError>>") 			sendPolling([in] PLType("itron::dataqueue::DataElement") data);
+	PLType("Result<(), itron::error::Error<itron::dataqueue::SendForcedError>>") 		sendForce([in] PLType("itron::dataqueue::DataElement") data);
 };
 
 /*
@@ -218,11 +179,11 @@ celltype tDataqueueRs {
 	[inline] entry	siNotificationHandler	eiNotificationHandler;
 
 	attr {
-		[omit] ID				id = C_EXP("DTQID_$id$");
-		DataqueueRef	dataqueue_ref = C_EXP("unsafe{DataqueueRef::from_raw_nonnull(NonZeroI32::new(SEMID_$id$).unwrap())}");
-		[omit] ATR		attribute = C_EXP("TA_NULL");
+		[omit] ID				id = PL_EXP("DTQID_$id$");
+		PLType("itron::dataqueue::DataqueueRef<'static>")	dataqueue_ref = PL_EXP("unsafe{itron::dataqueue::DataqueueRef::from_raw_nonnull(NonZeroI32::new(SEMID_$id$).unwrap())}");
+		[omit] ATR		attribute = PL_EXP("TA_NULL");
 		[omit] uint_t	dataCount = 1;
-		[omit] void		*dataqueueManagementBuffer = C_EXP("NULL");
+		[omit] void		*dataqueueManagementBuffer = PL_EXP("NULL");
 	};
 
 	/*
@@ -234,19 +195,15 @@ celltype tDataqueueRs {
 
 
 // TODO: 割込みは itron_rs で実装されていないため、暫定的な実装を行う
-
-typedef int_t Result__empty__ER__;
-typedef int_t Result__bool__ER__;
-
 /*
  *  割込み要求ライン操作のシグニチャ（タスクコンテキスト用）
  */
 signature sInterruptRequestRs {
-	Result__empty__ER__		disable(void);
-	Result__empty__ER__		enable(void);
-	Result__empty__ER__		clear(void);
-	Result__empty__ER__		raise(void);
-	Result__bool__ER__		probe(void);
+	PLType("Result<(), itron::abi::ER>")		disable(void);
+	PLType("Result<(), itron::abi::ER>")		enable(void);
+	PLType("Result<(), itron::abi::ER>")		clear(void);
+	PLType("Result<(), itron::abi::ER>")		raise(void);
+	PLType("Result<bool, itron::abi::ER>")		probe(void);
 };
 
 /*
@@ -260,7 +217,7 @@ celltype tInterruptRequestRs {
 
 	attr {
 		INTNO			interruptNumber;
-		[omit] ATR		attribute = C_EXP("TA_NULL");
+		[omit] ATR		attribute = PL_EXP("TA_NULL");
 		[omit] PRI		interruptPriority;
 	};
 
@@ -281,8 +238,8 @@ celltype tIsrRs {
 	call	siHandlerBody	ciIsrBody;
 
 	attr {
-		ID				id = C_EXP("ISRID_$id$");
-		[omit] ATR		attribute = C_EXP("TA_NULL");
+		ID				id = PL_EXP("ISRID_$id$");
+		[omit] ATR		attribute = PL_EXP("TA_NULL");
 		[omit] INTNO	interruptNumber;
 		[omit] PRI		isrPriority = 1;
 	};
@@ -306,7 +263,7 @@ celltype tInitializeRoutineRs {
 	call	sRoutineBody	cInitializeRoutineBody;
 
 	attr {
-		[omit] ATR		attribute = C_EXP("TA_NULL");
+		[omit] ATR		attribute = PL_EXP("TA_NULL");
 	};
 
 	/*
