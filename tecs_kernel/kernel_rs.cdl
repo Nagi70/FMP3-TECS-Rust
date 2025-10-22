@@ -60,7 +60,7 @@ signature sTaskRs {
 	PLType("Result<(), itron::error::Error<itron::task::MigrateError>>")              migrate([in] PLType("itron::processor::Processor") prcid);                      // FMP3
 	PLType("Result<itron::task::State, itron::error::Error<itron::task::StateError>>")             getTaskState(void);
 	PLType("Result<(), itron::error::Error<itron::task::SetPriorityError>>")          	changePriority([in] PLType("itron::task::Priority") priority);
-	PLType("itron::abi::ER")                                                                    changeSubPriority([in] uint_t subPriority);  // FMP3
+	PLType("itron::abi::ER")                                                                    changeSubPriority([in] PLType("itron::abi::uint_t") subPriority);  // FMP3
 	PLType("Result<itron::task::Priority, itron::error::Error<itron::task::PriorityError>>")       getPriority(void);
 	PLType("Result<itron::task::Info, itron::error::Error<itron::task::InfoError>>")               refer(void);
 
@@ -75,6 +75,16 @@ signature sTaskRs {
 };
 
 /*
+ *  タスク操作のシグニチャ（非タスクコンテキスト用）
+ */
+[context("non-task")]
+signature siTaskRs {
+	PLType("itron::abi::ER")		activate(void);
+	PLType("itron::abi::ER")		wakeup(void);
+	PLType("itron::abi::ER")		releaseWait(void);
+};
+
+/*
  *  タスクのセルタイプ
  *
  *  タスクはいずれかの保護ドメインに所属させなければならない．
@@ -83,7 +93,7 @@ signature sTaskRs {
 [active, generate(FMPObjectPlugin, "TASK")]
 celltype tTaskRs {
 	[inline] entry	sTaskRs	eTask;
-	[inline] entry	siTask	eiTask;
+	[inline] entry	siTaskRs	eiTask;
 	call	sTaskBody	cTaskBody;
 
 	[inline] entry	siNotificationHandler	eiActivateNotificationHandler;
