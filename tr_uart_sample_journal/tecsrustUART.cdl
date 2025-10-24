@@ -197,6 +197,25 @@ region rProcessor2Symmetric{
       cXUart = rProcessor1Symmetric::Uart.eXUart;
       cDataqueue = rProcessor1Symmetric::Dataqueue.eDataqueue;
     };
+
+    // 以下は排他制御オブジェクトをミューテックスにするための定義
+    [generate(RustFMP3Plugin, "TASK, lib")]
+    cell tTaskRs TaskForMutex {
+      /* 呼び口の結合 */
+      cTaskBody = rProcessor2Symmetric::TaskBodyForMutex.eTaskbody;
+      /* 属性の設定 */
+      id = PL_EXP("TSKID_LOOP1");
+      task_ref = PL_EXP("unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LOOP1).unwrap())}");
+      priority = 8;
+      stackSize = 2048;
+      attribute = PL_EXP("TA_ACT");
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tTaskbody TaskBodyForMutex {
+      cXUart = rProcessor1Symmetric::Uart.eXUart;
+      cDataqueue = rProcessor1Symmetric::Dataqueue.eDataqueue;
+    };
 };
 
 

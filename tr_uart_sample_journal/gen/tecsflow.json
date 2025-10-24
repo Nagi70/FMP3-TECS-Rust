@@ -285,6 +285,23 @@
             "Celltype": "tXUartTaskbody",
             "Callport": "cXUart",
             "Calleeport": "eXUart",
+            "Function": "put_char"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Symmetric_Task1",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_UartTaskbody",
+            "Celltype": "tXUartTaskbody",
+            "Callport": "cXUart",
+            "Calleeport": "eXUart",
             "Function": "get_char"
           }
         ]
@@ -299,6 +316,23 @@
         "Path": [
           {
             "CellName": "rProcessor2Symmetric_TaskBody",
+            "Celltype": "tTaskbody",
+            "Callport": "cXUart",
+            "Calleeport": "eXUart",
+            "Function": "put_char"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor2Symmetric_TaskForMutex",
+        "Priority": "8",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor2Symmetric_TaskBodyForMutex",
             "Celltype": "tTaskbody",
             "Callport": "cXUart",
             "Calleeport": "eXUart",
@@ -346,6 +380,23 @@
             "Function": "receive"
           }
         ]
+      },
+      {
+        "ActiveCell": "rProcessor2Symmetric_TaskForMutex",
+        "Priority": "8",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor2Symmetric_TaskBodyForMutex",
+            "Celltype": "tTaskbody",
+            "Callport": "cDataqueue",
+            "Calleeport": "eDataqueue",
+            "Function": "receive"
+          }
+        ]
       }
     ]
   },
@@ -357,6 +408,24 @@
       {
         "ActiveCell": "rProcessor2Symmetric_Task2",
         "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor2Symmetric_TaskBodyForMutex",
+    "Celltype": "tTaskbody",
+    "ExclusiveControl": "false",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor2Symmetric_TaskForMutex",
+        "Priority": "8",
         "Celltype": "tTaskRs",
         "Callport": "cTaskBody",
         "Calleeport": "eTaskbody",

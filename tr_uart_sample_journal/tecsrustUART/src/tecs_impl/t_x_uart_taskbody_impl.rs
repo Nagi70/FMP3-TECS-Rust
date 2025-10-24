@@ -1,6 +1,19 @@
 use crate::tecs_global::*;
 use crate::tecs_celltype::t_x_uart_taskbody::*;
 use crate::tecs_signature::{s_x_uart::*, s_dataqueue_rs::*, s_task_body::*};
+
+use crate::print;
+use crate::tecs_print::*;
+const N :u32 = 1000;
+
+unsafe extern "C" {
+	fn fch_hrt() -> crate::tecs_print::HrtCnt;
+	fn loc_cpu() -> itron::abi::ER;
+	fn unl_cpu() -> itron::abi::ER;
+	fn dis_dsp() -> itron::abi::ER;
+	fn ena_dsp() -> itron::abi::ER;
+}
+
 impl STaskBody for ETaskbodyForTXUartTaskbody{
 
 	fn main(&self) {
@@ -9,23 +22,124 @@ impl STaskBody for ETaskbodyForTXUartTaskbody{
 
 		lg.c_x_uart.open();
 
-		loop {
-			let result = lg.c_x_uart.get_char();
+		let mut dispatch_time : crate::tecs_print::HrtCnt = 0;
+		let mut dispatch_end : crate::tecs_print::HrtCnt = 0;
+		let mut overhead : crate::tecs_print::HrtCnt = 0;
+
+		let mut overhead_start_u1 : u32 = 0;
+		let mut overhead_start_l : u32 = 0;
+		let mut overhead_start_u2 : u32 = 0;
+		let mut overhead_end_u1 : u32 = 0;
+		let mut overhead_end_l : u32 = 0;
+		let mut overhead_end_u2 : u32 = 0;
+
+		let mut count_overhead : [u32; N as usize] = [0; N as usize];
+
+		// unsafe { dis_dsp(); }
+		unsafe{
+			// dispatch_time = fch_hrt();
+			overhead_start_u1 = core::ptr::read_volatile(0xF8F00204 as *const u32); // COUNT_U
+			overhead_start_l = core::ptr::read_volatile(0xF8F00200 as *const u32); // COUNT_L
+		}
+		for i in 0..N {
+			unsafe{
+				// dispatch_end = fch_hrt();
+				overhead_end_u1 = core::ptr::read_volatile(0xF8F00204 as *const u32); // COUNT_U
+				overhead_end_l = core::ptr::read_volatile(0xF8F00200 as *const u32); // COUNT_L
+			}
+		}
+		// unsafe { ena_dsp(); }
+
+
+		let cnt64_overhead_start = ((overhead_start_u1 as u64) << 32) | (overhead_start_l as u64);
+		dispatch_time = cnt64_overhead_start as crate::tecs_print::HrtCnt;
+
+		let cnt64_overhead_end = ((overhead_end_u1 as u64) << 32) | (overhead_end_l as u64);
+		dispatch_end = cnt64_overhead_end as crate::tecs_print::HrtCnt;
+
+		// print!("ov_start: %tu,", dispatch_time);
+		// print!("ov_end: %tu,", dispatch_end);
+
+		// itron::task::delay(itron::time::duration!(ms: 50)).expect("delay failed");
+
+		overhead = (dispatch_end - dispatch_time) / N;
+
+		for i in 0..N {
+			let mut start : crate::tecs_print::HrtCnt = 0;
+			let mut end : crate::tecs_print::HrtCnt = 0;
+			let mut duration : crate::tecs_print::HrtCnt = 0;
+
+			let mut start_u1 : u32 = 0;
+			let mut start_l : u32 = 0;
+			let mut start_u2 : u32 = 0;
+			
+			let mut end_u1 : u32 = 0;
+			let mut end_l : u32 = 0;
+			let mut end_u2 : u32 = 0;
+
+			unsafe{ 
+				// _ = loc_cpu();
+				// dis_dsp();
+				// start = fch_hrt();
+
+				start_u1 = core::ptr::read_volatile(0xF8F00204 as *const u32); // COUNT_U
+				start_l  = core::ptr::read_volatile(0xF8F00200 as *const u32); // COUNT_L
+			}
+
+			let result = lg.c_x_uart.put_char(&b'N');
+
+			unsafe{ 
+
+				end_u1 = core::ptr::read_volatile(0xF8F00204 as *const u32); // COUNT_U
+				end_l  = core::ptr::read_volatile(0xF8F00200 as *const u32); // COUNT_L
+
+				// end = fch_hrt();
+				// ena_dsp();
+				// _ = unl_cpu();
+			}
+
+
+			let cnt64_start = ((start_u1 as u64) << 32) | (start_l as u64);
+			start = cnt64_start as crate::tecs_print::HrtCnt;
+
+			let cnt64_end = ((end_u1 as u64) << 32) | (end_l as u64);
+			end = cnt64_end as crate::tecs_print::HrtCnt;
+
+			if (end - start - overhead) > 0 {
+				duration = end - start - overhead;
+				// print!("start: %tu,", start);
+				// print!("end: %tu,", end);
+				print!("%tu,", duration );
+			}
+
 			match result {
-				Ok(c) => {
-					lg.var.buffer[lg.var.buffer_count as usize] = c;
-					if lg.var.buffer_count + 1 >= *lg.buffer_size {
-						lg.var.buffer_count = 0;
-					} else {
-						lg.var.buffer_count += 1;
-					}
-					let data: itron::dataqueue::DataElement = c.into();
-					lg.c_dataqueue.send_force(&data);
+				Ok(_) => {
+					// Successfully sent
 				}
 				Err(_) => {
-					// No data
+					print!("uart false", );
 				}
 			}
+			
+			itron::task::delay(itron::time::duration!(ms: 10)).expect("delay failed");
+		}
+		loop {
+			// let result = lg.c_x_uart.get_char();
+			// match result {
+			// 	Ok(c) => {
+			// 		lg.var.buffer[lg.var.buffer_count as usize] = c;
+			// 		if lg.var.buffer_count + 1 >= *lg.buffer_size {
+			// 			lg.var.buffer_count = 0;
+			// 		} else {
+			// 			lg.var.buffer_count += 1;
+			// 		}
+			// 		let data: itron::dataqueue::DataElement = c.into();
+			// 		lg.c_dataqueue.send_force(&data);
+			// 	}
+			// 	Err(_) => {
+			// 		// No data
+			// 	}
+			// }
 		}
 	}
 }

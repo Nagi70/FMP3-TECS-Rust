@@ -1,16 +1,17 @@
-use itron::semaphore::SemaphoreRef;
+use itron::mutex::MutexRef;
 use crate::tecs_ex_ctrl::*;
 use core::cell::UnsafeCell;
 use core::num::NonZeroI32;
 use crate::kernel_cfg::*;
 use crate::tecs_global::*;
+use itron::semaphore::SemaphoreRef;
 pub struct TXUart{
 	base_address: u32,
 	mode: u32,
 	baudgen: u32,
 	bauddiv: u32,
 	variable: &'static SyncTXUartVar,
-	ex_ctrl_ref: &'static TECSSemaphoreRef,
+	ex_ctrl_ref: &'static TECSMutexRef,
 }
 
 pub struct TXUartVar {
@@ -33,7 +34,7 @@ pub struct LockGuardForTXUart<'a>{
 	pub baudgen: &'a u32,
 	pub bauddiv: &'a u32,
 	pub var: &'a mut TXUartVar,
-	ex_ctrl_ref: &'static TECSSemaphoreRef,
+	ex_ctrl_ref: &'static TECSMutexRef,
 }
 
 #[unsafe(link_section = ".rodata")]
@@ -47,15 +48,15 @@ static RPROCESSOR1SYMMETRIC_UART: TXUart = TXUart {
 };
 
 static RPROCESSOR1SYMMETRIC_UARTVAR: SyncTXUartVar = SyncTXUartVar {
-	/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the semaphore object.
+	/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the mutex object.
 	unsafe_var: UnsafeCell::new(TXUartVar {
 	count: 0,
 	}),
 };
 
 #[unsafe(link_section = ".rodata")]
-static RPROCESSOR1SYMMETRIC_UART_EX_CTRL_REF: TECSSemaphoreRef = TECSSemaphoreRef{
-	inner: unsafe{SemaphoreRef::from_raw_nonnull(NonZeroI32::new(TECS_RUST_EX_CTRL_1).unwrap())},
+static RPROCESSOR1SYMMETRIC_UART_EX_CTRL_REF: TECSMutexRef = TECSMutexRef{
+	inner: unsafe{MutexRef::from_raw_nonnull(NonZeroI32::new(TECS_RUST_EX_CTRL_1).unwrap())},
 };
 
 #[unsafe(link_section = ".rodata")]

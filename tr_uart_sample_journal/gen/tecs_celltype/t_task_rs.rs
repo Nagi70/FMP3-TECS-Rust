@@ -55,6 +55,22 @@ pub static EITASKFORRPROCESSOR2SYMMETRIC_TASK2: EiTaskForTTaskRs = EiTaskForTTas
 	cell: &RPROCESSOR2SYMMETRIC_TASK2,
 };
 
+#[unsafe(link_section = ".rodata")]
+pub static RPROCESSOR2SYMMETRIC_TASKFORMUTEX: TTaskRs = TTaskRs {
+	c_task_body: &ETASKBODYFORRPROCESSOR2SYMMETRIC_TASKBODYFORMUTEX,
+	task_ref: unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LOOP1).unwrap())},
+};
+
+#[unsafe(link_section = ".rodata")]
+pub static ETASKFORRPROCESSOR2SYMMETRIC_TASKFORMUTEX: ETaskForTTaskRs = ETaskForTTaskRs {
+	cell: &RPROCESSOR2SYMMETRIC_TASKFORMUTEX,
+};
+
+#[unsafe(link_section = ".rodata")]
+pub static EITASKFORRPROCESSOR2SYMMETRIC_TASKFORMUTEX: EiTaskForTTaskRs = EiTaskForTTaskRs {
+	cell: &RPROCESSOR2SYMMETRIC_TASKFORMUTEX,
+};
+
 impl TTaskRs {
 	#[inline]
 	pub fn get_cell_ref(&'static self) -> LockGuardForTTaskRs<'_> {

@@ -82,24 +82,28 @@ const ID _kernel_tmax_tskid = (TMIN_TSKID + TNUM_TSKID - 1);
 static STK_T _kernel_stack_TSKID_tTask_rProcessor1Migratable_LogTask_Task[COUNT_STK_T(4096)] __attribute__((section(".stack_CLS_ALL_PRC1"),nocommon));
 static STK_T _kernel_stack_TSKID_UART[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC1"),nocommon));
 static STK_T _kernel_stack_TSKID_LOOP[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC2"),nocommon));
+static STK_T _kernel_stack_TSKID_LOOP1[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC2"),nocommon));
 const TINIB _kernel_tinib_table[TNUM_TSKID] = {
 	{ (TA_ACT), (EXINF)((intptr_t)&tTask_INIB_tab[0]), (TASK)(tTask_start), INT_PRIORITY(3), ROUND_STK_T(4096), _kernel_stack_TSKID_tTask_rProcessor1Migratable_LogTask_Task, 1, 0x3 },
 	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor1_symmetric_task1), INT_PRIORITY(7), ROUND_STK_T(2048), _kernel_stack_TSKID_UART, 1, 0x1 },
-	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor2_symmetric_task2), INT_PRIORITY(7), ROUND_STK_T(2048), _kernel_stack_TSKID_LOOP, 2, 0x2 }
+	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor2_symmetric_task2), INT_PRIORITY(7), ROUND_STK_T(2048), _kernel_stack_TSKID_LOOP, 2, 0x2 },
+	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor2_symmetric_task_for_mutex), INT_PRIORITY(8), ROUND_STK_T(2048), _kernel_stack_TSKID_LOOP1, 2, 0x2 }
 };
 
 static TCB _kernel_tcb_TSKID_tTask_rProcessor1Migratable_LogTask_Task __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 static TCB _kernel_tcb_TSKID_UART __attribute__((section(".kernel_data_CLS_PRC1"),nocommon));
 static TCB _kernel_tcb_TSKID_LOOP __attribute__((section(".kernel_data_CLS_PRC2"),nocommon));
+static TCB _kernel_tcb_TSKID_LOOP1 __attribute__((section(".kernel_data_CLS_PRC2"),nocommon));
 
 TCB	*const _kernel_p_tcb_table[TNUM_TSKID] = {
 	&_kernel_tcb_TSKID_tTask_rProcessor1Migratable_LogTask_Task,
 	&_kernel_tcb_TSKID_UART,
-	&_kernel_tcb_TSKID_LOOP
+	&_kernel_tcb_TSKID_LOOP,
+	&_kernel_tcb_TSKID_LOOP1
 };
 
 const ID _kernel_torder_table[TNUM_TSKID] = { 
-	TSKID_tTask_rProcessor1Migratable_LogTask_Task, TSKID_UART, TSKID_LOOP
+	TSKID_tTask_rProcessor1Migratable_LogTask_Task, TSKID_UART, TSKID_LOOP, TSKID_LOOP1
 };
 
 const uint16_t _kernel_subprio_primap = 0U;
@@ -112,18 +116,15 @@ const ID _kernel_tmax_semid = (TMIN_SEMID + TNUM_SEMID - 1);
 
 const SEMINIB _kernel_seminib_table[TNUM_SEMID] = {
 	{ (TA_TPRI), (0), (1) },
-	{ (TA_TPRI), (1), (1) },
-	{ (TA_NULL), (1), (1) }
+	{ (TA_TPRI), (1), (1) }
 };
 
 static SEMCB _kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_ReceiveSemaphore __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 static SEMCB _kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
-static SEMCB _kernel_semcb_TECS_RUST_EX_CTRL_1 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 
 SEMCB	*const _kernel_p_semcb_table[TNUM_SEMID] = {
 	&_kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_ReceiveSemaphore,
-	&_kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore,
-	&_kernel_semcb_TECS_RUST_EX_CTRL_1
+	&_kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore
 };
 
 /*
@@ -168,8 +169,15 @@ TOPPERS_EMPTY_LABEL(PDQCB *const, _kernel_p_pdqcb_table);
 
 const ID _kernel_tmax_mtxid = (TMIN_MTXID + TNUM_MTXID - 1);
 
-TOPPERS_EMPTY_LABEL(const MTXINIB, _kernel_mtxinib_table);
-TOPPERS_EMPTY_LABEL(MTXCB *const, _kernel_p_mtxcb_table);
+const MTXINIB _kernel_mtxinib_table[TNUM_MTXID] = {
+	{ (TA_CEILING), INT_PRIORITY(7) }
+};
+
+static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_1 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
+
+MTXCB	*const _kernel_p_mtxcb_table[TNUM_MTXID] = {
+	&_kernel_mtxcb_TECS_RUST_EX_CTRL_1
+};
 
 /*
  *  SpinLock Functions
@@ -319,6 +327,7 @@ _kernel_initialize_object(PCB *p_my_pcb)
 	_kernel_initialize_task(p_my_pcb);
 	_kernel_initialize_semaphore(p_my_pcb);
 	_kernel_initialize_dataqueue(p_my_pcb);
+	_kernel_initialize_mutex(p_my_pcb);
 	_kernel_initialize_interrupt(p_my_pcb);
 	_kernel_initialize_exception(p_my_pcb);
 }

@@ -36,6 +36,17 @@ pub static ETASKBODYFORRPROCESSOR2SYMMETRIC_TASKBODY: ETaskbodyForTTaskbody = ET
 	cell: &RPROCESSOR2SYMMETRIC_TASKBODY,
 };
 
+#[unsafe(link_section = ".rodata")]
+static RPROCESSOR2SYMMETRIC_TASKBODYFORMUTEX: TTaskbody<EXUartForTXUart, EDataqueueForTDataqueueRs> = TTaskbody {
+	c_x_uart: &EXUARTFORRPROCESSOR1SYMMETRIC_UART,
+	c_dataqueue: &EDATAQUEUEFORRPROCESSOR1SYMMETRIC_DATAQUEUE,
+};
+
+#[unsafe(link_section = ".rodata")]
+pub static ETASKBODYFORRPROCESSOR2SYMMETRIC_TASKBODYFORMUTEX: ETaskbodyForTTaskbody = ETaskbodyForTTaskbody {
+	cell: &RPROCESSOR2SYMMETRIC_TASKBODYFORMUTEX,
+};
+
 impl<T: SXUart, U: SDataqueueRs> TTaskbody<T, U> {
 	#[inline]
 	pub fn get_cell_ref(&'static self) -> LockGuardForTTaskbody<'_, T, U> {
