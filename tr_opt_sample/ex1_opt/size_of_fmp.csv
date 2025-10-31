@@ -1,0 +1,17 @@
+dir,section,size_hex,size_dec,addr_hex
+ex1_opt,.text,0x8bb0,35760,0x100000
+ex1_opt,.rodata,0xec0,3776,0x108bb0
+ex1_opt,.ARM.exidx,0x8,8,0x109a70
+ex1_opt,.data,0x40,64,0x109a78
+ex1_opt,.bss,0xd268,53864,0x109ab8
+ex1_opt,.comment,0x67,103,0x0
+ex1_opt,.ARM.attributes,0x35,53,0x0
+ex1_opt,.debug_aranges,0x728,1832,0x0
+ex1_opt,.debug_info,0x25c9e,154782,0x0
+ex1_opt,.debug_abbrev,0x6ba0,27552,0x0
+ex1_opt,.debug_line,0x122cd,74445,0x0
+ex1_opt,.debug_frame,0x1830,6192,0x0
+ex1_opt,.debug_str,0x4b4f,19279,0x0
+ex1_opt,.debug_loc,0x11fef,73711,0x0
+ex1_opt,.debug_ranges,0x3cc8,15560,0x0
+ex1_opt,Total,0x72025,466981,

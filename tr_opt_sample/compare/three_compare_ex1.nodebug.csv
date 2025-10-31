@@ -1,0 +1,9 @@
+ex,section,r_size_dec,tr_no_opt_size_dec,tr_opt_size_dec,d_trnoopt_vs_r_dec,d_tropt_vs_r_dec,d_tropt_vs_trnoopt_dec,r_size_hex,tr_no_opt_size_hex,tr_opt_size_hex,d_trnoopt_vs_r_hex,d_tropt_vs_r_hex,d_tropt_vs_trnoopt_hex
+ex1,.ARM.attributes,53,53,53,0,0,0,0x35,0x35,0x35,0x0,0x0,0x0
+ex1,.ARM.exidx,8,8,8,0,0,0,0x8,0x8,0x8,0x0,0x0,0x0
+ex1,.bss,61560,50256,53864,-11304,-7696,3608,0xf078,0xc450,0xd268,0xffffffffffffd3d8,0xffffffffffffe1f0,0xe18
+ex1,.comment,103,103,103,0,0,0,0x67,0x67,0x67,0x0,0x0,0x0
+ex1,.data,64,64,64,0,0,0,0x40,0x40,0x40,0x0,0x0,0x0
+ex1,.rodata,61476,3784,3776,-57692,-57700,-8,0xf024,0xec8,0xec0,0xffffffffffff1ea4,0xffffffffffff1e9c,0xfffffffffffffff8
+ex1,.text,199756,39384,35760,-160372,-163996,-3624,0x30c4c,0x99d8,0x8bb0,0xfffffffffffd8d8c,0xfffffffffffd7f64,0xfffffffffffff1d8
+ex1,Total,1313521,497695,466981,-815826,-846540,-30714,0x140af1,0x7981f,0x72025,0xfffffffffff38d2e,0xfffffffffff31534,0xffffffffffff8806

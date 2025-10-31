@@ -1,0 +1,17 @@
+dir,section,size_hex,size_dec,addr_hex
+ex4_no_opt,.text,0x9c30,39984,0x100000
+ex4_no_opt,.rodata,0xf64,3940,0x109c30
+ex4_no_opt,.ARM.exidx,0x8,8,0x10ab94
+ex4_no_opt,.data,0x40,64,0x10ab9c
+ex4_no_opt,.bss,0xda84,55940,0x10abdc
+ex4_no_opt,.comment,0x67,103,0x0
+ex4_no_opt,.ARM.attributes,0x35,53,0x0
+ex4_no_opt,.debug_aranges,0x748,1864,0x0
+ex4_no_opt,.debug_info,0x28e6e,167534,0x0
+ex4_no_opt,.debug_abbrev,0x709c,28828,0x0
+ex4_no_opt,.debug_line,0x13fc8,81864,0x0
+ex4_no_opt,.debug_frame,0x19c8,6600,0x0
+ex4_no_opt,.debug_str,0x4d7d,19837,0x0
+ex4_no_opt,.debug_loc,0x13c34,80948,0x0
+ex4_no_opt,.debug_ranges,0x4240,16960,0x0
+ex4_no_opt,Total,0x7b2cf,504527,

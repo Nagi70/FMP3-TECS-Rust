@@ -1,0 +1,9 @@
+dir,section,size_hex,size_dec,addr_hex
+ex5_opt,.text,0x8c10,35856,0x100000
+ex5_opt,.rodata,0xf60,3936,0x108c10
+ex5_opt,.ARM.exidx,0x8,8,0x109b70
+ex5_opt,.data,0x40,64,0x109b78
+ex5_opt,.bss,0xf2a8,62120,0x109bb8
+ex5_opt,.comment,0x67,103,0x0
+ex5_opt,.ARM.attributes,0x35,53,0x0
+ex5_opt,Total,0x742a1,475809,

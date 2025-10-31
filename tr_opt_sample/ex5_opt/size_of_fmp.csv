@@ -1,0 +1,17 @@
+dir,section,size_hex,size_dec,addr_hex
+ex5_opt,.text,0x8c10,35856,0x100000
+ex5_opt,.rodata,0xf60,3936,0x108c10
+ex5_opt,.ARM.exidx,0x8,8,0x109b70
+ex5_opt,.data,0x40,64,0x109b78
+ex5_opt,.bss,0xf2a8,62120,0x109bb8
+ex5_opt,.comment,0x67,103,0x0
+ex5_opt,.ARM.attributes,0x35,53,0x0
+ex5_opt,.debug_aranges,0x728,1832,0x0
+ex5_opt,.debug_info,0x25d32,154930,0x0
+ex5_opt,.debug_abbrev,0x6ba0,27552,0x0
+ex5_opt,.debug_line,0x122cd,74445,0x0
+ex5_opt,.debug_frame,0x1830,6192,0x0
+ex5_opt,.debug_str,0x4bf7,19447,0x0
+ex5_opt,.debug_loc,0x11fef,73711,0x0
+ex5_opt,.debug_ranges,0x3cc8,15560,0x0
+ex5_opt,Total,0x742a1,475809,

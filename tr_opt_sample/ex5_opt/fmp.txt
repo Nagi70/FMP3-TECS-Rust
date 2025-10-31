@@ -1,0 +1,35 @@
+
+fmp.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00008c10  00100000  00100000  00010000  2**5
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .rodata       00000f60  00108c10  00108c10  00018c10  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .ARM.exidx    00000008  00109b70  00109b70  00019b70  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .data         00000040  00109b78  00109b78  00019b78  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .bss          0000f2a8  00109bb8  00109bb8  00019bb8  2**3
+                  CONTENTS, ALLOC, LOAD, DATA
+  5 .comment      00000067  00000000  00000000  00028e60  2**0
+                  CONTENTS, READONLY
+  6 .ARM.attributes 00000035  00000000  00000000  00028ec7  2**0
+                  CONTENTS, READONLY
+  7 .debug_aranges 00000728  00000000  00000000  00028f00  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+  8 .debug_info   00025d32  00000000  00000000  00029628  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+  9 .debug_abbrev 00006ba0  00000000  00000000  0004f35a  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 10 .debug_line   000122cd  00000000  00000000  00055efa  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 11 .debug_frame  00001830  00000000  00000000  000681c8  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 12 .debug_str    00004bf7  00000000  00000000  000699f8  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 13 .debug_loc    00011fef  00000000  00000000  0006e5ef  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_ranges 00003cc8  00000000  00000000  000805de  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
