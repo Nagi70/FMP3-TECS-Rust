@@ -1,0 +1,15 @@
+cargo:rerun-if-env-changed=AMENT_PREFIX_PATH
+cargo:rerun-if-env-changed=CMAKE_PREFIX_PATH
+cargo:rerun-if-env-changed=CMAKE_IDL_PACKAGES
+cargo:rerun-if-env-changed=IDL_PACKAGE_FILTER
+cargo:rerun-if-env-changed=ROS_DISTRO
+cargo:rustc-cfg=r2r__ros__distro__humble
+cargo:rustc-link-search=native=/opt/ros/humble/lib
+cargo:rustc-link-lib=dylib=rcl
+cargo:rustc-link-lib=dylib=rcl_logging_spdlog
+cargo:rustc-link-lib=dylib=rcl_yaml_param_parser
+cargo:rustc-link-lib=dylib=rcutils
+cargo:rustc-link-lib=dylib=rmw
+cargo:rustc-link-lib=dylib=rmw_implementation
+cargo:rustc-link-lib=dylib=rosidl_typesupport_c
+cargo:rustc-link-lib=dylib=rosidl_runtime_c

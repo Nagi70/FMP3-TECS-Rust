@@ -1,0 +1,8 @@
+[package]
+name = "tecs_rust"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+r2r = "0.9.5"
+heapless = "0.9.1"
