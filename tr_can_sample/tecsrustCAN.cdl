@@ -1,0 +1,224 @@
+/*
+ *  カーネルオブジェクトの定義
+ */
+import(<kernel.cdl>);
+import(<kernel_rs.cdl>);
+//import("target.cdl");
+import( <target_class.cdl> );
+
+/*
+ *  ターゲット非依存のセルタイプの定義
+ */
+import("syssvc/tSerialPort.cdl");
+import("syssvc/tSerialAdapter.cdl");
+import("syssvc/tSysLog.cdl");
+import("syssvc/tSysLogAdapter.cdl");
+import("syssvc/tLogTask.cdl");
+import("syssvc/tBanner.cdl");
+
+/*
+ *  ターゲット依存部の取り込み
+ */
+import("target.cdl");
+
+region rProcessor1Migratable {
+   /*
+    *		システムログ機能のアダプタの組上げ記述
+    *
+    *  システムログ機能のアダプタは，C言語で記述されたコードから，TECSベー
+    *  スのシステムログ機能を呼び出すためのセルである．システムログ機能の
+    *  サービスコール（syslog，syslog_0〜syslog_5，t_perrorを含む）を呼び
+    *  出さない場合には，以下のセルの組上げ記述を削除してよい．
+    */
+   cell tSysLogAdapter SysLogAdapter {
+     cSysLog = SysLog.eSysLog;
+   };
+
+   /*
+    *		シリアルインタフェースドライバのアダプタの組上げ記述
+    *
+    *  シリアルインタフェースドライバのアダプタは，C言語で記述されたコー
+    *  ドから，TECSベースのシリアルインタフェースドライバを呼び出すための
+    *  セルである．シリアルインタフェースドライバのサービスコールを呼び出
+    *  さない場合には，以下のセルの組上げ記述を削除してよい．
+    */
+   cell tSerialAdapter SerialAdapter {
+     cSerialPort[0] = SerialPort1.eSerialPort;
+   };
+
+   /*
+    *		システムログ機能の組上げ記述
+    *
+    *  システムログ機能を外す場合には，以下のセルの組上げ記述を削除し，コ
+    *  ンパイルオプションに-DTOPPERS_OMIT_SYSLOGを追加すればよい．ただし，
+    *  システムログタスクはシステムログ機能を使用するため，それも外すこと
+    *  が必要である．また，システムログ機能のアダプタも外さなければならな
+    *  い．tecsgenが警告メッセージを出すが，無視してよい．
+    */
+   cell tSysLog SysLog {
+     logBufferSize = 32;					/* ログバッファのサイズ */
+     initLogMask = C_EXP("LOG_UPTO(LOG_NOTICE)");
+                       /* ログバッファに記録すべき重要度 */
+     initLowMask = C_EXP("LOG_UPTO(LOG_EMERG)");
+                         /* 低レベル出力すべき重要度 */
+     /* 低レベル出力との結合 */
+     cPutLog = PutLogTarget.ePutLog;
+   };
+
+   /*
+    *		シリアルインタフェースドライバの組上げ記述
+    *
+    *  シリアルインタフェースドライバを外す場合には，以下のセルの組上げ記
+    *  述を削除すればよい．ただし，システムログタスクはシリアルインタフェー
+    *  スドライバを使用するため，それも外すことが必要である．また，シリア
+    *  ルインタフェースドライバのアダプタも外さなければならない．
+    */
+   cell tSerialPort SerialPort1 {
+     receiveBufferSize = 256;			/* 受信バッファのサイズ */
+     sendBufferSize    = 256;			/* 送信バッファのサイズ */
+
+     /* ターゲット依存部との結合 */
+     cSIOPort = SIOPortTarget1.eSIOPort;
+     eiSIOCBR <= SIOPortTarget1.ciSIOCBR;	/* コールバック */
+   };
+
+   /*
+    *		システムログタスクの組上げ記述
+    *
+    *  システムログタスクを外す場合には，以下のセルの組上げ記述を削除すれ
+    *  ばよい．
+    */
+   cell tLogTask LogTask {
+     priority  = 3;					/* システムログタスクの優先度 */
+     stackSize = LogTaskStackSize;	/* システムログタスクのスタックサイズ */
+
+     /* シリアルインタフェースドライバとの結合 */
+     cSerialPort        = SerialPort1.eSerialPort;
+     cnSerialPortManage = SerialPort1.enSerialPortManage;
+
+     /* システムログ機能との結合 */
+     cSysLog = SysLog.eSysLog;
+
+     /* 低レベル出力との結合 */
+     cPutLog = PutLogTarget.ePutLog;
+   };
+
+   /*
+    *		カーネル起動メッセージ出力の組上げ記述
+    *
+    *  カーネル起動メッセージの出力を外す場合には，以下のセルの組上げ記述
+    *  を削除すればよい．
+    */
+   //cell tBanner Banner {
+   //  /* 属性の設定 */
+   //  targetName      = BannerTargetName;
+   //  copyrightNotice = BannerCopyrightNotice;
+   //};
+};
+
+signature sCanMeasureForOpt {
+  void loopbackSetup(void);
+  PLType("Result<(),()>") send([in, size_is(16)] const uint32_t* tx_frame);
+  PLType("Result<(),()>") receive([out, size_is(16)] uint32_t* rx_frame);
+};
+
+celltype tCanTaskbody {
+  call sCanMeasureForOpt cCan;
+  entry sTaskBody eTaskbody;
+};
+
+celltype tCan {
+  entry sCanMeasureForOpt eCan;
+  attr {
+    uint32_t base_address;
+    uint32_t message_id;
+    uint32_t frame_data_length;
+    uint8_t brpr_baud_prescalar;
+    uint8_t btr_sync_jump_width;
+    uint8_t btr_second_timesegment;
+    uint8_t btr_first_timesegment;
+  };
+  var {
+    uint32_t var_opt = 0;
+  };
+};
+
+
+[class(FMP,"CLS_PRC1")]
+region rProcessor1Symmetric{
+
+    [generate(RustFMP3Plugin, "TASK, lib")]
+    cell tTaskRs CanTask {
+      /* 呼び口の結合 */
+      cTaskBody = rProcessor1Symmetric::CanTaskbody.eTaskbody;
+      /* 属性の設定 */
+      id = C_EXP("TSKID_CAN");
+      task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_CAN).unwrap())}");
+      priority = 7;
+      stackSize = 2048;
+      attribute = C_EXP("TA_ACT");
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tCanTaskbody CanTaskbody {
+      cCan = Can.eCan;
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tCan Can {
+      base_address = C_EXP("0xE0008000");
+      message_id = 1024;
+      frame_data_length = 8;
+      brpr_baud_prescalar = 29;
+      btr_sync_jump_width = 3;
+      btr_second_timesegment = 2;
+      btr_first_timesegment = 15;
+    };
+};
+
+celltype tLoopTaskbody {
+  call sTaskRs cTask;
+  entry sTaskBody eTaskbody;
+};
+
+[generate(RustFMP3Plugin, "lib")]
+celltype tDummyCanTaskbody {
+  entry sTaskBody eTaskbody;
+  call sCanMeasureForOpt cCan;
+};
+
+
+[class(FMP,"CLS_PRC2")]
+region rProcessor2Symmetric{
+
+    [generate(RustFMP3Plugin, "TASK, lib")]
+    cell tTaskRs LoopTask {
+      /* 呼び口の結合 */
+      cTaskBody = rProcessor2Symmetric::LoopTaskbody.eTaskbody;
+      /* 属性の設定 */
+      id = C_EXP("TSKID_LOOP");
+      task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LOOP).unwrap())}");
+      priority = 7;
+      stackSize = 2048;
+      attribute = C_EXP("TA_ACT");
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tLoopTaskbody LoopTaskbody {
+      cTask = rProcessor1Symmetric::CanTask.eTask;
+    };
+
+    //[generate(RustFMP3Plugin, "TASK, lib")]
+    //cell tTaskRs CanTask2 {
+    //  /* 呼び口の結合 */
+    //  cTaskBody = rProcessor1Symmetric::CanTaskbody.eTaskbody;
+    //  /* 属性の設定 */
+    //  id = C_EXP("TSKID_CAN2");
+    //  task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_CAN2).unwrap())}");
+    //  priority = 7;
+    //  stackSize = 2048;
+    //  attribute = C_EXP("TA_NULL");
+    //};
+};
+
+

@@ -206,7 +206,7 @@
   {
     "Cell": "rProcessor1Migratable_LogTask_LogTaskMain",
     "Celltype": "tLogTaskMain",
-    "ExclusiveControl": "true",
+    "ExclusiveControl": "false",
     "Accessed": [
       {
         "ActiveCell": "rProcessor1Migratable_LogTask_Task",
