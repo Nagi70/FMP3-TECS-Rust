@@ -1,58 +1,36 @@
-# FMP3+TECS
-このFMP3+TECSは[TOPPERS/FMP3](https://www.toppers.jp/fmp3-kernel.html)をにTECSを適用し、コンポーネント化したものです。
-<br>
-各コンポーネントのファイルについては[fmp3+tecsのtrac](https://dev.toppers.jp/trac/tecs/browser/toppers/fmp3%2Btecs)から拝借しています。
+# FMP3+TECS/Rust
+FMP3+TECS/Rust is a framework that combines [FMP+TECS](https://github.com/azu-lab/FMP3-TECS) (which applies TECS to [TOPPERS/FMP3](https://www.toppers.jp/fmp3-kernel.html) to componentize the kernel) with [TECS/Rust](https://github.com/Nagi70/TECS-Rust), an extension of TECS supporting Rust. Together they provide a component-oriented environment for integrating Rust code with the FMP3 real-time kernel.
 
-#### サンプルプログラム
-複数あるが、いずれもカーネルの各機能をチェックするためのもの。tから始まるものがTECS対応版。
-<br>
-タスクが周期的に呼び出され、ターミナルに文字列を出力する。
-<br>
-また、入力した文字に応じてタスクの挙動や優先度などを変更することができる。
+#### Sample Programs
+There are multiple sample programs; the easiest to understand is `tr_uart_led_sample2`, a simple example combining UART and an LED.
 
-#### 開発環境
-1. XSDKインストール
+#### Development Environment
+1. Vitis & Vivado
 
-   -[XilinxのHP](https://japan.xilinx.com/support/download/index.html/content/xilinx/ja/downloadNav/embedded-design-tools.html)からSDKをインストール。
+   - Download Vitis and Vivado from [here](https://japan.xilinx.com/support/download.html).
+   - The sample program runs in a minimal configuration without using the PL (programmable logic) part.
 
-   -SDK 2019.1での動作は確認済み。
+2. Target Board
 
-   -インストールする際にサインインを求められます。無料で登録できるのでアカウント作成してください。
+   - Zybo Z7_10 Zynq-7010 ARM development board
+   - Dual-core ARM Cortex-A9 SoC.
 
-   -必要に応じて環境変数を設定してください。
+3. Toolchains
 
-3. 対象ボード
+   - Install Rust to compile the Rust code.
+   - Rust installation instructions: [https://rust-lang.org/tools/install/](https://rust-lang.org/tools/install/)
+   - Verified with: `rustc 1.89.0-nightly (bf64d66bd 2025-05-21)`
+   - Ruby is required for the TECS generator and kernel configurator.
+   - Verified with: `ruby 2.7.8p225`. Versions 3.0 and above may not work correctly.
 
-   -Zybo Z7_10 Zynq-7010 ARM開発ボード
-   
-   -ARM Cortex-A9を搭載したデュアルコアの開発ボードです。
+#### Build & Run Steps
+All operations below are performed within XSDK.
+1. Build
 
-   -USB接続をして、スイッチをONにすると使えます。
+   - Change to the `tr_uart_led_sample2` directory and run `make`.
+   - This performs Rust code generation, optimization of mutual exclusion handling, and linking with the FMP3 kernel to produce `fmp.elf`.
 
-#### ビルド・実行手順
-以下はいずれもXSDK上での操作になります。
-1. ワークスペースの選択
+2. Run
 
-   -XSDK起動時に問われるので、このフォルダを選択してOKを押す。
-   
-2. ビルド
+   - Use Vitis to load `fmp.elf` onto the board to execute the program.
 
-   -Project Explorerを開いた状態で、プロジェクト名（sample1など）を右クリック。
-
-   -Build Projectを選択することでビルドができる。
-
-   -完了すると、"プロジェクト名.elf"という実行ファイルが生成される。
-
-3. デバッグ・実行
-
-   -ボードをUSB接続して、画面下のターミナルにある”＋”のボタンをクリック。接続設定のウィンドウが出るので、portを選択する（そのほかは基本ノータッチでOK）。
-
-   -ボードが接続できると、”Connected to (ポート番号) at (Baud Rate)”と表示される。
-
-   -ボードが接続出来たら、"プロジェクト名.launch"を右クリック。
-
-   -"Debug As -> プロジェクト名"と選択すると、デバッガが起動する（Project Explorerをデバッガは画面右上のマークをクリックして切り替え可能）。
-
-   -途中でダイアログが出た場合はYesで進む。
-
-   -画面上部の実行ボタンをクリックすることで実行可能。
