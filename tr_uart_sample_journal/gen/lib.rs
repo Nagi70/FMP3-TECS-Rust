@@ -20,13 +20,3 @@ use tecs_signature::s_task_body::*;
 pub extern "C" fn tecs_rust_start_r_processor1_symmetric_task1(_: usize) {
 	RPROCESSOR1SYMMETRIC_TASK1.c_task_body.main();
 }
-
-#[unsafe(no_mangle)]
-pub extern "C" fn tecs_rust_start_r_processor2_symmetric_task2(_: usize) {
-	RPROCESSOR2SYMMETRIC_TASK2.c_task_body.main();
-}
-
-#[unsafe(no_mangle)]
-pub extern "C" fn tecs_rust_start_r_processor2_symmetric_task_for_mutex(_: usize) {
-	RPROCESSOR2SYMMETRIC_TASKFORMUTEX.c_task_body.main();
-}

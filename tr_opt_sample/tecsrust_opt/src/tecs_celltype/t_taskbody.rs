@@ -1,14 +1,14 @@
 use itron::mutex::MutexRef;
-use itron::semaphore::SemaphoreRef;
 use crate::tecs_ex_ctrl::*;
 use core::cell::UnsafeCell;
 use core::num::NonZeroI32;
 use crate::kernel_cfg::*;
 use crate::tecs_global::*;
+use itron::semaphore::SemaphoreRef;
 pub struct TTaskbody{
 	is_exclusive: bool,
 	variable: &'static SyncTTaskbodyVar,
-	ex_ctrl_ref: &'static (dyn LockManager + Sync + Send),
+	ex_ctrl_ref: &'static TECSMutexRef,
 }
 
 pub struct TTaskbodyVar {
@@ -28,7 +28,7 @@ pub struct ETaskbodyForTTaskbody {
 pub struct LockGuardForTTaskbody<'a>{
 	pub is_exclusive: &'a bool,
 	pub var: &'a mut TTaskbodyVar,
-	ex_ctrl_ref: &'static (dyn LockManager + Sync + Send),
+	ex_ctrl_ref: &'static TECSMutexRef,
 }
 
 #[unsafe(link_section = ".rodata")]
@@ -39,15 +39,15 @@ static RPROCESSOR1SYMMETRIC_TASKBODY1: TTaskbody = TTaskbody {
 };
 
 static RPROCESSOR1SYMMETRIC_TASKBODY1VAR: SyncTTaskbodyVar = SyncTTaskbodyVar {
-	/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the semaphore object.
+	/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the mutex object.
 	unsafe_var: UnsafeCell::new(TTaskbodyVar {
 	dummy: 0,
 	}),
 };
 
 #[unsafe(link_section = ".rodata")]
-static RPROCESSOR1SYMMETRIC_TASKBODY1_EX_CTRL_REF: TECSSemaphoreRef = TECSSemaphoreRef{
-	inner: unsafe{SemaphoreRef::from_raw_nonnull(NonZeroI32::new(TECS_RUST_EX_CTRL_1).unwrap())},
+static RPROCESSOR1SYMMETRIC_TASKBODY1_EX_CTRL_REF: TECSMutexRef = TECSMutexRef{
+	inner: unsafe{MutexRef::from_raw_nonnull(NonZeroI32::new(TECS_RUST_EX_CTRL_1).unwrap())},
 };
 
 #[unsafe(link_section = ".rodata")]
@@ -59,14 +59,19 @@ pub static ETASKBODYFORRPROCESSOR1SYMMETRIC_TASKBODY1: ETaskbodyForTTaskbody = E
 static RPROCESSOR1SYMMETRIC_TASKBODY2: TTaskbody = TTaskbody {
 	is_exclusive: false,
 	variable: &RPROCESSOR1SYMMETRIC_TASKBODY2VAR,
-	ex_ctrl_ref: &DUMMY_EX_CTRL_REF,
+	ex_ctrl_ref: &RPROCESSOR1SYMMETRIC_TASKBODY2_EX_CTRL_REF,
 };
 
 static RPROCESSOR1SYMMETRIC_TASKBODY2VAR: SyncTTaskbodyVar = SyncTTaskbodyVar {
-	/// This UnsafeCell is safe because it is only accessed by one task due to the call flow and component structure of TECS.
+	/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the mutex object.
 	unsafe_var: UnsafeCell::new(TTaskbodyVar {
 	dummy: 0,
 	}),
+};
+
+#[unsafe(link_section = ".rodata")]
+static RPROCESSOR1SYMMETRIC_TASKBODY2_EX_CTRL_REF: TECSMutexRef = TECSMutexRef{
+	inner: unsafe{MutexRef::from_raw_nonnull(NonZeroI32::new(TECS_RUST_EX_CTRL_2).unwrap())},
 };
 
 #[unsafe(link_section = ".rodata")]
@@ -78,14 +83,19 @@ pub static ETASKBODYFORRPROCESSOR1SYMMETRIC_TASKBODY2: ETaskbodyForTTaskbody = E
 static RPROCESSOR1SYMMETRIC_TASKBODY3: TTaskbody = TTaskbody {
 	is_exclusive: false,
 	variable: &RPROCESSOR1SYMMETRIC_TASKBODY3VAR,
-	ex_ctrl_ref: &DUMMY_EX_CTRL_REF,
+	ex_ctrl_ref: &RPROCESSOR1SYMMETRIC_TASKBODY3_EX_CTRL_REF,
 };
 
 static RPROCESSOR1SYMMETRIC_TASKBODY3VAR: SyncTTaskbodyVar = SyncTTaskbodyVar {
-	/// This UnsafeCell is safe because it is only accessed by one task due to the call flow and component structure of TECS.
+	/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the mutex object.
 	unsafe_var: UnsafeCell::new(TTaskbodyVar {
 	dummy: 0,
 	}),
+};
+
+#[unsafe(link_section = ".rodata")]
+static RPROCESSOR1SYMMETRIC_TASKBODY3_EX_CTRL_REF: TECSMutexRef = TECSMutexRef{
+	inner: unsafe{MutexRef::from_raw_nonnull(NonZeroI32::new(TECS_RUST_EX_CTRL_3).unwrap())},
 };
 
 #[unsafe(link_section = ".rodata")]
@@ -97,14 +107,19 @@ pub static ETASKBODYFORRPROCESSOR1SYMMETRIC_TASKBODY3: ETaskbodyForTTaskbody = E
 static RPROCESSOR1SYMMETRIC_TASKBODY4: TTaskbody = TTaskbody {
 	is_exclusive: false,
 	variable: &RPROCESSOR1SYMMETRIC_TASKBODY4VAR,
-	ex_ctrl_ref: &DUMMY_EX_CTRL_REF,
+	ex_ctrl_ref: &RPROCESSOR1SYMMETRIC_TASKBODY4_EX_CTRL_REF,
 };
 
 static RPROCESSOR1SYMMETRIC_TASKBODY4VAR: SyncTTaskbodyVar = SyncTTaskbodyVar {
-	/// This UnsafeCell is safe because it is only accessed by one task due to the call flow and component structure of TECS.
+	/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the mutex object.
 	unsafe_var: UnsafeCell::new(TTaskbodyVar {
 	dummy: 0,
 	}),
+};
+
+#[unsafe(link_section = ".rodata")]
+static RPROCESSOR1SYMMETRIC_TASKBODY4_EX_CTRL_REF: TECSMutexRef = TECSMutexRef{
+	inner: unsafe{MutexRef::from_raw_nonnull(NonZeroI32::new(TECS_RUST_EX_CTRL_4).unwrap())},
 };
 
 #[unsafe(link_section = ".rodata")]
@@ -116,14 +131,19 @@ pub static ETASKBODYFORRPROCESSOR1SYMMETRIC_TASKBODY4: ETaskbodyForTTaskbody = E
 static RPROCESSOR2SYMMETRIC_TASKBODY2: TTaskbody = TTaskbody {
 	is_exclusive: false,
 	variable: &RPROCESSOR2SYMMETRIC_TASKBODY2VAR,
-	ex_ctrl_ref: &DUMMY_EX_CTRL_REF,
+	ex_ctrl_ref: &RPROCESSOR2SYMMETRIC_TASKBODY2_EX_CTRL_REF,
 };
 
 static RPROCESSOR2SYMMETRIC_TASKBODY2VAR: SyncTTaskbodyVar = SyncTTaskbodyVar {
-	/// This UnsafeCell is safe because it is only accessed by one task due to the call flow and component structure of TECS.
+	/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the mutex object.
 	unsafe_var: UnsafeCell::new(TTaskbodyVar {
 	dummy: 0,
 	}),
+};
+
+#[unsafe(link_section = ".rodata")]
+static RPROCESSOR2SYMMETRIC_TASKBODY2_EX_CTRL_REF: TECSMutexRef = TECSMutexRef{
+	inner: unsafe{MutexRef::from_raw_nonnull(NonZeroI32::new(TECS_RUST_EX_CTRL_5).unwrap())},
 };
 
 #[unsafe(link_section = ".rodata")]
@@ -135,14 +155,19 @@ pub static ETASKBODYFORRPROCESSOR2SYMMETRIC_TASKBODY2: ETaskbodyForTTaskbody = E
 static RPROCESSOR2SYMMETRIC_TASKBODY3: TTaskbody = TTaskbody {
 	is_exclusive: false,
 	variable: &RPROCESSOR2SYMMETRIC_TASKBODY3VAR,
-	ex_ctrl_ref: &DUMMY_EX_CTRL_REF,
+	ex_ctrl_ref: &RPROCESSOR2SYMMETRIC_TASKBODY3_EX_CTRL_REF,
 };
 
 static RPROCESSOR2SYMMETRIC_TASKBODY3VAR: SyncTTaskbodyVar = SyncTTaskbodyVar {
-	/// This UnsafeCell is safe because it is only accessed by one task due to the call flow and component structure of TECS.
+	/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the mutex object.
 	unsafe_var: UnsafeCell::new(TTaskbodyVar {
 	dummy: 0,
 	}),
+};
+
+#[unsafe(link_section = ".rodata")]
+static RPROCESSOR2SYMMETRIC_TASKBODY3_EX_CTRL_REF: TECSMutexRef = TECSMutexRef{
+	inner: unsafe{MutexRef::from_raw_nonnull(NonZeroI32::new(TECS_RUST_EX_CTRL_6).unwrap())},
 };
 
 #[unsafe(link_section = ".rodata")]

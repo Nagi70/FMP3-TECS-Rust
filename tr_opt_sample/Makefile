@@ -55,7 +55,7 @@ TARGET = zybo_z7_gcc
 #  使い方の例:
 #    make ENABLE_TECS_RUST_OPT=0
 #
-ENABLE_TECS_RUST_OPT = 1
+ENABLE_TECS_RUST_OPT = 
 
 ifeq ($(ENABLE_TECS_RUST_OPT),1)
 CFG1_EXTRA_DEPS := tecs_rust_opt
@@ -110,7 +110,7 @@ OMIT_TECS =
 #
 #  TECS関係ファイルのディレクトリの定義
 #
-TECSDIR = $(SRCDIR)/../tecsgen-V1.9.0-Beta5/tecsgen/tecsgen
+TECSDIR = $(SRCDIR)/tecsgen/tecsgen
 
 #
 #  トレースログを取得するかどうかの定義
@@ -380,13 +380,13 @@ else
 endif
 
 ifdef TEXT_START_ADDRESS
-	LDFLAGS := $(LDFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS)
+	LDFLAGS := $(LDFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS),-Map,$(OBJNAME).map
 endif
 ifdef DATA_START_ADDRESS
-	LDFLAGS := $(LDFLAGS) -Wl,-Tdata,$(DATA_START_ADDRESS)
+	LDFLAGS := $(LDFLAGS) -Wl,-Tdata,$(DATA_START_ADDRESS),-Map,$(OBJNAME).map	
 endif
 ifdef LDSCRIPT
-	LDFLAGS := $(LDFLAGS) -Wl,-T,$(LDSCRIPT)
+	LDFLAGS := $(LDFLAGS) -Wl,-T,$(LDSCRIPT),-Map,$(OBJNAME).map	
 endif
 
 #

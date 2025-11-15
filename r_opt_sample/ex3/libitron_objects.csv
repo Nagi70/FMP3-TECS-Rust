@@ -467,7 +467,7 @@ ex3,compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.41
 ex3,compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o,0,0,0,0,3363,3363,0x0,0x0,0x0,0x0,0xd23,0xd23
 ex3,compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.412.rcgu.o,0,0,0,0,3427,3427,0x0,0x0,0x0,0x0,0xd63,0xd63
 ex3,core-d049573bc16596f9.core.5587a85061e7188a-cgu.0.rcgu.o,0,0,0,0,2087768,2087768,0x0,0x0,0x0,0x0,0x1fdb58,0x1fdb58
-ex3,itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o,0,0,0,0,999,999,0x0,0x0,0x0,0x0,0x3e7,0x3e7
+ex3,itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o,0,0,0,0,993,993,0x0,0x0,0x0,0x0,0x3e1,0x3e1
 ex3,itron-fbcb73bf0b635dd5.itron.68e737fdf62a80e5-cgu.0.rcgu.o,0,0,0,0,1981,1981,0x0,0x0,0x0,0x0,0x7bd,0x7bd
 dir,object,text_dec,rodata_dec,data_dec,bss_dec,other_dec,total_dec,text_hex,rodata_hex,data_hex,bss_hex,other_hex,total_hex
 ex3,rustc_std_workspace_core-8fced922c7911d7c.rustc_std_workspace_core.967e01a932a54723-cgu.0.rcgu.o,0,0,0,0,2351,2351,0x0,0x0,0x0,0x0,0x92f,0x92f

@@ -4,7 +4,7 @@ use crate::tecs_signature::{s_x_uart::*, s_dataqueue_rs::*, s_task_body::*};
 
 use crate::print;
 use crate::tecs_print::*;
-const N :u32 = 1000;
+const N :u64 = 1000;
 
 unsafe extern "C" {
 	fn fch_hrt() -> crate::tecs_print::HrtCnt;
@@ -22,9 +22,9 @@ impl STaskBody for ETaskbodyForTXUartTaskbody{
 
 		lg.c_x_uart.open();
 
-		let mut dispatch_time : crate::tecs_print::HrtCnt = 0;
-		let mut dispatch_end : crate::tecs_print::HrtCnt = 0;
-		let mut overhead : crate::tecs_print::HrtCnt = 0;
+		let mut dispatch_time : u64 = 0;
+		let mut dispatch_end : u64 = 0;
+		let mut overhead : u64 = 0;
 
 		let mut overhead_start_u1 : u32 = 0;
 		let mut overhead_start_l : u32 = 0;
@@ -52,10 +52,18 @@ impl STaskBody for ETaskbodyForTXUartTaskbody{
 
 
 		let cnt64_overhead_start = ((overhead_start_u1 as u64) << 32) | (overhead_start_l as u64);
-		dispatch_time = cnt64_overhead_start as crate::tecs_print::HrtCnt;
+		dispatch_time = cnt64_overhead_start;
+
+		// if overhead_start_u1 == 0 {
+		// 	print!("overhead_start_u1 is zero", );
+		// }
 
 		let cnt64_overhead_end = ((overhead_end_u1 as u64) << 32) | (overhead_end_l as u64);
-		dispatch_end = cnt64_overhead_end as crate::tecs_print::HrtCnt;
+		dispatch_end = cnt64_overhead_end;
+
+		// if overhead_end_u1 == 0 {
+		// 	print!("overhead_end_u1 is zero", );
+		// }
 
 		// print!("ov_start: %tu,", dispatch_time);
 		// print!("ov_end: %tu,", dispatch_end);
@@ -64,10 +72,16 @@ impl STaskBody for ETaskbodyForTXUartTaskbody{
 
 		overhead = (dispatch_end - dispatch_time) / N;
 
+		// print!("Overhead start: %tu,", dispatch_time as crate::tecs_print::HrtCnt);
+		// print!("Overhead end: %tu,", dispatch_end as crate::tecs_print::HrtCnt);
+		print!("Overhead: %tu", overhead as crate::tecs_print::HrtCnt);
+
+		itron::task::delay(itron::time::duration!(ms: 10)).expect("delay failed");
+
 		for i in 0..N {
-			let mut start : crate::tecs_print::HrtCnt = 0;
-			let mut end : crate::tecs_print::HrtCnt = 0;
-			let mut duration : crate::tecs_print::HrtCnt = 0;
+			let mut start : u64 = 0;
+			let mut end : u64 = 0;
+			let mut duration : u64 = 0;
 
 			let mut start_u1 : u32 = 0;
 			let mut start_l : u32 = 0;
@@ -100,16 +114,26 @@ impl STaskBody for ETaskbodyForTXUartTaskbody{
 
 
 			let cnt64_start = ((start_u1 as u64) << 32) | (start_l as u64);
-			start = cnt64_start as crate::tecs_print::HrtCnt;
+			start = cnt64_start;
+
+			// if start_u1 == 0 {
+			// 	print!("start_u1 is zero", );
+			// }
 
 			let cnt64_end = ((end_u1 as u64) << 32) | (end_l as u64);
-			end = cnt64_end as crate::tecs_print::HrtCnt;
+			end = cnt64_end;
+
+			// if end_u1 == 0 {
+			// 	print!("end_u1 is zero", );
+			// }
 
 			if (end - start - overhead) > 0 {
 				duration = end - start - overhead;
 				// print!("start: %tu,", start);
 				// print!("end: %tu,", end);
-				print!("%tu,", duration );
+				print!("%tu,", duration as crate::tecs_print::HrtCnt);
+			} else {
+				print!("duration is negative",);
 			}
 
 			match result {

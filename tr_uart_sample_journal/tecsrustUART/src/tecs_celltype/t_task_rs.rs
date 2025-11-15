@@ -3,29 +3,34 @@ use core::num::NonZeroI32;
 use crate::kernel_cfg::*;
 use crate::tecs_global::*;
 use crate::tecs_signature::s_task_body::*;
-use crate::tecs_celltype::{t_x_uart_taskbody::*, t_taskbody::*};
-
-pub struct TTaskRs{
-	pub c_task_body: &'static (dyn STaskBody + Sync + Send),
+use crate::tecs_celltype::t_x_uart_taskbody::*;
+pub struct TTaskRs<T>
+where
+	T: STaskBody + 'static,
+{
+	pub c_task_body: &'static T,
 	task_ref: itron::task::TaskRef<'static>,
 }
 
 pub struct ETaskForTTaskRs {
-	pub cell: &'static TTaskRs,
+	pub cell: &'static TTaskRs<ETaskbodyForTXUartTaskbody>,
 }
 
 pub struct EiTaskForTTaskRs {
-	pub cell: &'static TTaskRs,
+	pub cell: &'static TTaskRs<ETaskbodyForTXUartTaskbody>,
 }
 
-pub struct LockGuardForTTaskRs<'a>{
-	pub c_task_body: &'a (dyn STaskBody + Sync + Send),
+pub struct LockGuardForTTaskRs<'a, T>
+where
+	T: STaskBody + 'static,
+{
+	pub c_task_body: &'a T,
 	pub task_ref: &'a itron::task::TaskRef<'static>,
 }
 
 #[unsafe(link_section = ".rodata")]
-pub static RPROCESSOR1SYMMETRIC_TASK1: TTaskRs = TTaskRs {
-	c_task_body: &ETASKBODYFORRPROCESSOR1SYMMETRIC_UARTTASKBODY,
+pub static RPROCESSOR1SYMMETRIC_TASK1: TTaskRs<ETaskbodyForTXUartTaskbody> = TTaskRs {
+	c_task_body: &ETASKBODYFORRPROCESSOR1SYMMETRIC_TASKBODY,
 	task_ref: unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_UART).unwrap())},
 };
 
@@ -39,41 +44,9 @@ pub static EITASKFORRPROCESSOR1SYMMETRIC_TASK1: EiTaskForTTaskRs = EiTaskForTTas
 	cell: &RPROCESSOR1SYMMETRIC_TASK1,
 };
 
-#[unsafe(link_section = ".rodata")]
-pub static RPROCESSOR2SYMMETRIC_TASK2: TTaskRs = TTaskRs {
-	c_task_body: &ETASKBODYFORRPROCESSOR2SYMMETRIC_TASKBODY,
-	task_ref: unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LOOP).unwrap())},
-};
-
-#[unsafe(link_section = ".rodata")]
-pub static ETASKFORRPROCESSOR2SYMMETRIC_TASK2: ETaskForTTaskRs = ETaskForTTaskRs {
-	cell: &RPROCESSOR2SYMMETRIC_TASK2,
-};
-
-#[unsafe(link_section = ".rodata")]
-pub static EITASKFORRPROCESSOR2SYMMETRIC_TASK2: EiTaskForTTaskRs = EiTaskForTTaskRs {
-	cell: &RPROCESSOR2SYMMETRIC_TASK2,
-};
-
-#[unsafe(link_section = ".rodata")]
-pub static RPROCESSOR2SYMMETRIC_TASKFORMUTEX: TTaskRs = TTaskRs {
-	c_task_body: &ETASKBODYFORRPROCESSOR2SYMMETRIC_TASKBODYFORMUTEX,
-	task_ref: unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LOOP1).unwrap())},
-};
-
-#[unsafe(link_section = ".rodata")]
-pub static ETASKFORRPROCESSOR2SYMMETRIC_TASKFORMUTEX: ETaskForTTaskRs = ETaskForTTaskRs {
-	cell: &RPROCESSOR2SYMMETRIC_TASKFORMUTEX,
-};
-
-#[unsafe(link_section = ".rodata")]
-pub static EITASKFORRPROCESSOR2SYMMETRIC_TASKFORMUTEX: EiTaskForTTaskRs = EiTaskForTTaskRs {
-	cell: &RPROCESSOR2SYMMETRIC_TASKFORMUTEX,
-};
-
-impl TTaskRs {
+impl<T: STaskBody> TTaskRs<T> {
 	#[inline]
-	pub fn get_cell_ref(&'static self) -> LockGuardForTTaskRs<'_> {
+	pub fn get_cell_ref(&'static self) -> LockGuardForTTaskRs<'_, T> {
 		LockGuardForTTaskRs {
 			c_task_body: self.c_task_body,
 			task_ref: &self.task_ref,

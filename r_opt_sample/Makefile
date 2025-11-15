@@ -97,7 +97,7 @@ OMIT_TECS =
 #
 #  TECS関係ファイルのディレクトリの定義
 #
-TECSDIR = $(SRCDIR)/../tecsgen-V1.9.0-Beta5/tecsgen/tecsgen
+TECSDIR = $(SRCDIR)/tecsgen/tecsgen
 
 #
 #  トレースログを取得するかどうかの定義
@@ -163,7 +163,7 @@ endif
 #
 #  共通コンパイルオプションの定義
 #
-COPTS := -g  $(COPTS)
+COPTS := $(COPTS)
 ifndef OMIT_WARNING_ALL
 	COPTS := -Wall $(COPTS)
 endif
@@ -367,13 +367,13 @@ else
 endif
 
 ifdef TEXT_START_ADDRESS
-	LDFLAGS := $(LDFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS)
+	LDFLAGS := $(LDFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS),-Map,$(OBJNAME).map
 endif
 ifdef DATA_START_ADDRESS
-	LDFLAGS := $(LDFLAGS) -Wl,-Tdata,$(DATA_START_ADDRESS)
+	LDFLAGS := $(LDFLAGS) -Wl,-Tdata,$(DATA_START_ADDRESS),-Map,$(OBJNAME).map
 endif
 ifdef LDSCRIPT
-	LDFLAGS := $(LDFLAGS) -Wl,-T,$(LDSCRIPT)
+	LDFLAGS := $(LDFLAGS) -Wl,-T,$(LDSCRIPT),-Map,$(OBJNAME).map
 endif
 
 #

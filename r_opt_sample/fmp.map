@@ -1,0 +1,1136 @@
+Archive member included to satisfy reference by file (symbol)
+
+./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                              objs/kernel_cfg.o (start1)
+./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.410.rcgu.o)
+                              objs/tSysLog.o (__aeabi_uldivmod)
+./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o)
+                              objs/log_output.o (__aeabi_uidivmod)
+./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+                              ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o) (__udivmodsi4)
+./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+                              ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.410.rcgu.o) (__udivmoddi4)
+./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+                              ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o) (__aeabi_idiv0)
+./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+                              ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o) (compiler_builtins::int::specialized_div_rem::u64_div_rem)
+./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+                              ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o) (__aeabi_uidiv)
+./libkernel.a(target_kernel_impl.o)
+                              objs/start.o (hardware_init_hook)
+./libkernel.a(chip_kernel_impl.o)
+                              ./libkernel.a(target_kernel_impl.o) (_kernel_chip_initialize)
+./libkernel.a(mpcore_kernel_impl.o)
+                              ./libkernel.a(target_kernel_impl.o) (_kernel_mpcore_mprc_initialize)
+./libkernel.a(gic_kernel_impl.o)
+                              ./libkernel.a(mpcore_kernel_impl.o) (_kernel_gicc_initialize)
+./libkernel.a(pl310.o)        ./libkernel.a(chip_kernel_impl.o) (_kernel_pl310_initialize)
+./libkernel.a(mpcore_timer.o)
+                              objs/kernel_cfg.o (_kernel_target_hrt_initialize)
+./libkernel.a(core_kernel_impl.o)
+                              ./libkernel.a(mpcore_kernel_impl.o) (_kernel_core_initialize)
+./libkernel.a(arm.o)          ./libkernel.a(mpcore_kernel_impl.o) (arm_enable_icache)
+./libkernel.a(startup.o)      ./libkernel.a(chip_kernel_impl.o) (_kernel_barrier_sync)
+./libkernel.a(task.o)         objs/kernel_cfg.o (_kernel_initialize_task)
+./libkernel.a(taskhook.o)     ./libkernel.a(task.o) (_kernel_mtxhook_release_all)
+./libkernel.a(wait.o)         ./libkernel.a(task.o) (_kernel_wait_dequeue_wobj)
+./libkernel.a(time_event.o)   ./libkernel.a(startup.o) (_kernel_initialize_tmevt)
+./libkernel.a(task_sync.o)    objs/tLogTaskMain.o (dly_tsk)
+./libkernel.a(semaphore.o)    objs/kernel_cfg.o (_kernel_initialize_semaphore)
+./libkernel.a(spin_lock.o)    ./libkernel.a(startup.o) (_kernel_force_unlock_spin)
+./libkernel.a(sys_manage.o)   objs/tSerialPortMain.o (loc_cpu)
+./libkernel.a(interrupt.o)    objs/tSerialPortMain.o (dis_int)
+./libkernel.a(core_support.o)
+                              ./libkernel.a(target_kernel_impl.o) (vector_table)
+./libkernel.a(task_term.o)    ./libkernel.a(core_support.o) (ext_tsk)
+./libkernel.a(gic_support.o)  ./libkernel.a(core_support.o) (_kernel_irc_begin_int)
+/usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+                              ./libkernel.a(core_kernel_impl.o) (memset)
+
+Discarded input sections
+
+ .llvmbc        0x0000000000000000      0xce4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.410.rcgu.o)
+ .llvmcmd       0x0000000000000000        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.410.rcgu.o)
+ .llvmbc        0x0000000000000000      0xca0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o)
+ .llvmcmd       0x0000000000000000        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o)
+ .llvmbc        0x0000000000000000      0xb84 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .llvmcmd       0x0000000000000000        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .llvmbc        0x0000000000000000     0x28b8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+ .llvmcmd       0x0000000000000000        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x0000000000100000 0x000000001ff00000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                [!provide]                        PROVIDE (hardware_init_hook = 0x0)
+                0x0000000000000000                PROVIDE (software_init_hook = 0x0)
+                0x0000000000000000                PROVIDE (software_term_hook = 0x0)
+
+.text           0x0000000000100000     0x8f88
+                0x0000000000100000                __start_text = .
+ *(.vector)
+ .vector        0x0000000000100000       0x3c ./libkernel.a(core_support.o)
+                0x0000000000100000                vector_table
+                0x0000000000100020                vector_ref_table
+ *(.text)
+ .text          0x000000000010003c      0x11c objs/start.o
+                0x000000000010003c                start
+ .text          0x0000000000100158      0x42c objs/log_output.o
+                0x0000000000100260                syslog_printf
+                0x00000000001004f8                syslog_print
+                0x000000000010054c                syslog_lostmsg
+ .text          0x0000000000100584      0x2a8 objs/vasyslog.o
+                0x0000000000100584                tt_syslog
+ .text          0x000000000010082c       0x50 objs/t_perror.o
+                0x000000000010082c                tt_perror
+ .text          0x000000000010087c       0x24 objs/strerror.o
+                0x000000000010087c                itron_strerror
+ .text          0x00000000001008a0        0x4 objs/tTask_rProcessor1Migratable_tecsgen.o
+                0x00000000001008a0                tTask_CB_initialize
+ .text          0x00000000001008a4        0x4 objs/tSemaphore_rProcessor1Migratable_tecsgen.o
+                0x00000000001008a4                tSemaphore_CB_initialize
+ .text          0x00000000001008a8        0x4 objs/tInterruptRequest_rProcessor1Migratable_tecsgen.o
+                0x00000000001008a8                tInterruptRequest_CB_initialize
+ .text          0x00000000001008ac        0x4 objs/tISR_rProcessor1Migratable_tecsgen.o
+                0x00000000001008ac                tISR_CB_initialize
+ .text          0x00000000001008b0        0x4 objs/tTerminateRoutine_rProcessor1Migratable_tecsgen.o
+                0x00000000001008b0                tTerminateRoutine_CB_initialize
+ .text          0x00000000001008b4       0x50 objs/tSerialPortMain_rProcessor1Migratable_tecsgen.o
+                0x00000000001008b4                tSerialPortMain_eSerialPort_open_skel
+                0x00000000001008bc                tSerialPortMain_eSerialPort_close_skel
+                0x00000000001008c4                tSerialPortMain_eSerialPort_read_skel
+                0x00000000001008cc                tSerialPortMain_eSerialPort_write_skel
+                0x00000000001008d4                tSerialPortMain_eSerialPort_control_skel
+                0x00000000001008dc                tSerialPortMain_eSerialPort_refer_skel
+                0x00000000001008e4                tSerialPortMain_CB_initialize
+ .text          0x0000000000100904        0x4 objs/tSerialAdapter_rProcessor1Migratable_tecsgen.o
+                0x0000000000100904                tSerialAdapter_CB_initialize
+ .text          0x0000000000100908       0x38 objs/tSysLog_rProcessor1Migratable_tecsgen.o
+                0x0000000000100908                tSysLog_CB_initialize
+ .text          0x0000000000100940        0x4 objs/tSysLogAdapter_rProcessor1Migratable_tecsgen.o
+                0x0000000000100940                tSysLogAdapter_CB_initialize
+ .text          0x0000000000100944        0x8 objs/tLogTaskMain_rProcessor1Migratable_tecsgen.o
+                0x0000000000100944                tLogTaskMain_eLogTaskTerminate_main_skel
+                0x0000000000100948                tLogTaskMain_CB_initialize
+ .text          0x000000000010094c        0x4 objs/tPutLogZyboZ7_rProcessor1Migratable_tecsgen.o
+                0x000000000010094c                tPutLogZyboZ7_CB_initialize
+ .text          0x0000000000100950       0x20 objs/tXUartPs_rProcessor1Migratable_tecsgen.o
+                0x0000000000100950                tXUartPs_eTerminate_main_skel
+                0x0000000000100958                tXUartPs_CB_initialize
+ .text          0x0000000000100970        0x4 objs/tSIOPortZyboZ7Main_rProcessor1Migratable_tecsgen.o
+                0x0000000000100970                tSIOPortZyboZ7Main_CB_initialize
+ .text          0x0000000000100974        0x4 objs/tTask.o
+                0x0000000000100974                tTask_start
+ .text          0x0000000000100978        0x0 objs/tInterruptRequest.o
+ .text          0x0000000000100978        0xc objs/tISR.o
+                0x0000000000100978                tISR_start
+ .text          0x0000000000100984       0x10 objs/tTerminateRoutine.o
+                0x0000000000100984                tTerminateRoutine_start
+ .text          0x0000000000100994      0x9e8 objs/tSerialPortMain.o
+                0x0000000000100abc                tSerialPortMain_eSerialPort_open
+                0x0000000000100ba0                tSerialPortMain_eSerialPort_close
+                0x0000000000100c78                tSerialPortMain_eSerialPort_write
+                0x0000000000100d84                tSerialPortMain_eSerialPort_read
+                0x0000000000100fb8                tSerialPortMain_eSerialPort_control
+                0x0000000000101008                tSerialPortMain_eSerialPort_refer
+                0x0000000000101060                tSerialPortMain_eiSIOCBR_readySend
+                0x000000000010112c                tSerialPortMain_eiSIOCBR_readyReceive
+                0x0000000000101318                tSerialPortMain_enSerialPortManage_getChar
+ .text          0x000000000010137c      0x258 objs/tSerialAdapter.o
+                0x000000000010137c                serial_opn_por
+                0x00000000001013d8                serial_cls_por
+                0x0000000000101434                serial_rea_dat
+                0x00000000001014a0                serial_wri_dat
+                0x000000000010150c                serial_ctl_por
+                0x0000000000101570                serial_ref_por
+ .text          0x00000000001015d4      0x2cc objs/tSysLog.o
+                0x00000000001015d8                tSysLog_eSysLog_write
+                0x00000000001016f0                tSysLog_eSysLog_read
+                0x0000000000101790                tSysLog_eSysLog_mask
+                0x00000000001017c0                tSysLog_eSysLog_refer
+                0x000000000010180c                tSysLog_eSysLog_flush
+ .text          0x00000000001018a0       0x14 objs/tSysLogAdapter.o
+                0x00000000001018a0                syslog_wri_log
+                0x00000000001018a4                syslog_rea_log
+                0x00000000001018a8                syslog_msk_log
+                0x00000000001018ac                syslog_ref_log
+                0x00000000001018b0                syslog_fls_log
+ .text          0x00000000001018b4      0x21c objs/tLogTaskMain.o
+                0x00000000001018b4                target_fput_log
+                0x00000000001018e4                tLogTaskMain_eLogTask_flush
+                0x0000000000101990                tLogTaskMain_eLogTaskBody_main
+                0x0000000000101a10                tLogTaskMain_eLogTaskTerminate_main
+ .text          0x0000000000101ad0       0x74 objs/tPutLogZyboZ7.o
+                0x0000000000101ad0                tPutLogZyboZ7_initialize
+                0x0000000000101af4                tPutLogZyboZ7_ePutLog_putChar
+ .text          0x0000000000101b44      0x1f4 objs/tXUartPs.o
+                0x0000000000101b44                tXUartPs_eTerminate_main
+                0x0000000000101b84                tXUartPs_eSIOPort_open
+                0x0000000000101bec                tXUartPs_eSIOPort_close
+                0x0000000000101c1c                tXUartPs_eSIOPort_putChar
+                0x0000000000101c3c                tXUartPs_eSIOPort_getChar
+                0x0000000000101c5c                tXUartPs_eSIOPort_enableCBR
+                0x0000000000101c90                tXUartPs_eSIOPort_disableCBR
+                0x0000000000101cc4                tXUartPs_eiISR_main
+ .text          0x0000000000101d38       0x3c objs/init_tecs.o
+                0x0000000000101d38                initialize_tecs
+ .text          0x0000000000101d74       0x2c objs/kernel_cfg.o
+                0x0000000000101d74                _kernel_inthdr_82
+                0x0000000000101d80                _kernel_initialize_object
+ .text          0x0000000000101da0        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ .text          0x0000000000101da0        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.410.rcgu.o)
+ .text          0x0000000000101da0        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o)
+ .text          0x0000000000101da0      0x1e0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+                0x0000000000101da0                __udivmodsi4
+ .text          0x0000000000101f80        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .text          0x0000000000101f80        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .text          0x0000000000101f80        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+ .text          0x0000000000101f80      0x1d0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+                0x0000000000101f80                __udivsi3
+                0x0000000000101f80                __aeabi_uidiv
+ .text          0x0000000000102150       0x80 ./libkernel.a(target_kernel_impl.o)
+                0x0000000000102150                hardware_init_hook
+                0x0000000000102160                _kernel_target_mprc_initialize
+                0x0000000000102184                _kernel_target_initialize
+                0x00000000001021a0                _kernel_target_exit
+ .text          0x00000000001021d0       0x34 ./libkernel.a(chip_kernel_impl.o)
+                0x00000000001021d0                _kernel_chip_initialize
+                0x0000000000102200                _kernel_chip_terminate
+ .text          0x0000000000102204       0x9c ./libkernel.a(mpcore_kernel_impl.o)
+                0x0000000000102204                _kernel_mpcore_mprc_initialize
+                0x0000000000102238                _kernel_mpcore_initialize
+                0x000000000010228c                _kernel_mpcore_terminate
+ .text          0x00000000001022a0      0x340 ./libkernel.a(gic_kernel_impl.o)
+                0x00000000001022a0                _kernel_gicc_initialize
+                0x00000000001022d4                _kernel_gicc_terminate
+                0x00000000001022e8                _kernel_gicd_initialize
+                0x0000000000102380                _kernel_gicd_terminate
+                0x0000000000102394                _kernel_initialize_interrupt
+ .text          0x00000000001025e0      0x12c ./libkernel.a(pl310.o)
+                0x00000000001025e0                _kernel_pl310_initialize
+                0x0000000000102654                _kernel_pl310_disable
+                0x0000000000102694                _kernel_pl310_invalidate_all
+                0x00000000001026d0                _kernel_pl310_clean_and_invalidate_all
+ .text          0x000000000010270c       0x90 ./libkernel.a(mpcore_timer.o)
+                0x000000000010270c                _kernel_target_hrt_initialize
+                0x0000000000102754                _kernel_target_hrt_terminate
+                0x0000000000102788                _kernel_target_hrt_handler
+ .text          0x000000000010279c      0x4f4 ./libkernel.a(core_kernel_impl.o)
+                0x000000000010279c                _kernel_arm_mmu_initialize
+                0x0000000000102984                _kernel_core_initialize
+                0x00000000001029e4                _kernel_core_terminate
+                0x00000000001029e8                _kernel_xlog_sys
+                0x0000000000102aa4                _kernel_xlog_fsr
+                0x0000000000102b24                _kernel_default_int_handler
+                0x0000000000102b58                _kernel_default_exc_handler
+ .text          0x0000000000102c90      0x1b8 ./libkernel.a(arm.o)
+                0x0000000000102c90                arm_enable_icache
+                0x0000000000102cac                arm_disable_icache
+                0x0000000000102cc4                armv7_invalidate_dcache
+                0x0000000000102d68                arm_enable_dcache
+                0x0000000000102d88                armv7_clean_and_invalidate_dcache
+                0x0000000000102e2c                arm_disable_dcache
+ .text          0x0000000000102e48      0x3a8 ./libkernel.a(startup.o)
+                0x0000000000102ec0                _kernel_barrier_sync
+                0x0000000000102f34                sta_ker
+                0x000000000010304c                ext_ker
+                0x00000000001030b4                _kernel_exit_kernel
+                0x0000000000103134                _kernel_ext_ker_handler
+ .text          0x00000000001031f0      0x9c8 ./libkernel.a(task.o)
+                0x00000000001031f0                _kernel_search_schedtsk
+                0x0000000000103204                _kernel_make_runnable
+                0x000000000010333c                _kernel_initialize_task
+                0x0000000000103450                _kernel_make_non_runnable
+                0x0000000000103574                _kernel_make_dormant
+                0x00000000001035a0                _kernel_make_active
+                0x00000000001035cc                _kernel_change_priority
+                0x0000000000103868                _kernel_change_subprio
+                0x0000000000103958                _kernel_rotate_ready_queue
+                0x0000000000103a3c                _kernel_task_terminate
+                0x0000000000103b68                _kernel_migrate_self
+                0x0000000000103b90                _kernel_migrate_activate_self
+ .text          0x0000000000103bb8        0x0 ./libkernel.a(taskhook.o)
+ .text          0x0000000000103bb8      0x650 ./libkernel.a(wait.o)
+                0x0000000000103bb8                _kernel_wait_tmout
+                0x0000000000103d08                _kernel_make_wait_tmout
+                0x0000000000103dc4                _kernel_wait_dequeue_wobj
+                0x0000000000103de0                _kernel_wait_complete
+                0x0000000000103e84                _kernel_wait_tmout_ok
+                0x0000000000103fc0                _kernel_wobj_make_wait
+                0x0000000000104068                _kernel_wobj_make_wait_tmout
+                0x00000000001040f4                _kernel_init_wait_queue
+ .text          0x0000000000104208      0xaf8 ./libkernel.a(time_event.o)
+                0x0000000000104208                _kernel_initialize_tmevt
+                0x00000000001042b4                _kernel_tmevt_up
+                0x0000000000104314                _kernel_tmevt_down
+                0x00000000001043b8                _kernel_update_current_evttim
+                0x0000000000104440                _kernel_set_hrt_event
+                0x0000000000104610                _kernel_set_hrt_event_handler
+                0x0000000000104714                _kernel_tmevtb_register
+                0x00000000001047ac                _kernel_tmevtb_enqueue
+                0x0000000000104860                _kernel_tmevtb_enqueue_reltim
+                0x0000000000104934                _kernel_tmevtb_dequeue
+                0x0000000000104a3c                _kernel_check_adjtim
+                0x0000000000104acc                _kernel_tmevt_lefttim
+                0x0000000000104b04                _kernel_signal_time
+ .text          0x0000000000104d00      0xb30 ./libkernel.a(task_sync.o)
+                0x0000000000104d00                slp_tsk
+                0x0000000000104e4c                tslp_tsk
+                0x0000000000104fac                wup_tsk
+                0x0000000000105118                can_wup
+                0x000000000010521c                rel_wai
+                0x00000000001053e4                sus_tsk
+                0x0000000000105570                rsm_tsk
+                0x00000000001056bc                dly_tsk
+ .text          0x0000000000105830      0x87c ./libkernel.a(semaphore.o)
+                0x0000000000105830                _kernel_initialize_semaphore
+                0x000000000010588c                sig_sem
+                0x0000000000105a34                wai_sem
+                0x0000000000105b94                pol_sem
+                0x0000000000105c88                twai_sem
+                0x0000000000105e24                ini_sem
+                0x0000000000105f4c                ref_sem
+ .text          0x00000000001060ac      0x318 ./libkernel.a(spin_lock.o)
+                0x00000000001060ac                _kernel_initialize_spin_lock
+                0x00000000001060f4                _kernel_force_unlock_spin
+                0x0000000000106120                loc_spn
+                0x00000000001061e0                try_spn
+                0x0000000000106284                unl_spn
+                0x0000000000106334                ref_spn
+ .text          0x00000000001063c4      0xb50 ./libkernel.a(sys_manage.o)
+                0x00000000001063c4                rot_rdq
+                0x00000000001064f8                mrot_rdq
+                0x0000000000106648                get_tid
+                0x00000000001066b0                get_pid
+                0x00000000001066d8                get_lod
+                0x00000000001067e4                mget_lod
+                0x0000000000106908                get_nth
+                0x0000000000106a40                mget_nth
+                0x0000000000106b90                loc_cpu
+                0x0000000000106ba8                unl_cpu
+                0x0000000000106bd8                dis_dsp
+                0x0000000000106ca8                ena_dsp
+                0x0000000000106e0c                sns_ctx
+                0x0000000000106e3c                sns_loc
+                0x0000000000106e48                sns_dsp
+                0x0000000000106e78                sns_dpn
+                0x0000000000106ed4                sns_ker
+ .text          0x0000000000106f14      0x668 ./libkernel.a(interrupt.o)
+                0x0000000000106f14                dis_int
+                0x0000000000106fe8                ena_int
+                0x00000000001070bc                clr_int
+                0x0000000000107190                ras_int
+                0x00000000001072b4                prb_int
+                0x000000000010736c                chg_ipm
+                0x0000000000107514                get_ipm
+ *fill*         0x000000000010757c        0x4 
+ .text          0x0000000000107580      0x3dc ./libkernel.a(core_support.o)
+                0x0000000000107580                _kernel_dispatch
+                0x00000000001075ac                _kernel_start_dispatch
+                0x00000000001075c4                _kernel_exit_and_dispatch
+                0x00000000001075f4                _kernel_call_exit_kernel
+                0x0000000000107604                _kernel_dispatch_and_migrate
+                0x0000000000107620                _kernel_exit_and_migrate
+                0x0000000000107628                _kernel_start_r
+                0x0000000000107640                _kernel_irq_handler
+                0x000000000010772c                _kernel_undef_handler
+                0x0000000000107740                _kernel_svc_handler
+                0x0000000000107750                _kernel_pabort_handler
+                0x0000000000107764                _kernel_dabort_handler
+                0x00000000001077c4                _kernel_fiq_handler
+                0x0000000000107930                sil_dly_nse
+ .text          0x000000000010795c      0x644 ./libkernel.a(task_term.o)
+                0x000000000010795c                ext_tsk
+                0x0000000000107a80                ras_ter
+                0x0000000000107c48                dis_ter
+                0x0000000000107d00                ena_ter
+                0x0000000000107e18                sns_ter
+                0x0000000000107e54                ter_tsk
+ .text          0x0000000000107fa0       0x8c ./libkernel.a(gic_support.o)
+                0x0000000000107fa0                _kernel_irc_begin_int
+                0x0000000000107fd8                _kernel_irc_end_int
+                0x0000000000107fe8                _kernel_irc_get_intpri
+                0x0000000000107ffc                _kernel_irc_begin_exc
+                0x000000000010800c                _kernel_irc_end_exc
+ .text          0x000000000010802c       0xa4 /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+                0x000000000010802c                memset
+ *(.text.*)
+ .text._RNvCsgYTF1aGAkck_7___rustc17rust_begin_unwind
+                0x00000000001080d0        0x4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                0x00000000001080d0                __rustc::rust_begin_unwind
+ .text.start1   0x00000000001080d4       0xc8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                0x00000000001080d4                start1
+ .text.start2   0x000000000010819c       0xc8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                0x000000000010819c                start2
+ .text.start3   0x0000000000108264       0xc8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                0x0000000000108264                start3
+ .text.start4   0x000000000010832c       0xc8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                0x000000000010832c                start4
+ .text.start5   0x00000000001083f4       0xc8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                0x00000000001083f4                start5
+ .text.start6   0x00000000001084bc       0xc8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                0x00000000001084bc                start6
+ .text.__aeabi_uldivmod
+                0x0000000000108584       0x24 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.410.rcgu.o)
+                0x0000000000108584                __aeabi_uldivmod
+ .text.__aeabi_uidivmod
+                0x00000000001085a8       0x1c ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o)
+                0x00000000001085a8                __aeabi_uidivmod
+ .text.__udivmoddi4
+                0x00000000001085c4       0x4c ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+                0x00000000001085c4                __udivmoddi4
+ .text.__aeabi_idiv0
+                0x0000000000108610        0x4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+                0x0000000000108610                __aeabi_idiv0
+ .text.__aeabi_ldiv0
+                0x0000000000108614        0x4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+                0x0000000000108614                __aeabi_ldiv0
+ .text._ZN17compiler_builtins3int19specialized_div_rem12u128_div_rem17h745fc7146425b8c6E
+                0x0000000000108618      0x698 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+                0x0000000000108618                compiler_builtins::int::specialized_div_rem::u128_div_rem
+ .text._ZN17compiler_builtins3int19specialized_div_rem11u64_div_rem17h1dcded8ad6a6aa41E
+                0x0000000000108cb0      0x2d8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+                0x0000000000108cb0                compiler_builtins::int::specialized_div_rem::u64_div_rem
+ *(.glue_7t)
+ .glue_7t       0x0000000000108f88        0x0 linker stubs
+ *(.glue_7)
+ .glue_7        0x0000000000108f88        0x0 linker stubs
+                0x0000000000108f88                __end_kernel = .
+                0x0000000000108f88                _etext = .
+                [!provide]                        PROVIDE (etext = .)
+
+.vfp11_veneer   0x0000000000108f88        0x0
+ .vfp11_veneer  0x0000000000108f88        0x0 linker stubs
+
+.v4_bx          0x0000000000108f88        0x0
+ .v4_bx         0x0000000000108f88        0x0 linker stubs
+
+.iplt           0x0000000000108f88        0x0
+ .iplt          0x0000000000108f88        0x0 objs/start.o
+
+.rodata         0x0000000000108f88      0xfb0
+                0x0000000000108f88                __start_rodata = .
+ *(.rodata)
+ .rodata        0x0000000000108f88       0x31 objs/log_output.o
+ *fill*         0x0000000000108fb9        0x3 
+ .rodata        0x0000000000108fbc       0x2d objs/t_perror.o
+ *fill*         0x0000000000108fe9        0x3 
+ .rodata        0x0000000000108fec      0x108 objs/strerror.o
+ .rodata        0x00000000001090f4        0x4 objs/tTask_rProcessor1Migratable_tecsgen.o
+                0x00000000001090f4                tTask_INIB_tab
+ .rodata        0x00000000001090f8        0x8 objs/tSemaphore_rProcessor1Migratable_tecsgen.o
+                0x00000000001090f8                tSemaphore_INIB_tab
+ .rodata        0x0000000000109100        0x4 objs/tInterruptRequest_rProcessor1Migratable_tecsgen.o
+                0x0000000000109100                tInterruptRequest_INIB_tab
+ .rodata        0x0000000000109104        0x4 objs/tISR_rProcessor1Migratable_tecsgen.o
+                0x0000000000109104                tISR_INIB_tab
+ .rodata        0x0000000000109108        0x8 objs/tTerminateRoutine_rProcessor1Migratable_tecsgen.o
+                0x0000000000109108                tTerminateRoutine_INIB_tab
+ .rodata        0x0000000000109110       0x30 objs/tSerialPortMain_rProcessor1Migratable_tecsgen.o
+                0x0000000000109110                tSerialPortMain_INIB_tab
+                0x0000000000109120                rProcessor1Migratable_SerialPort1_SerialPortMain_eSerialPort_des
+                0x0000000000109128                tSerialPortMain_eSerialPort_MT_
+ .rodata        0x0000000000109140        0xc objs/tSerialAdapter_rProcessor1Migratable_tecsgen.o
+                0x0000000000109140                tSerialAdapter_SINGLE_CELL_INIB
+                0x0000000000109148                rProcessor1Migratable_SerialAdapter_cSerialPort
+ .rodata        0x000000000010914c       0x10 objs/tSysLog_rProcessor1Migratable_tecsgen.o
+                0x000000000010914c                tSysLog_SINGLE_CELL_INIB
+ .rodata        0x000000000010915c       0x14 objs/tLogTaskMain_rProcessor1Migratable_tecsgen.o
+                0x000000000010915c                rProcessor1Migratable_LogTask_LogTaskMain_eLogTaskTerminate_des
+                0x0000000000109164                tLogTaskMain_SINGLE_CELL_INIB
+                0x000000000010916c                tLogTaskMain_eLogTaskTerminate_MT_
+ .rodata        0x0000000000109170       0x18 objs/tXUartPs_rProcessor1Migratable_tecsgen.o
+                0x0000000000109170                tXUartPs_INIB_tab
+                0x000000000010917c                rProcessor1Migratable_SIOPortTarget1_XUartPs_eTerminate_des
+                0x0000000000109184                tXUartPs_eTerminate_MT_
+ .rodata        0x0000000000109188      0x74c objs/kernel_cfg.o
+                0x0000000000109188                _kernel_p_exc_table
+                0x0000000000109190                _kernel_exc_table_prc2
+                0x00000000001091ac                _kernel_exc_table_prc1
+                0x00000000001091c8                _kernel_p_intcfg_table
+                0x00000000001091d0                _kernel_intcfg_table_prc2
+                0x0000000000109230                _kernel_intcfg_table_prc1
+                0x0000000000109290                _kernel_p_inh_table
+                0x0000000000109298                _kernel_inh_table_prc2
+                0x0000000000109418                _kernel_inh_table_prc1
+                0x0000000000109598                _kernel_terrtnbb_table
+                0x00000000001095b0                _kernel_terrtnb_table_prc2
+                0x00000000001095b8                _kernel_terrtnb_table_prc1
+                0x00000000001095d0                _kernel_inirtnbb_table
+                0x00000000001095e8                _kernel_inirtnb_table_prc2
+                0x00000000001095f0                _kernel_inirtnb_table_prc1
+                0x00000000001095f8                _kernel_p_tevtcb_table
+                0x0000000000109600                _kernel_p_tmevt_heap_table
+                0x0000000000109608                _kernel_idstkpt_table
+                0x0000000000109610                _kernel_istkpt_table
+                0x0000000000109618                _kernel_istk_table
+                0x0000000000109620                _kernel_istksz_table
+                0x0000000000109628                _kernel_intinib_table
+                0x00000000001096dc                _kernel_tnum_cfg_intno
+                0x00000000001096e0                _kernel_p_almcb_table
+                0x00000000001096e0                _kernel_alminib_table
+                0x00000000001096e0                _kernel_tmax_almid
+                0x00000000001096e4                _kernel_cycinib_table
+                0x00000000001096e4                _kernel_p_cyccb_table
+                0x00000000001096e4                _kernel_tmax_cycid
+                0x00000000001096e8                _kernel_tmax_mpfid
+                0x00000000001096e8                _kernel_mpfinib_table
+                0x00000000001096e8                _kernel_p_mpfcb_table
+                0x00000000001096ec                _kernel_spninib_table
+                0x00000000001096ec                _kernel_tmax_spnid
+                0x00000000001096f0                _kernel_mtxinib_table
+                0x00000000001096f0                _kernel_p_mtxcb_table
+                0x00000000001096f0                _kernel_tmax_mtxid
+                0x00000000001096f4                _kernel_pdqinib_table
+                0x00000000001096f4                _kernel_tmax_pdqid
+                0x00000000001096f4                _kernel_p_pdqcb_table
+                0x00000000001096f8                _kernel_dtqinib_table
+                0x00000000001096f8                _kernel_tmax_dtqid
+                0x00000000001096f8                _kernel_p_dtqcb_table
+                0x00000000001096fc                _kernel_p_flgcb_table
+                0x00000000001096fc                _kernel_flginib_table
+                0x00000000001096fc                _kernel_tmax_flgid
+                0x0000000000109700                _kernel_p_semcb_table
+                0x0000000000109720                _kernel_seminib_table
+                0x0000000000109780                _kernel_tmax_semid
+                0x0000000000109784                _kernel_subprio_primap
+                0x0000000000109788                _kernel_torder_table
+                0x00000000001097a8                _kernel_p_tcb_table
+                0x00000000001097c8                _kernel_tinib_table
+                0x00000000001098c8                _kernel_tmax_tskid
+                0x00000000001098cc                _kernel_p_pcb_table
+ .rodata        0x00000000001098d4        0x4 ./libkernel.a(target_kernel_impl.o)
+                0x00000000001098d4                arm_tnum_memory_area
+ .rodata        0x00000000001098d8       0x3c ./libkernel.a(core_kernel_impl.o)
+ *(.rodata.*)
+ .rodata.str1.4
+                0x0000000000109914       0x36 objs/log_output.o
+ *fill*         0x000000000010994a        0x2 
+ .rodata.str1.4
+                0x000000000010994c       0xd9 objs/strerror.o
+ *fill*         0x0000000000109a25        0x3 
+ .rodata.str1.4
+                0x0000000000109a28       0x39 objs/tLogTaskMain.o
+ .rodata.str1.1
+                0x0000000000109a61       0x1c ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ *fill*         0x0000000000109a7d        0x3 
+ .rodata.str1.4
+                0x0000000000109a80       0x7f ./libkernel.a(gic_kernel_impl.o)
+ *fill*         0x0000000000109aff        0x1 
+ .rodata.str1.4
+                0x0000000000109b00      0x301 ./libkernel.a(core_kernel_impl.o)
+ *fill*         0x0000000000109e01        0x3 
+ .rodata.str1.4
+                0x0000000000109e04       0x3a ./libkernel.a(startup.o)
+ *fill*         0x0000000000109e3e        0x2 
+ .rodata.str1.4
+                0x0000000000109e40       0x2f ./libkernel.a(task.o)
+ *fill*         0x0000000000109e6f        0x1 
+ .rodata.str1.4
+                0x0000000000109e70       0x6d ./libkernel.a(wait.o)
+                                         0x9f (size before relaxing)
+ *fill*         0x0000000000109edd        0x3 
+ .rodata.str1.4
+                0x0000000000109ee0       0x4e ./libkernel.a(time_event.o)
+                                         0x76 (size before relaxing)
+ .rodata.str1.4
+                0x0000000000109f2e       0x30 ./libkernel.a(task_sync.o)
+ .rodata.str1.4
+                0x0000000000109f2e       0x2f ./libkernel.a(semaphore.o)
+                0x0000000000109f60                . = ALIGN (0x4)
+ *fill*         0x0000000000109f2e        0x2 
+                0x0000000000109f30                _ctor_list = .
+ *(SORT_BY_NAME(.init_array.*))
+ *(.init_array)
+                0x0000000000109f30        0x4 LONG 0x0
+                0x0000000000109f34                _dtor_list = .
+ *(.fini_array)
+ *(SORT_BY_NAME(.fini_array.*))
+                0x0000000000109f34        0x4 LONG 0x0
+                0x0000000000109f38                __end_rodata = .
+
+.preinit_array  0x0000000000109f38        0x0
+                [!provide]                        PROVIDE (__preinit_array_start = .)
+ *(.preinit_array)
+                [!provide]                        PROVIDE (__preinit_array_end = .)
+
+.init_array     0x0000000000109f38        0x0
+                [!provide]                        PROVIDE (__init_array_start = .)
+ *(SORT_BY_NAME(.init_array.*))
+ *(.init_array)
+                [!provide]                        PROVIDE (__init_array_end = .)
+
+.fini_array     0x0000000000109f38        0x0
+                [!provide]                        PROVIDE (__fini_array_start = .)
+ *(SORT_BY_NAME(.fini_array.*))
+ *(.fini_array)
+                [!provide]                        PROVIDE (__fini_array_end = .)
+
+.ARM.exidx      0x0000000000109f38        0x8
+                0x0000000000109f38                __exidx_start = .
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+ .ARM.exidx.text._RNvCsgYTF1aGAkck_7___rustc17rust_begin_unwind
+                0x0000000000109f38        0x8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ .ARM.exidx.text.start1
+                0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                                          0x8 (size before relaxing)
+ .ARM.exidx.text.start2
+                0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                                          0x8 (size before relaxing)
+ .ARM.exidx.text.start3
+                0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                                          0x8 (size before relaxing)
+ .ARM.exidx.text.start4
+                0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                                          0x8 (size before relaxing)
+ .ARM.exidx.text.start5
+                0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                                          0x8 (size before relaxing)
+ .ARM.exidx.text.start6
+                0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                                          0x8 (size before relaxing)
+ .ARM.exidx.text.__udivmoddi4
+                0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+                                          0x8 (size before relaxing)
+ .ARM.exidx.text._ZN17compiler_builtins3int19specialized_div_rem12u128_div_rem17h745fc7146425b8c6E
+                0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+                                          0x8 (size before relaxing)
+ .ARM.exidx.text._ZN17compiler_builtins3int19specialized_div_rem11u64_div_rem17h1dcded8ad6a6aa41E
+                0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+                                          0x8 (size before relaxing)
+                0x0000000000109f40                __exidx_end = .
+
+.rel.dyn        0x0000000000109f40        0x0
+ .rel.iplt      0x0000000000109f40        0x0 objs/start.o
+
+.data           0x0000000000109f40       0x40
+                0x0000000000109f40                __start_data = .
+ *(.data)
+ .data          0x0000000000109f40        0x0 objs/start.o
+ .data          0x0000000000109f40        0x0 objs/log_output.o
+ .data          0x0000000000109f40        0x0 objs/vasyslog.o
+ .data          0x0000000000109f40        0x0 objs/t_perror.o
+ .data          0x0000000000109f40        0x0 objs/strerror.o
+ .data          0x0000000000109f40        0x0 objs/tTask_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tSemaphore_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tInterruptRequest_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tISR_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tTerminateRoutine_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tSerialPortMain_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tSerialAdapter_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tSysLog_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tSysLogAdapter_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tLogTaskMain_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tPutLogZyboZ7_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tXUartPs_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tSIOPortZyboZ7Main_rProcessor1Migratable_tecsgen.o
+ .data          0x0000000000109f40        0x0 objs/tTask.o
+ .data          0x0000000000109f40        0x0 objs/tInterruptRequest.o
+ .data          0x0000000000109f40        0x0 objs/tISR.o
+ .data          0x0000000000109f40        0x0 objs/tTerminateRoutine.o
+ .data          0x0000000000109f40        0x0 objs/tSerialPortMain.o
+ .data          0x0000000000109f40        0x0 objs/tSerialAdapter.o
+ .data          0x0000000000109f40        0x0 objs/tSysLog.o
+ .data          0x0000000000109f40        0x0 objs/tSysLogAdapter.o
+ .data          0x0000000000109f40        0x0 objs/tLogTaskMain.o
+ .data          0x0000000000109f40        0x0 objs/tPutLogZyboZ7.o
+ .data          0x0000000000109f40        0x0 objs/tXUartPs.o
+ .data          0x0000000000109f40        0x0 objs/init_tecs.o
+ .data          0x0000000000109f40        0x0 objs/kernel_cfg.o
+ .data          0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+ .data          0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .data          0x0000000000109f40        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+ .data          0x0000000000109f40       0x40 ./libkernel.a(target_kernel_impl.o)
+                0x0000000000109f40                arm_memory_area
+ .data          0x0000000000109f80        0x0 ./libkernel.a(chip_kernel_impl.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(mpcore_kernel_impl.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(gic_kernel_impl.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(pl310.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(mpcore_timer.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(core_kernel_impl.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(arm.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(startup.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(task.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(taskhook.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(wait.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(time_event.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(task_sync.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(semaphore.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(spin_lock.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(sys_manage.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(interrupt.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(core_support.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(task_term.o)
+ .data          0x0000000000109f80        0x0 ./libkernel.a(gic_support.o)
+ .data          0x0000000000109f80        0x0 /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+ *(.data.*)
+                0x0000000000109f80                __end_data = .
+                0x0000000000109f40                __start_idata = LOADADDR (.data)
+
+.igot.plt       0x0000000000109f80        0x0
+ .igot.plt      0x0000000000109f80        0x0 objs/start.o
+                0x0000000000109f80                . = ALIGN (0x4)
+                0x0000000000109f80                _edata = .
+                [!provide]                        PROVIDE (edata = .)
+
+.bss            0x0000000000109f80     0xef30
+                0x0000000000109f80                __start_bss = .
+ *(.bss)
+ .bss           0x0000000000109f80        0x0 objs/start.o
+ .bss           0x0000000000109f80        0x0 objs/log_output.o
+ .bss           0x0000000000109f80        0x0 objs/vasyslog.o
+ .bss           0x0000000000109f80        0x0 objs/t_perror.o
+ .bss           0x0000000000109f80        0x0 objs/strerror.o
+ .bss           0x0000000000109f80        0x0 objs/tTask_rProcessor1Migratable_tecsgen.o
+ .bss           0x0000000000109f80        0x0 objs/tSemaphore_rProcessor1Migratable_tecsgen.o
+ .bss           0x0000000000109f80        0x0 objs/tInterruptRequest_rProcessor1Migratable_tecsgen.o
+ .bss           0x0000000000109f80        0x0 objs/tISR_rProcessor1Migratable_tecsgen.o
+ .bss           0x0000000000109f80        0x0 objs/tTerminateRoutine_rProcessor1Migratable_tecsgen.o
+ .bss           0x0000000000109f80      0x234 objs/tSerialPortMain_rProcessor1Migratable_tecsgen.o
+                0x0000000000109f80                tSerialPortMain_CB_tab
+                0x0000000000109fb4                tSerialPortMain_SerialPort1_SerialPortMain_CB_sendBuffer_INIT
+                0x000000000010a0b4                tSerialPortMain_SerialPort1_SerialPortMain_CB_receiveBuffer_INIT
+ .bss           0x000000000010a1b4        0x0 objs/tSerialAdapter_rProcessor1Migratable_tecsgen.o
+ .bss           0x000000000010a1b4      0x49c objs/tSysLog_rProcessor1Migratable_tecsgen.o
+                0x000000000010a1b4                tSysLog_SINGLE_CELL_CB
+                0x000000000010a1d0                tSysLog_SINGLE_CELL_CB_logBuffer_INIT
+ .bss           0x000000000010a650        0x0 objs/tSysLogAdapter_rProcessor1Migratable_tecsgen.o
+ .bss           0x000000000010a650        0x0 objs/tLogTaskMain_rProcessor1Migratable_tecsgen.o
+ .bss           0x000000000010a650        0x0 objs/tPutLogZyboZ7_rProcessor1Migratable_tecsgen.o
+ .bss           0x000000000010a650        0x8 objs/tXUartPs_rProcessor1Migratable_tecsgen.o
+                0x000000000010a650                tXUartPs_CB_tab
+ .bss           0x000000000010a658        0x0 objs/tSIOPortZyboZ7Main_rProcessor1Migratable_tecsgen.o
+ .bss           0x000000000010a658        0x0 objs/tTask.o
+ .bss           0x000000000010a658        0x0 objs/tInterruptRequest.o
+ .bss           0x000000000010a658        0x0 objs/tISR.o
+ .bss           0x000000000010a658        0x0 objs/tTerminateRoutine.o
+ .bss           0x000000000010a658        0x0 objs/tSerialPortMain.o
+ .bss           0x000000000010a658        0x0 objs/tSerialAdapter.o
+ .bss           0x000000000010a658        0x0 objs/tSysLog.o
+ .bss           0x000000000010a658        0x0 objs/tSysLogAdapter.o
+ .bss           0x000000000010a658        0x0 objs/tLogTaskMain.o
+ .bss           0x000000000010a658        0x0 objs/tPutLogZyboZ7.o
+ .bss           0x000000000010a658        0x0 objs/tXUartPs.o
+ .bss           0x000000000010a658        0x0 objs/init_tecs.o
+ .bss           0x000000000010a658       0x18 objs/kernel_cfg.o
+                0x000000000010a658                _kernel_tevtcb_prc2
+                0x000000000010a660                _kernel_tevtcb_prc1
+                0x000000000010a668                _kernel_kerflg_table
+ .bss           0x000000000010a670        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+ .bss           0x000000000010a670        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .bss           0x000000000010a670        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+ .bss           0x000000000010a670        0x0 ./libkernel.a(target_kernel_impl.o)
+ .bss           0x000000000010a670        0x0 ./libkernel.a(chip_kernel_impl.o)
+ .bss           0x000000000010a670        0x0 ./libkernel.a(mpcore_kernel_impl.o)
+ .bss           0x000000000010a670        0x0 ./libkernel.a(gic_kernel_impl.o)
+ .bss           0x000000000010a670        0x0 ./libkernel.a(pl310.o)
+ .bss           0x000000000010a670        0x0 ./libkernel.a(mpcore_timer.o)
+ *fill*         0x000000000010a670     0x1990 
+ .bss           0x000000000010c000     0x4010 ./libkernel.a(core_kernel_impl.o)
+                0x0000000000110000                _kernel_giant_lock
+                0x0000000000110004                TOPPERS_sil_spn_var
+                0x0000000000110008                _kernel_start_sync
+ .bss           0x0000000000110010        0x0 ./libkernel.a(arm.o)
+ .bss           0x0000000000110010        0xc ./libkernel.a(startup.o)
+ .bss           0x000000000011001c        0x0 ./libkernel.a(task.o)
+ .bss           0x000000000011001c        0xc ./libkernel.a(taskhook.o)
+                0x000000000011001c                _kernel_mtxhook_release_all
+                0x0000000000110020                _kernel_mtxhook_scan_ceilmtx
+                0x0000000000110024                _kernel_mtxhook_check_ceilpri
+ .bss           0x0000000000110028        0x0 ./libkernel.a(wait.o)
+ .bss           0x0000000000110028       0x1c ./libkernel.a(time_event.o)
+                0x0000000000110028                _kernel_current_evttim
+                0x000000000011002c                _kernel_boundary_evttim
+                0x0000000000110030                _kernel_monotonic_evttim
+                0x0000000000110038                _kernel_systim_offset
+                0x0000000000110040                _kernel_current_hrtcnt
+ .bss           0x0000000000110044        0x0 ./libkernel.a(task_sync.o)
+ .bss           0x0000000000110044        0x0 ./libkernel.a(semaphore.o)
+ .bss           0x0000000000110044        0x0 ./libkernel.a(spin_lock.o)
+ .bss           0x0000000000110044        0x0 ./libkernel.a(sys_manage.o)
+ .bss           0x0000000000110044        0x0 ./libkernel.a(interrupt.o)
+ .bss           0x0000000000110044        0x0 ./libkernel.a(core_support.o)
+ .bss           0x0000000000110044        0x0 ./libkernel.a(task_term.o)
+ .bss           0x0000000000110044        0x0 ./libkernel.a(gic_support.o)
+ .bss           0x0000000000110044        0x0 /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+ *(.bss.*)
+ .bss._ZN5itron6DUMMY117h224b5aca020e77e0E.0
+                0x0000000000110044        0x4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ .bss._ZN5itron6DUMMY217h72df896414c4af0cE.0
+                0x0000000000110048        0x4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ .bss._ZN5itron6DUMMY317hdcdef5e892089bb9E.0
+                0x000000000011004c        0x4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ .bss._ZN5itron6DUMMY417he9d96a2b4efaecf4E.0
+                0x0000000000110050        0x4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ .bss._ZN5itron6DUMMY517h5e53012ece1d3098E.0
+                0x0000000000110054        0x4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ .bss._ZN5itron6DUMMY617hacd5e410076222beE.0
+                0x0000000000110058        0x4 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ *(.kernel_data_*)
+ .kernel_data_CLS_ALL_PRC1
+                0x000000000011005c      0x19c objs/kernel_cfg.o
+ .kernel_data_CLS_ALL_PRC2
+                0x00000000001101f8       0xd8 objs/kernel_cfg.o
+ .kernel_data_CLS_PRC1
+                0x00000000001102d0      0x110 objs/kernel_cfg.o
+ .kernel_data_CLS_PRC2
+                0x00000000001103e0       0xcc objs/kernel_cfg.o
+ *(.stack*)
+ *fill*         0x00000000001104ac        0x4 
+ .stack_CLS_ALL_PRC1
+                0x00000000001104b0     0x3100 objs/kernel_cfg.o
+ .stack_CLS_ALL_PRC2
+                0x00000000001135b0     0x2100 objs/kernel_cfg.o
+ .stack_CLS_PRC1
+                0x00000000001156b0     0x2000 objs/kernel_cfg.o
+ .stack_CLS_PRC2
+                0x00000000001176b0     0x1800 objs/kernel_cfg.o
+ *(COMMON)
+                0x0000000000118eb0                __end_bss = .
+                0x0000000000118eb0                . = ALIGN (0x4)
+                0x0000000000118eb0                _end = .
+                0x0000000000118eb0                _heap = .
+                [!provide]                        PROVIDE (end = .)
+
+.comment        0x0000000000000000       0x67
+ *(.comment)
+ .comment       0x0000000000000000       0x33 objs/log_output.o
+                                         0x34 (size before relaxing)
+ .comment       0x0000000000000033       0x34 objs/vasyslog.o
+ .comment       0x0000000000000033       0x34 objs/t_perror.o
+ .comment       0x0000000000000033       0x34 objs/strerror.o
+ .comment       0x0000000000000033       0x34 objs/tTask_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tSemaphore_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tInterruptRequest_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tISR_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tTerminateRoutine_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tSerialPortMain_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tSerialAdapter_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tSysLog_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tSysLogAdapter_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tLogTaskMain_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tPutLogZyboZ7_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tXUartPs_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tSIOPortZyboZ7Main_rProcessor1Migratable_tecsgen.o
+ .comment       0x0000000000000033       0x34 objs/tTask.o
+ .comment       0x0000000000000033       0x34 objs/tInterruptRequest.o
+ .comment       0x0000000000000033       0x34 objs/tISR.o
+ .comment       0x0000000000000033       0x34 objs/tTerminateRoutine.o
+ .comment       0x0000000000000033       0x34 objs/tSerialPortMain.o
+ .comment       0x0000000000000033       0x34 objs/tSerialAdapter.o
+ .comment       0x0000000000000033       0x34 objs/tSysLog.o
+ .comment       0x0000000000000033       0x34 objs/tSysLogAdapter.o
+ .comment       0x0000000000000033       0x34 objs/tLogTaskMain.o
+ .comment       0x0000000000000033       0x34 objs/tPutLogZyboZ7.o
+ .comment       0x0000000000000033       0x34 objs/tXUartPs.o
+ .comment       0x0000000000000033       0x34 objs/init_tecs.o
+ .comment       0x0000000000000033       0x34 objs/kernel_cfg.o
+ .comment       0x0000000000000033       0x34 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+                                         0x35 (size before relaxing)
+ .comment       0x0000000000000067       0x35 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.410.rcgu.o)
+ .comment       0x0000000000000067       0x35 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o)
+ .comment       0x0000000000000067       0x35 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .comment       0x0000000000000067       0x34 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .comment       0x0000000000000067       0x35 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(target_kernel_impl.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(chip_kernel_impl.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(mpcore_kernel_impl.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(gic_kernel_impl.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(pl310.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(mpcore_timer.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(core_kernel_impl.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(arm.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(startup.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(task.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(taskhook.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(wait.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(time_event.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(task_sync.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(semaphore.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(spin_lock.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(sys_manage.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(interrupt.o)
+ .comment       0x0000000000000067       0x34 ./libkernel.a(task_term.o)
+ .comment       0x0000000000000067       0x34 /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+                0x0000000001000000                _heap_size = 0x1000000
+                0x0000000001118eb0                _heap_limit = (_heap + _heap_size)
+
+.ARM.attributes
+                0x0000000000000000       0x35
+ .ARM.attributes
+                0x0000000000000000       0x21 objs/start.o
+ .ARM.attributes
+                0x0000000000000021       0x33 objs/log_output.o
+ .ARM.attributes
+                0x0000000000000054       0x33 objs/vasyslog.o
+ .ARM.attributes
+                0x0000000000000087       0x33 objs/t_perror.o
+ .ARM.attributes
+                0x00000000000000ba       0x33 objs/strerror.o
+ .ARM.attributes
+                0x00000000000000ed       0x33 objs/tTask_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x0000000000000120       0x33 objs/tSemaphore_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x0000000000000153       0x33 objs/tInterruptRequest_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x0000000000000186       0x33 objs/tISR_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x00000000000001b9       0x33 objs/tTerminateRoutine_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x00000000000001ec       0x33 objs/tSerialPortMain_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x000000000000021f       0x33 objs/tSerialAdapter_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x0000000000000252       0x33 objs/tSysLog_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x0000000000000285       0x33 objs/tSysLogAdapter_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x00000000000002b8       0x33 objs/tLogTaskMain_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x00000000000002eb       0x33 objs/tPutLogZyboZ7_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x000000000000031e       0x33 objs/tXUartPs_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x0000000000000351       0x33 objs/tSIOPortZyboZ7Main_rProcessor1Migratable_tecsgen.o
+ .ARM.attributes
+                0x0000000000000384       0x33 objs/tTask.o
+ .ARM.attributes
+                0x00000000000003b7       0x39 objs/tInterruptRequest.o
+ .ARM.attributes
+                0x00000000000003f0       0x33 objs/tISR.o
+ .ARM.attributes
+                0x0000000000000423       0x33 objs/tTerminateRoutine.o
+ .ARM.attributes
+                0x0000000000000456       0x33 objs/tSerialPortMain.o
+ .ARM.attributes
+                0x0000000000000489       0x33 objs/tSerialAdapter.o
+ .ARM.attributes
+                0x00000000000004bc       0x33 objs/tSysLog.o
+ .ARM.attributes
+                0x00000000000004ef       0x33 objs/tSysLogAdapter.o
+ .ARM.attributes
+                0x0000000000000522       0x33 objs/tLogTaskMain.o
+ .ARM.attributes
+                0x0000000000000555       0x33 objs/tPutLogZyboZ7.o
+ .ARM.attributes
+                0x0000000000000588       0x33 objs/tXUartPs.o
+ .ARM.attributes
+                0x00000000000005bb       0x33 objs/init_tecs.o
+ .ARM.attributes
+                0x00000000000005ee       0x33 objs/kernel_cfg.o
+ .ARM.attributes
+                0x0000000000000621       0x34 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ .ARM.attributes
+                0x0000000000000655       0x32 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.410.rcgu.o)
+ .ARM.attributes
+                0x0000000000000687       0x32 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o)
+ .ARM.attributes
+                0x00000000000006b9       0x1d ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+ .ARM.attributes
+                0x00000000000006d6       0x34 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .ARM.attributes
+                0x000000000000070a       0x2f ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .ARM.attributes
+                0x0000000000000739       0x34 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+ .ARM.attributes
+                0x000000000000076d       0x1d ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+ .ARM.attributes
+                0x000000000000078a       0x33 ./libkernel.a(target_kernel_impl.o)
+ .ARM.attributes
+                0x00000000000007bd       0x33 ./libkernel.a(chip_kernel_impl.o)
+ .ARM.attributes
+                0x00000000000007f0       0x33 ./libkernel.a(mpcore_kernel_impl.o)
+ .ARM.attributes
+                0x0000000000000823       0x33 ./libkernel.a(gic_kernel_impl.o)
+ .ARM.attributes
+                0x0000000000000856       0x33 ./libkernel.a(pl310.o)
+ .ARM.attributes
+                0x0000000000000889       0x33 ./libkernel.a(mpcore_timer.o)
+ .ARM.attributes
+                0x00000000000008bc       0x33 ./libkernel.a(core_kernel_impl.o)
+ .ARM.attributes
+                0x00000000000008ef       0x33 ./libkernel.a(arm.o)
+ .ARM.attributes
+                0x0000000000000922       0x33 ./libkernel.a(startup.o)
+ .ARM.attributes
+                0x0000000000000955       0x33 ./libkernel.a(task.o)
+ .ARM.attributes
+                0x0000000000000988       0x39 ./libkernel.a(taskhook.o)
+ .ARM.attributes
+                0x00000000000009c1       0x33 ./libkernel.a(wait.o)
+ .ARM.attributes
+                0x00000000000009f4       0x33 ./libkernel.a(time_event.o)
+ .ARM.attributes
+                0x0000000000000a27       0x33 ./libkernel.a(task_sync.o)
+ .ARM.attributes
+                0x0000000000000a5a       0x33 ./libkernel.a(semaphore.o)
+ .ARM.attributes
+                0x0000000000000a8d       0x33 ./libkernel.a(spin_lock.o)
+ .ARM.attributes
+                0x0000000000000ac0       0x33 ./libkernel.a(sys_manage.o)
+ .ARM.attributes
+                0x0000000000000af3       0x33 ./libkernel.a(interrupt.o)
+ .ARM.attributes
+                0x0000000000000b26       0x21 ./libkernel.a(core_support.o)
+ .ARM.attributes
+                0x0000000000000b47       0x33 ./libkernel.a(task_term.o)
+ .ARM.attributes
+                0x0000000000000b7a       0x21 ./libkernel.a(gic_support.o)
+ .ARM.attributes
+                0x0000000000000b9b       0x2f /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(itron-280b1142b498aad8.itron.fbcde098eeebdde0-cgu.0.rcgu.o)
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.410.rcgu.o)
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.411.rcgu.o)
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .note.GNU-stack
+                0x0000000000000000        0x0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x0000000000000000       0xd0
+ *(.debug_aranges)
+ .debug_aranges
+                0x0000000000000000       0x20 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+ .debug_aranges
+                0x0000000000000020       0x20 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .debug_aranges
+                0x0000000000000040       0x28 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .debug_aranges
+                0x0000000000000068       0x28 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+ .debug_aranges
+                0x0000000000000090       0x20 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+ .debug_aranges
+                0x00000000000000b0       0x20 /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x0000000000000000      0x79b
+ *(.debug_info)
+ .debug_info    0x0000000000000000       0x26 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+ .debug_info    0x0000000000000026       0xa1 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .debug_info    0x00000000000000c7       0xe2 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .debug_info    0x00000000000001a9      0x495 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+ .debug_info    0x000000000000063e       0x26 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+ .debug_info    0x0000000000000664      0x137 /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+
+.debug_abbrev   0x0000000000000000      0x271
+ *(.debug_abbrev)
+ .debug_abbrev  0x0000000000000000       0x14 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+ .debug_abbrev  0x0000000000000014       0x5f ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .debug_abbrev  0x0000000000000073       0x75 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .debug_abbrev  0x00000000000000e8       0xc1 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+ .debug_abbrev  0x00000000000001a9       0x14 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+ .debug_abbrev  0x00000000000001bd       0xb4 /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+
+.debug_line     0x0000000000000000      0x987
+ *(.debug_line)
+ .debug_line    0x0000000000000000       0xaf ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+ .debug_line    0x00000000000000af       0xad ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .debug_line    0x000000000000015c       0x70 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .debug_line    0x00000000000001cc      0x54f ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+ .debug_line    0x000000000000071b       0xab ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+ .debug_line    0x00000000000007c6      0x1c1 /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+
+.debug_frame    0x0000000000000000       0xfc
+ *(.debug_frame)
+ .debug_frame   0x0000000000000000       0x34 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+ .debug_frame   0x0000000000000034       0x30 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .debug_frame   0x0000000000000064       0x6c ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+ .debug_frame   0x00000000000000d0       0x2c /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+
+.debug_str      0x0000000000000000      0xa70
+ *(.debug_str)
+ .debug_str     0x0000000000000000       0xa0 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivmodsi4.o)
+ .debug_str     0x00000000000000a0      0x186 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.347.rcgu.o)
+                                        0x18a (size before relaxing)
+ .debug_str     0x0000000000000226      0x182 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+                                        0x212 (size before relaxing)
+ .debug_str     0x00000000000003a8      0x568 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)
+                                        0x5f0 (size before relaxing)
+ .debug_str     0x0000000000000910       0x42 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-udivsi3.o)
+                                         0x9d (size before relaxing)
+ .debug_str     0x0000000000000952      0x11e /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+                                        0x1b3 (size before relaxing)
+
+.debug_loc      0x0000000000000000      0x239
+ *(.debug_loc)
+ .debug_loc     0x0000000000000000      0x239 /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a(lib_a-memset.o)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+LOAD objs/start.o
+LOAD objs/log_output.o
+LOAD objs/vasyslog.o
+LOAD objs/t_perror.o
+LOAD objs/strerror.o
+LOAD objs/tTask_rProcessor1Migratable_tecsgen.o
+LOAD objs/tSemaphore_rProcessor1Migratable_tecsgen.o
+LOAD objs/tInterruptRequest_rProcessor1Migratable_tecsgen.o
+LOAD objs/tISR_rProcessor1Migratable_tecsgen.o
+LOAD objs/tTerminateRoutine_rProcessor1Migratable_tecsgen.o
+LOAD objs/tSerialPortMain_rProcessor1Migratable_tecsgen.o
+LOAD objs/tSerialAdapter_rProcessor1Migratable_tecsgen.o
+LOAD objs/tSysLog_rProcessor1Migratable_tecsgen.o
+LOAD objs/tSysLogAdapter_rProcessor1Migratable_tecsgen.o
+LOAD objs/tLogTaskMain_rProcessor1Migratable_tecsgen.o
+LOAD objs/tPutLogZyboZ7_rProcessor1Migratable_tecsgen.o
+LOAD objs/tXUartPs_rProcessor1Migratable_tecsgen.o
+LOAD objs/tSIOPortZyboZ7Main_rProcessor1Migratable_tecsgen.o
+LOAD objs/tTask.o
+LOAD objs/tInterruptRequest.o
+LOAD objs/tISR.o
+LOAD objs/tTerminateRoutine.o
+LOAD objs/tSerialPortMain.o
+LOAD objs/tSerialAdapter.o
+LOAD objs/tSysLog.o
+LOAD objs/tSysLogAdapter.o
+LOAD objs/tLogTaskMain.o
+LOAD objs/tPutLogZyboZ7.o
+LOAD objs/tXUartPs.o
+LOAD objs/init_tecs.o
+LOAD objs/kernel_cfg.o
+LOAD ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a
+LOAD ./libkernel.a
+LOAD /usr/lib/gcc/arm-none-eabi/10.3.1/../../../arm-none-eabi/lib/thumb/v7-a/nofp/libc.a
+LOAD /usr/lib/gcc/arm-none-eabi/10.3.1/thumb/v7-a/nofp/libgcc.a
+OUTPUT(fmp.elf elf32-littlearm)
+LOAD linker stubs
+
+.debug_ranges   0x0000000000000000      0x2f0
+ .debug_ranges  0x0000000000000000       0x18 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(63f8a0b8a638da8c-aeabi_div0.o)
+ .debug_ranges  0x0000000000000018      0x2d8 ./gen/../rust_opt/target/armv7a-none-eabi/release/libitron.a(compiler_builtins-70f608aea3cde50d.compiler_builtins.5a681add74c93a61-cgu.010.rcgu.o)

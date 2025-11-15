@@ -12,10 +12,9 @@
 #define TASK2_2	7
 #define TASK2_3	8
 
-#define TNUM_SEMID	3
+#define TNUM_SEMID	2
 #define SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_ReceiveSemaphore	1
 #define SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore	2
-#define TECS_RUST_EX_CTRL_1	3
 
 #define TNUM_FLGID	0
 
@@ -23,7 +22,13 @@
 
 #define TNUM_PDQID	0
 
-#define TNUM_MTXID	0
+#define TNUM_MTXID	6
+#define TECS_RUST_EX_CTRL_1	1
+#define TECS_RUST_EX_CTRL_2	2
+#define TECS_RUST_EX_CTRL_3	3
+#define TECS_RUST_EX_CTRL_4	4
+#define TECS_RUST_EX_CTRL_5	5
+#define TECS_RUST_EX_CTRL_6	6
 
 #define TNUM_SPNID	0
 

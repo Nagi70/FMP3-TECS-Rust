@@ -1,20 +1,20 @@
 ex4//fmp.elf  :
-section               size       addr
-.text              0x30e14   0x100000
-.rodata             0xf12c   0x130e14
-.ARM.exidx             0x8   0x13ff40
-.data                 0x40   0x13ff48
-.bss               0x106c8   0x13ff88
-.comment              0x67        0x0
-.ARM.attributes       0x35        0x0
-.debug_aranges      0x1b30        0x0
-.debug_info        0x4a788        0x0
-.debug_abbrev       0x8045        0x0
-.debug_line        0x2fe39        0x0
-.debug_frame        0x6230        0x0
-.debug_str         0x43b81        0x0
-.debug_loc         0x11fef        0x0
-.debug_ranges      0x11fd8        0x0
-Total             0x14259a
+section              size       addr
+.text              0x8ec0   0x100000
+.rodata             0xf78   0x108ec0
+.ARM.exidx            0x8   0x109e38
+.data                0x40   0x109e40
+.bss               0xe7d0   0x109e80
+.comment             0x67        0x0
+.ARM.attributes      0x35        0x0
+.debug_aranges      0x728        0x0
+.debug_info       0x25d5e        0x0
+.debug_abbrev      0x6ba0        0x0
+.debug_line       0x122dc        0x0
+.debug_frame       0x1830        0x0
+.debug_str         0x4c54        0x0
+.debug_loc        0x11fed        0x0
+.debug_ranges      0x3c70        0x0
+Total             0x73acf
 
 

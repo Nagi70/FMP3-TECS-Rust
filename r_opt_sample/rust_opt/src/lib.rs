@@ -2,7 +2,9 @@
 #![feature(const_option)]
 
 mod kernel_cfg;
+mod tecs_print;
 
+use crate::tecs_print::*;
 use core::num::NonZeroI32;
 use kernel_cfg::*;
 
@@ -21,7 +23,40 @@ const SEMAPHORE1 : itron::semaphore::SemaphoreRef = unsafe {
 
 #[unsafe(no_mangle)]
 pub extern "C" fn start1(_: usize) {
-    SEMAPHORE1.wait().expect("semaphore wait failed");
+    match SEMAPHORE1.wait(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                NotSupported => {
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                Released => {
+                    print!("BadContextError::Released", );
+                    loop{}
+                },
+                TerminateRequest => {
+                    print!("TerminateErrorReason::BadContext", );
+                    loop{}
+                },
+                Deleted => {
+                    print!("BadContextError::Deleted", );
+                    loop{}
+                },
+            }
+        },
+    }
     if IS_EXCLUSIVE1 {
         // 排他制御ありタスクの処理
         unsafe {
@@ -33,7 +68,29 @@ pub extern "C" fn start1(_: usize) {
             DUMMY1 += 10;
         }
     }
-    SEMAPHORE1.signal().expect("semaphore signal failed");
+    match SEMAPHORE1.signal(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                QueueOverflow => {
+                    print!("BadContextError::QueueOverflow", );
+                    loop{}
+                },
+            }
+        },
+    }
 }
 
 static IS_EXCLUSIVE2 : bool = true;
@@ -46,7 +103,40 @@ const SEMAPHORE2 : itron::semaphore::SemaphoreRef = unsafe {
 
 #[unsafe(no_mangle)]
 pub extern "C" fn start2(_: usize) {
-    SEMAPHORE2.wait().expect("semaphore wait failed");
+    match SEMAPHORE2.wait(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                NotSupported => {
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                Released => {
+                    print!("BadContextError::Released", );
+                    loop{}
+                },
+                TerminateRequest => {
+                    print!("TerminateErrorReason::BadContext", );
+                    loop{}
+                },
+                Deleted => {
+                    print!("BadContextError::Deleted", );
+                    loop{}
+                },
+            }
+        },
+    }
     if IS_EXCLUSIVE2 {
         // 排他制御ありタスクの処理
         unsafe {
@@ -58,7 +148,29 @@ pub extern "C" fn start2(_: usize) {
             DUMMY2 += 10;
         }
     }
-    SEMAPHORE2.signal().expect("semaphore signal failed");
+    match SEMAPHORE2.signal(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                QueueOverflow => {
+                    print!("BadContextError::QueueOverflow", );
+                    loop{}
+                },
+            }
+        },
+    }
 }
 
 static IS_EXCLUSIVE3 : bool = true;
@@ -71,7 +183,40 @@ const SEMAPHORE3 : itron::semaphore::SemaphoreRef = unsafe {
 
 #[unsafe(no_mangle)]
 pub extern "C" fn start3(_: usize) {
-    SEMAPHORE3.wait().expect("semaphore wait failed");
+    match SEMAPHORE3.wait(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                NotSupported => {
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                Released => {
+                    print!("BadContextError::Released", );
+                    loop{}
+                },
+                TerminateRequest => {
+                    print!("TerminateErrorReason::BadContext", );
+                    loop{}
+                },
+                Deleted => {
+                    print!("BadContextError::Deleted", );
+                    loop{}
+                },
+            }
+        },
+    }
     if IS_EXCLUSIVE3 {
         // 排他制御ありタスクの処理
         unsafe {
@@ -83,7 +228,29 @@ pub extern "C" fn start3(_: usize) {
             DUMMY3 += 10;
         }
     }
-    SEMAPHORE3.signal().expect("semaphore signal failed");
+    match SEMAPHORE3.signal(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                QueueOverflow => {
+                    print!("BadContextError::QueueOverflow", );
+                    loop{}
+                },
+            }
+        },
+    }
 }
 
 static IS_EXCLUSIVE4 : bool = true;
@@ -96,7 +263,40 @@ const SEMAPHORE4 : itron::semaphore::SemaphoreRef = unsafe {
 
 #[unsafe(no_mangle)]
 pub extern "C" fn start4(_: usize) {
-    SEMAPHORE4.wait().expect("semaphore wait failed");
+    match SEMAPHORE4.wait(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                NotSupported => {
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                Released => {
+                    print!("BadContextError::Released", );
+                    loop{}
+                },
+                TerminateRequest => {
+                    print!("TerminateErrorReason::BadContext", );
+                    loop{}
+                },
+                Deleted => {
+                    print!("BadContextError::Deleted", );
+                    loop{}
+                },
+            }
+        },
+    }
     if IS_EXCLUSIVE4 {
         // 排他制御ありタスクの処理
         unsafe {
@@ -108,7 +308,29 @@ pub extern "C" fn start4(_: usize) {
             DUMMY4 += 10;
         }
     }
-    SEMAPHORE4.signal().expect("semaphore signal failed");
+    match SEMAPHORE4.signal(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                QueueOverflow => {
+                    print!("BadContextError::QueueOverflow", );
+                    loop{}
+                },
+            }
+        },
+    }
 }
 
 static IS_EXCLUSIVE5 : bool = true;
@@ -121,7 +343,40 @@ const SEMAPHORE5 : itron::semaphore::SemaphoreRef = unsafe {
 
 #[unsafe(no_mangle)]
 pub extern "C" fn start5(_: usize) {
-    SEMAPHORE5.wait().expect("semaphore wait failed");
+    match SEMAPHORE5.wait(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                NotSupported => {
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                Released => {
+                    print!("BadContextError::Released", );
+                    loop{}
+                },
+                TerminateRequest => {
+                    print!("TerminateErrorReason::BadContext", );
+                    loop{}
+                },
+                Deleted => {
+                    print!("BadContextError::Deleted", );
+                    loop{}
+                },
+            }
+        },
+    }
     if IS_EXCLUSIVE5 {
         // 排他制御ありタスクの処理
         unsafe {
@@ -133,7 +388,29 @@ pub extern "C" fn start5(_: usize) {
             DUMMY5 += 10;
         }
     }
-    SEMAPHORE5.signal().expect("semaphore signal failed");
+    match SEMAPHORE5.signal(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                QueueOverflow => {
+                    print!("BadContextError::QueueOverflow", );
+                    loop{}
+                },
+            }
+        },
+    }
 }
 
 static IS_EXCLUSIVE6 : bool = true;
@@ -146,7 +423,40 @@ const SEMAPHORE6 : itron::semaphore::SemaphoreRef = unsafe {
 
 #[unsafe(no_mangle)]
 pub extern "C" fn start6(_: usize) {
-    SEMAPHORE6.wait().expect("semaphore wait failed");
+    match SEMAPHORE6.wait(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                NotSupported => {
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                Released => {
+                    print!("BadContextError::Released", );
+                    loop{}
+                },
+                TerminateRequest => {
+                    print!("TerminateErrorReason::BadContext", );
+                    loop{}
+                },
+                Deleted => {
+                    print!("BadContextError::Deleted", );
+                    loop{}
+                },
+            }
+        },
+    }
     if IS_EXCLUSIVE6 {
         // 排他制御ありタスクの処理
         unsafe {
@@ -158,5 +468,27 @@ pub extern "C" fn start6(_: usize) {
             DUMMY6 += 10;
         }
     }
-    SEMAPHORE6.signal().expect("semaphore signal failed");
+    match SEMAPHORE6.signal(){
+        Ok(_) => {},
+        Err(e) => {
+            match e {
+                BadContext => {
+                    print!("BadContextError::BadContext", );
+                    loop{}
+                },
+                BadId => {
+                    print!("BadContextError::BadId", );
+                    loop{}
+                },
+                AccessDenied => {
+                    print!("BadContextError::AccessDenied", );
+                    loop{}
+                },
+                QueueOverflow => {
+                    print!("BadContextError::QueueOverflow", );
+                    loop{}
+                },
+            }
+        },
+    }
 }

@@ -97,7 +97,7 @@ OMIT_TECS =
 #
 #  TECS関係ファイルのディレクトリの定義
 #
-TECSDIR = $(SRCDIR)/../tecsgen-V1.9.0-Beta5/tecsgen/tecsgen
+TECSDIR = $(SRCDIR)/tecsgen/tecsgen
 
 #
 #  トレースログを取得するかどうかの定義

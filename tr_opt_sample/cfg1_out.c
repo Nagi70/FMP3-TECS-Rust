@@ -1261,11 +1261,59 @@ const signed_t TOPPERS_cfg_valueof_CLASS_70 = (signed_t)(CLS_PRC2);
 const unsigned_t TOPPERS_cfg_static_api_71 = 71;
 #define TECS_RUST_EX_CTRL_1	(<>)
 #line 68 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_valueof_sematr_71 = (unsigned_t)(TA_NULL);
+const unsigned_t TOPPERS_cfg_valueof_mtxatr_71 = (unsigned_t)(TA_CEILING);
 #line 68 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_valueof_isemcnt_71 = (unsigned_t)(1);
-#line 68 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_valueof_maxsem_71 = (unsigned_t)(1);
+const signed_t TOPPERS_cfg_valueof_ceilpri_71 = (signed_t)(1);
 #line 67 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_71 = (signed_t)(CLS_ALL_PRC1);
+
+#line 72 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_static_api_72 = 72;
+#define TECS_RUST_EX_CTRL_2	(<>)
+#line 72 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_mtxatr_72 = (unsigned_t)(TA_CEILING);
+#line 72 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_ceilpri_72 = (signed_t)(1);
+#line 71 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_CLASS_72 = (signed_t)(CLS_ALL_PRC1);
+
+#line 76 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_static_api_73 = 73;
+#define TECS_RUST_EX_CTRL_3	(<>)
+#line 76 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_mtxatr_73 = (unsigned_t)(TA_CEILING);
+#line 76 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_ceilpri_73 = (signed_t)(1);
+#line 75 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_CLASS_73 = (signed_t)(CLS_ALL_PRC1);
+
+#line 80 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_static_api_74 = 74;
+#define TECS_RUST_EX_CTRL_4	(<>)
+#line 80 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_mtxatr_74 = (unsigned_t)(TA_CEILING);
+#line 80 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_ceilpri_74 = (signed_t)(1);
+#line 79 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_CLASS_74 = (signed_t)(CLS_ALL_PRC1);
+
+#line 84 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_static_api_75 = 75;
+#define TECS_RUST_EX_CTRL_5	(<>)
+#line 84 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_mtxatr_75 = (unsigned_t)(TA_CEILING);
+#line 84 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_ceilpri_75 = (signed_t)(1);
+#line 83 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_CLASS_75 = (signed_t)(CLS_ALL_PRC1);
+
+#line 88 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_static_api_76 = 76;
+#define TECS_RUST_EX_CTRL_6	(<>)
+#line 88 "./gen/tecsgen.cfg"
+const unsigned_t TOPPERS_cfg_valueof_mtxatr_76 = (unsigned_t)(TA_CEILING);
+#line 88 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_ceilpri_76 = (signed_t)(1);
+#line 87 "./gen/tecsgen.cfg"
+const signed_t TOPPERS_cfg_valueof_CLASS_76 = (signed_t)(CLS_ALL_PRC1);
 

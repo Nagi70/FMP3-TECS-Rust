@@ -138,7 +138,7 @@ region rProcessor1Symmetric{
       cTaskBody = rProcessor1Symmetric::UartTaskbody.eTaskbody;
       /* 属性の設定 */
       id = C_EXP("TSKID_UART");
-      task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_UART).unwrap())}");
+      task_ref = C_EXP("unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_UART).unwrap())}");
       priority = 7;
       stackSize = 2048;
       attribute = C_EXP("TA_ACT");
@@ -179,7 +179,7 @@ region rProcessor1Symmetric{
     [generate(RustFMP3Plugin, "lib, DATAQUEUE")]
     cell tDataqueueRs Dataqueue {
       id = C_EXP("DTQID_UART");
-      dataqueue_ref = C_EXP("unsafe{DataqueueRef::from_raw_nonnull(NonZeroI32::new(DTQID_UART).unwrap())}");
+      dataqueue_ref = C_EXP("unsafe{itron::dataqueue::DataqueueRef::from_raw_nonnull(NonZeroI32::new(DTQID_UART).unwrap())}");
       attribute = C_EXP("TA_NULL");
       dataCount = 1;
     };
@@ -200,7 +200,7 @@ region rProcessor2Symmetric{
       cTaskBody = rProcessor2Symmetric::TaskBody.eTaskbody;
       /* 属性の設定 */
       id = C_EXP("TSKID_LOOP");
-      task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LOOP).unwrap())}");
+      task_ref = C_EXP("unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LOOP).unwrap())}");
       priority = 7;
       stackSize = 2048;
       attribute = C_EXP("TA_ACT");

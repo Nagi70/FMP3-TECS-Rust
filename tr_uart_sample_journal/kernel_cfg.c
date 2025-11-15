@@ -81,29 +81,21 @@ const ID _kernel_tmax_tskid = (TMIN_TSKID + TNUM_TSKID - 1);
 
 static STK_T _kernel_stack_TSKID_tTask_rProcessor1Migratable_LogTask_Task[COUNT_STK_T(4096)] __attribute__((section(".stack_CLS_ALL_PRC1"),nocommon));
 static STK_T _kernel_stack_TSKID_UART[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC1"),nocommon));
-static STK_T _kernel_stack_TSKID_LOOP[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC2"),nocommon));
-static STK_T _kernel_stack_TSKID_LOOP1[COUNT_STK_T(2048)] __attribute__((section(".stack_CLS_PRC2"),nocommon));
 const TINIB _kernel_tinib_table[TNUM_TSKID] = {
 	{ (TA_ACT), (EXINF)((intptr_t)&tTask_INIB_tab[0]), (TASK)(tTask_start), INT_PRIORITY(3), ROUND_STK_T(4096), _kernel_stack_TSKID_tTask_rProcessor1Migratable_LogTask_Task, 1, 0x3 },
-	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor1_symmetric_task1), INT_PRIORITY(7), ROUND_STK_T(2048), _kernel_stack_TSKID_UART, 1, 0x1 },
-	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor2_symmetric_task2), INT_PRIORITY(7), ROUND_STK_T(2048), _kernel_stack_TSKID_LOOP, 2, 0x2 },
-	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor2_symmetric_task_for_mutex), INT_PRIORITY(8), ROUND_STK_T(2048), _kernel_stack_TSKID_LOOP1, 2, 0x2 }
+	{ (TA_ACT), (EXINF)(0), (TASK)(tecs_rust_start_r_processor1_symmetric_task1), INT_PRIORITY(7), ROUND_STK_T(2048), _kernel_stack_TSKID_UART, 1, 0x1 }
 };
 
 static TCB _kernel_tcb_TSKID_tTask_rProcessor1Migratable_LogTask_Task __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 static TCB _kernel_tcb_TSKID_UART __attribute__((section(".kernel_data_CLS_PRC1"),nocommon));
-static TCB _kernel_tcb_TSKID_LOOP __attribute__((section(".kernel_data_CLS_PRC2"),nocommon));
-static TCB _kernel_tcb_TSKID_LOOP1 __attribute__((section(".kernel_data_CLS_PRC2"),nocommon));
 
 TCB	*const _kernel_p_tcb_table[TNUM_TSKID] = {
 	&_kernel_tcb_TSKID_tTask_rProcessor1Migratable_LogTask_Task,
-	&_kernel_tcb_TSKID_UART,
-	&_kernel_tcb_TSKID_LOOP,
-	&_kernel_tcb_TSKID_LOOP1
+	&_kernel_tcb_TSKID_UART
 };
 
 const ID _kernel_torder_table[TNUM_TSKID] = { 
-	TSKID_tTask_rProcessor1Migratable_LogTask_Task, TSKID_UART, TSKID_LOOP, TSKID_LOOP1
+	TSKID_tTask_rProcessor1Migratable_LogTask_Task, TSKID_UART
 };
 
 const uint16_t _kernel_subprio_primap = 0U;
@@ -170,13 +162,16 @@ TOPPERS_EMPTY_LABEL(PDQCB *const, _kernel_p_pdqcb_table);
 const ID _kernel_tmax_mtxid = (TMIN_MTXID + TNUM_MTXID - 1);
 
 const MTXINIB _kernel_mtxinib_table[TNUM_MTXID] = {
-	{ (TA_CEILING), INT_PRIORITY(7) }
+	{ (TA_CEILING), INT_PRIORITY(1) },
+	{ (TA_CEILING), INT_PRIORITY(1) }
 };
 
 static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_1 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
+static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_2 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 
 MTXCB	*const _kernel_p_mtxcb_table[TNUM_MTXID] = {
-	&_kernel_mtxcb_TECS_RUST_EX_CTRL_1
+	&_kernel_mtxcb_TECS_RUST_EX_CTRL_1,
+	&_kernel_mtxcb_TECS_RUST_EX_CTRL_2
 };
 
 /*

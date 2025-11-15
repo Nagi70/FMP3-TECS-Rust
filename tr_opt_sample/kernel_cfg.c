@@ -132,18 +132,15 @@ const ID _kernel_tmax_semid = (TMIN_SEMID + TNUM_SEMID - 1);
 
 const SEMINIB _kernel_seminib_table[TNUM_SEMID] = {
 	{ (TA_TPRI), (0), (1) },
-	{ (TA_TPRI), (1), (1) },
-	{ (TA_NULL), (1), (1) }
+	{ (TA_TPRI), (1), (1) }
 };
 
 static SEMCB _kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_ReceiveSemaphore __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 static SEMCB _kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
-static SEMCB _kernel_semcb_TECS_RUST_EX_CTRL_1 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
 
 SEMCB	*const _kernel_p_semcb_table[TNUM_SEMID] = {
 	&_kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_ReceiveSemaphore,
-	&_kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore,
-	&_kernel_semcb_TECS_RUST_EX_CTRL_1
+	&_kernel_semcb_SEMID_tSemaphore_rProcessor1Migratable_SerialPort1_SendSemaphore
 };
 
 /*
@@ -179,8 +176,30 @@ TOPPERS_EMPTY_LABEL(PDQCB *const, _kernel_p_pdqcb_table);
 
 const ID _kernel_tmax_mtxid = (TMIN_MTXID + TNUM_MTXID - 1);
 
-TOPPERS_EMPTY_LABEL(const MTXINIB, _kernel_mtxinib_table);
-TOPPERS_EMPTY_LABEL(MTXCB *const, _kernel_p_mtxcb_table);
+const MTXINIB _kernel_mtxinib_table[TNUM_MTXID] = {
+	{ (TA_CEILING), INT_PRIORITY(1) },
+	{ (TA_CEILING), INT_PRIORITY(1) },
+	{ (TA_CEILING), INT_PRIORITY(1) },
+	{ (TA_CEILING), INT_PRIORITY(1) },
+	{ (TA_CEILING), INT_PRIORITY(1) },
+	{ (TA_CEILING), INT_PRIORITY(1) }
+};
+
+static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_1 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
+static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_2 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
+static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_3 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
+static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_4 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
+static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_5 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
+static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_6 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
+
+MTXCB	*const _kernel_p_mtxcb_table[TNUM_MTXID] = {
+	&_kernel_mtxcb_TECS_RUST_EX_CTRL_1,
+	&_kernel_mtxcb_TECS_RUST_EX_CTRL_2,
+	&_kernel_mtxcb_TECS_RUST_EX_CTRL_3,
+	&_kernel_mtxcb_TECS_RUST_EX_CTRL_4,
+	&_kernel_mtxcb_TECS_RUST_EX_CTRL_5,
+	&_kernel_mtxcb_TECS_RUST_EX_CTRL_6
+};
 
 /*
  *  SpinLock Functions
@@ -329,6 +348,7 @@ _kernel_initialize_object(PCB *p_my_pcb)
 {
 	_kernel_initialize_task(p_my_pcb);
 	_kernel_initialize_semaphore(p_my_pcb);
+	_kernel_initialize_mutex(p_my_pcb);
 	_kernel_initialize_interrupt(p_my_pcb);
 	_kernel_initialize_exception(p_my_pcb);
 }

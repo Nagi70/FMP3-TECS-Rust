@@ -51,6 +51,19 @@ all:
 TARGET = zybo_z7_gcc
 
 #
+#  tecs_rust_opt 実行の有無（1: 実行する［デフォルト］ / 0: 実行しない）
+#  使い方の例:
+#    make ENABLE_TECS_RUST_OPT=0
+#
+ENABLE_TECS_RUST_OPT = 
+
+ifeq ($(ENABLE_TECS_RUST_OPT),1)
+CFG1_EXTRA_DEPS := tecs_rust_opt
+else
+CFG1_EXTRA_DEPS :=
+endif
+
+#
 #  プロセッサ数（定義しなければターゲット依存部のデフォルト値が使用される）
 # 
 PRC_NUM = 
@@ -97,7 +110,7 @@ OMIT_TECS =
 #
 #  TECS関係ファイルのディレクトリの定義
 #
-TECSDIR = $(SRCDIR)/../tecsgen-V1.9.0-Beta5/tecsgen/tecsgen
+TECSDIR = $(SRCDIR)/tecsgen/tecsgen
 
 #
 #  トレースログを取得するかどうかの定義
@@ -393,7 +406,7 @@ $(TECSGEN_TIMESTAMP): $(APPL_CDL) $(TECS_IMPORTS)
 #  カーネルのコンフィギュレーションファイルの生成
 #
 cfg1_out.c cfg1_out.db: cfg1_out.timestamp ;
-cfg1_out.timestamp: $(APPL_CFG) $(TECSGEN_TIMESTAMP) tecs_rust_opt
+cfg1_out.timestamp: $(APPL_CFG) $(TECSGEN_TIMESTAMP) $(CFG1_EXTRA_DEPS)
 	$(CFG) --pass 1 $(CFG_KERNEL) $(INCLUDES) $(CFG_TABS) \
 						-M $(DEPDIR)/cfg1_out_c.d $(TARGET_KERNEL_CFG) $<
 
