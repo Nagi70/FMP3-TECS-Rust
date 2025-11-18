@@ -1,0 +1,1 @@
+/home/yosshy/fmp3/FMP3-TECS/rust_can_sample/rustCAN/target/armv7a-none-eabi/debug/libitron.a: /home/yosshy/fmp3/FMP3-TECS/rust_can_sample/rustCAN/src/kernel_cfg.rs /home/yosshy/fmp3/FMP3-TECS/rust_can_sample/rustCAN/src/lib.rs /home/yosshy/fmp3/FMP3-TECS/rust_can_sample/rustCAN/src/tecs_print.rs /home/yosshy/fmp3/FMP3-TECS/rust_can_sample/rustCAN/src/x_can.rs

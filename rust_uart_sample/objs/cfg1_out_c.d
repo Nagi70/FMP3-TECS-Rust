@@ -1,1 +1,0 @@
-cfg1_out.timestamp: ../target/zybo_z7_gcc/target_kernel.cfg rustUART.cfg ../target/zybo_z7_gcc/target_timer.cfg ../arch/arm_gcc/zynq7000/chip_timer.cfg ../arch/arm_gcc/common/mpcore_timer.cfg ../target/zybo_z7_gcc/target_ipi.cfg ../arch/arm_gcc/common/gic_ipi.cfg ./gen/tecsgen.cfg ./gen/tecsgen_rProcessor1Migratable.cfg

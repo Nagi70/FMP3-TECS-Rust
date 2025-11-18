@@ -1,0 +1,3 @@
+/* apply CppIfGenCelltypePlugin to celltype 'tSemaphoreRs' (celltype of cell 'Semaphore') */
+generate( RustFMP3Plugin, ::tSemaphoreRs, "SEMAPHORE, lib" ); 
+  

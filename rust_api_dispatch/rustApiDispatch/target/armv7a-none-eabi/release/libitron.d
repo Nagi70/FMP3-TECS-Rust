@@ -1,1 +1,0 @@
-/home/yosshy/fmp3/FMP3-TECS/rust_api_dispatch/rustApiDispatch/target/armv7a-none-eabi/release/libitron.a: /home/yosshy/fmp3/FMP3-TECS/rust_api_dispatch/rustApiDispatch/src/kernel_cfg.rs /home/yosshy/fmp3/FMP3-TECS/rust_api_dispatch/rustApiDispatch/src/lib.rs /home/yosshy/fmp3/FMP3-TECS/rust_api_dispatch/rustApiDispatch/src/tecs_print.rs

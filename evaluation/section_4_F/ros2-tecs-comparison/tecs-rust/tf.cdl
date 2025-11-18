@@ -1,0 +1,20 @@
+signature sTf {
+	PLType("heapless::Vec<f64, 9>") transformCovariance([in] PLType("[f64]") src);
+	PLType("(f64, f64, f64, f64)") quatNormalize([in] double64_t x, [in] double64_t y, [in] double64_t z, [in] double64_t w);
+	PLType("(f64, f64, f64, f64)") quatMul([in] PLType("(f64, f64, f64, f64)") a, [in] PLType("(f64, f64, f64, f64)") b);
+	PLType("r2r::geometry_msgs::msg::Vector3") rotateVectorByQuat([in] PLType("r2r::geometry_msgs::msg::Vector3") v);
+};
+
+[generate(RustFMP3Plugin, "lib")]
+celltype tTf {
+    entry sTf eTf;
+    attr {
+        [omit] double64_t dummy_tf_yaw_rad = 0.1;
+        double64_t x = 0.0;
+        double64_t y = 0.0;
+        //double64_t sin_half_yaw = 0.000872664515; deg
+        double64_t sin_half_yaw = 0.04997917; //rad
+        //double64_t cos_half_yaw = 0.999999619; deg
+        double64_t cos_half_yaw = 0.99875026; //rad
+    };
+};

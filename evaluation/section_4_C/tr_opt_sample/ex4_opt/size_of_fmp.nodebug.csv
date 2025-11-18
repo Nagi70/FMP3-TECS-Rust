@@ -1,0 +1,9 @@
+dir,section,size_hex,size_dec,addr_hex
+ex4_opt,.text,0x8bf8,35832,0x100000
+ex4_opt,.rodata,0xf38,3896,0x108bf8
+ex4_opt,.ARM.exidx,0x8,8,0x109b30
+ex4_opt,.data,0x40,64,0x109b38
+ex4_opt,.bss,0xea98,60056,0x109b78
+ex4_opt,.comment,0x67,103,0x0
+ex4_opt,.ARM.attributes,0x35,53,0x0
+ex4_opt,Total,0x73a03,473603,

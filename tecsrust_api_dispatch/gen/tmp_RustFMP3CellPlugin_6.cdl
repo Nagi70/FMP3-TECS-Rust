@@ -1,3 +1,0 @@
-/* apply CppIfGenCelltypePlugin to celltype 'tLoopTaskbody' (celltype of cell 'LoopTaskbody') */
-generate( RustFMP3Plugin, ::tLoopTaskbody, "lib" ); 
-  

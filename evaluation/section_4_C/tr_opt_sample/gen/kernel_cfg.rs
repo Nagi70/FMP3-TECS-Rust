@@ -1,0 +1,13 @@
+pub const TASK1_1: i32 = 1;	//Dummy id
+pub const TASK1_2: i32 = 1;	//Dummy id
+pub const TASK1_3: i32 = 1;	//Dummy id
+pub const TASK1_4: i32 = 1;	//Dummy id
+pub const TASK2_1: i32 = 1;	//Dummy id
+pub const TASK2_2: i32 = 1;	//Dummy id
+pub const TASK2_3: i32 = 1;	//Dummy id
+pub const TECS_RUST_EX_CTRL_1: i32 = 1;	//Dummy id
+pub const TECS_RUST_EX_CTRL_2: i32 = 2;	//Dummy id
+pub const TECS_RUST_EX_CTRL_3: i32 = 3;	//Dummy id
+pub const TECS_RUST_EX_CTRL_4: i32 = 4;	//Dummy id
+pub const TECS_RUST_EX_CTRL_5: i32 = 5;	//Dummy id
+pub const TECS_RUST_EX_CTRL_6: i32 = 6;	//Dummy id

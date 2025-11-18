@@ -1,3 +1,0 @@
-/* apply CppIfGenCelltypePlugin to celltype 'tStopTaskbody' (celltype of cell 'StopTaskmigbody') */
-generate( RustFMP3Plugin, ::tStopTaskbody, "lib" ); 
-  

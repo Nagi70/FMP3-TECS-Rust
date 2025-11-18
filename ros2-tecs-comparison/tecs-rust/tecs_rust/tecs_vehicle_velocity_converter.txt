@@ -1,2 +1,0 @@
-[vehicle_velocity_converter][bench] elapsed() overhead ≈ 47.38 ns (50000 samples)
-[vehicle_velocity_converter][bench] samples=1000 warmup=200 mean=263.20 ns median=253.00 ns p95=353 ns min=253 ns max=353 ns stddev=30.26 ns

@@ -1,0 +1,22 @@
+import("imu_corrector.cdl");
+import("tf.cdl");
+import("vehicle_velocity_converter.cdl");
+import("dummy_task.cdl");
+
+cell tTaskRs ImuCorrector {
+    cTaskBody = ImuCorrectorbody.eTaskbody;
+};
+
+cell tTaskRs VehicleVelocityConverter {
+    cTaskBody = VehicleVelocityConverterbody.eTaskbody;
+};
+
+cell tImuCorrector ImuCorrectorbody {
+    cTf = Tf.eTf;
+};
+
+cell tTf Tf {
+};
+
+cell tVehicleVelocityConverter VehicleVelocityConverterbody {
+};

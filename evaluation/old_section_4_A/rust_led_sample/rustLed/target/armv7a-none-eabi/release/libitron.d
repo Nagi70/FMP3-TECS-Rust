@@ -1,0 +1,1 @@
+/home/yosshy/fmp3/FMP3-TECS/rust_led_sample/rustLed/target/armv7a-none-eabi/release/libitron.a: /home/yosshy/fmp3/FMP3-TECS/rust_led_sample/rustLed/src/kernel_cfg.rs /home/yosshy/fmp3/FMP3-TECS/rust_led_sample/rustLed/src/lib.rs /home/yosshy/fmp3/FMP3-TECS/rust_led_sample/rustLed/src/tecs_print.rs

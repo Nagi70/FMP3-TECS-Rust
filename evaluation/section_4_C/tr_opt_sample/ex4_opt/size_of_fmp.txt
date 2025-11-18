@@ -1,0 +1,20 @@
+ex4_opt//fmp.elf  :
+section              size       addr
+.text              0x8bf8   0x100000
+.rodata             0xf38   0x108bf8
+.ARM.exidx            0x8   0x109b30
+.data                0x40   0x109b38
+.bss               0xea98   0x109b78
+.comment             0x67        0x0
+.ARM.attributes      0x35        0x0
+.debug_aranges      0x728        0x0
+.debug_info       0x25d0e        0x0
+.debug_abbrev      0x6ba0        0x0
+.debug_line       0x122cd        0x0
+.debug_frame       0x1830        0x0
+.debug_str         0x4bcd        0x0
+.debug_loc        0x11fef        0x0
+.debug_ranges      0x3cc8        0x0
+Total             0x73a03
+
+

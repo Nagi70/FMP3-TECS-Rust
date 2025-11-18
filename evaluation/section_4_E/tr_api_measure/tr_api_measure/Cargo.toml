@@ -1,0 +1,17 @@
+[package]
+name = "tr_api_measure"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+itron = { version = "= 0.1.9", features = ["fmp3", "nightly", "unstable"] }
+
+[features]
+default = ["get_pri"]
+# Local feature flags used with #[cfg(feature = "...")]
+get_pri = []
+debug_task_info = []
+
+[lib]
+name = "itron"
+crate-type = ["staticlib"]

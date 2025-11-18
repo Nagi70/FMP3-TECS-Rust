@@ -1,2 +1,0 @@
-[imu_corrector][bench] elapsed() overhead ≈ 51.44 ns (50000 samples)
-[imu_corrector][bench] samples=2000000 warmup=200 mean=326.76 ns min=249 ns max=95649 ns stddev=401.43 ns

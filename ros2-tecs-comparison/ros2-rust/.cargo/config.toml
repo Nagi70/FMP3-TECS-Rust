@@ -1,4 +1,0 @@
-[env]
-# Only generate message bindings for the listed packages to reduce build time.
-# Note: No automatic dependency resolution; include nested deps explicitly.
-IDL_PACKAGE_FILTER = "std_msgs;builtin_interfaces;geometry_msgs;sensor_msgs;autoware_vehicle_msgs"

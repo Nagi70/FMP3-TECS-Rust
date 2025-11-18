@@ -1,0 +1,16 @@
+ex,variant,total_hex,total_dec
+ex1,r,0x25f,607
+ex1,tr_no_opt,0x239,569
+ex1,tr_opt,0x189,393
+ex2,r,0x323,803
+ex2,tr_no_opt,0x30d,781
+ex2,tr_opt,0x1ad,429
+ex3,r,0x3e7,999
+ex3,tr_no_opt,0x3e1,993
+ex3,tr_opt,0x1d1,465
+ex4,r,0x4ab,1195
+ex4,tr_no_opt,0x4b5,1205
+ex4,tr_opt,0x1f5,501
+ex5,r,0x56f,1391
+ex5,tr_no_opt,0x589,1417
+ex5,tr_opt,0x219,537

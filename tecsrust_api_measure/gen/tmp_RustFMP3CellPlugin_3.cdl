@@ -1,3 +1,0 @@
-/* apply CppIfGenCelltypePlugin to celltype 'tTaskRs' (celltype of cell 'Taskmig') */
-generate( RustFMP3Plugin, ::tTaskRs, "TASK, lib" ); 
-  

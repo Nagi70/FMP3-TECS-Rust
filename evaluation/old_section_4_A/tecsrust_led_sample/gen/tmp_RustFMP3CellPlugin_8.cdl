@@ -1,0 +1,3 @@
+/* apply CppIfGenCelltypePlugin to celltype 'tButton' (celltype of cell 'Button4') */
+generate( RustFMP3Plugin, ::tButton, "lib" ); 
+  

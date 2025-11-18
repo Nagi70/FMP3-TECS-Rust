@@ -1,3 +1,0 @@
-/* apply CppIfGenCelltypePlugin to celltype 'tInitializeRoutineRs' (celltype of cell 'UartIni') */
-generate( RustFMP3Plugin, ::tInitializeRoutineRs, "INIT_ROUTINE, lib" ); 
-  

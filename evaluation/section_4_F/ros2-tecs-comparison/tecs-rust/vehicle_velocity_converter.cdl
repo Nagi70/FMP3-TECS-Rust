@@ -1,0 +1,15 @@
+import("dummy_task.cdl");
+
+[generate(RustFMP3Plugin, "lib")]  // プラグインの適用
+celltype tVehicleVelocityConverter {
+
+    entry sTaskBody eTaskbody;
+
+    // 属性定義 (パラメータ)
+    attr {
+        PLType("&'static str") frame_id  = PL_EXP("\"base_link\"");
+        double64_t velocity_stddev_xx = 0.2;
+        double64_t angular_velocity_stddev_zz = 0.1;
+        double64_t speed_scale_factor = 1.0;
+    };
+};

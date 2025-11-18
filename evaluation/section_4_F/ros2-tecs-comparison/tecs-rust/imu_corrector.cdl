@@ -1,0 +1,23 @@
+import("tf.cdl");
+import("dummy_task.cdl");
+
+// メインルーチンのセルタイプ定義
+[generate(RustFMP3Plugin, "lib")]  // プラグインの適用
+celltype tImuCorrector {
+
+    entry sTaskBody eTaskbody;
+
+    call sTf cTf;
+
+    // 属性定義 (パラメータ)
+    attr {
+        PLType("&'static str") output_frame  = PL_EXP("\"base_link\"");
+        double64_t angular_velocity_offset_x = 0.0;
+        double64_t angular_velocity_offset_y = 0.0;
+        double64_t angular_velocity_offset_z = 0.0;
+        double64_t angular_velocity_stddev_xx = 0.03;
+        double64_t angular_velocity_stddev_yy = 0.03;
+        double64_t angular_velocity_stddev_zz = 0.03;
+        double64_t accel_stddev = 10000.0;
+    };
+};

@@ -1,0 +1,9 @@
+ex,section,no_opt_size_dec,opt_size_dec,diff_dec,no_opt_size_hex,opt_size_hex,diff_hex
+ex4,.ARM.attributes,53,53,0,0x35,0x35,0x0
+ex4,.ARM.exidx,8,8,0,0x8,0x8,0x0
+ex4,.bss,55940,60056,4116,0xda84,0xea98,0x1014
+ex4,.comment,103,103,0,0x67,0x67,0x0
+ex4,.data,64,64,0,0x40,0x40,0x0
+ex4,.rodata,3940,3896,-44,0xf64,0xf38,0xffffffffffffffd4
+ex4,.text,39984,35832,-4152,0x9c30,0x8bf8,0xffffffffffffefc8
+ex4,Total,504527,473603,-30924,0x7b2cf,0x73a03,0xffffffffffff8734

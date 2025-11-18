@@ -1,0 +1,15 @@
+signature sLed {
+  void setUp(void);
+  void lightOn(void);
+  void lightOff(void);
+};
+
+celltype tMioLed {
+  [inline] entry sLed eLed;
+  attr{
+    //uint32_t baseAddress = C_EXP("0xE000A000");
+    uint32_t data_0 = C_EXP("0xE000A040");
+    uint32_t dirm_0 = C_EXP("0xE000A204");
+    uint32_t oen_0 = C_EXP("0xE000A20C");
+  };
+};

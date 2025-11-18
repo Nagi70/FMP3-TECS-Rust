@@ -1,0 +1,4 @@
+ex,variant,total_hex,total_dec
+ex3,r,0x3e7,999
+ex3,tr_no_opt,0x3e1,993
+ex3,tr_opt,0x1d1,465

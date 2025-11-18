@@ -1,0 +1,3 @@
+/* apply CppIfGenCelltypePlugin to celltype 'tDataqueueRs' (celltype of cell 'DataqueueLed') */
+generate( RustFMP3Plugin, ::tDataqueueRs, "lib, DATAQUEUE" ); 
+  

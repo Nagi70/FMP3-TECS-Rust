@@ -1,0 +1,19 @@
+[package]
+name = "tr_api_dispatch"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+itron = { version = "= 0.1.9", features = ["fmp3", "nightly", "unstable"] }
+
+[features]
+default = ["mig_tsk"]
+# Local feature flags used with #[cfg(feature = "...")]
+act_tsk = []
+chg_pri = []
+mig_tsk = []
+debug_task_info = []
+
+[lib]
+name = "itron"
+crate-type = ["staticlib"]

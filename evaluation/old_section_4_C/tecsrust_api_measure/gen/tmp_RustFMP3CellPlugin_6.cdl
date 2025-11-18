@@ -1,0 +1,3 @@
+/* apply CppIfGenCelltypePlugin to celltype 'tReset' (celltype of cell 'Reset') */
+generate( RustFMP3Plugin, ::tReset, "lib" ); 
+  

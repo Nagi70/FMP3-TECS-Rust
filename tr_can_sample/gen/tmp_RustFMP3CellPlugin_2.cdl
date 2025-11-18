@@ -1,3 +1,0 @@
-/* apply CppIfGenCelltypePlugin to celltype 'tCan' (celltype of cell 'Can') */
-generate( RustFMP3Plugin, ::tCan, "lib" ); 
-  

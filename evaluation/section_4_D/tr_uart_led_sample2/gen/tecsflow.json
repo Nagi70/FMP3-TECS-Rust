@@ -1,0 +1,563 @@
+[
+  {
+    "Cell": "rProcessor1Migratable_PutLogTarget",
+    "Celltype": "tPutLogZyboZ7",
+    "ExclusiveControl": "false",
+    "Accessed": [
+
+    ]
+  },
+  {
+    "Cell": "rProcessor1Migratable_SysLog",
+    "Celltype": "tSysLog",
+    "ExclusiveControl": "false",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Migratable_SysLogAdapter",
+        "Priority": 0,
+        "Celltype": "tSysLogAdapter",
+        "Callport": "cSysLog",
+        "Calleeport": "eSysLog",
+        "Function": "write",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SysLogAdapter",
+        "Priority": 0,
+        "Celltype": "tSysLogAdapter",
+        "Callport": "cSysLog",
+        "Calleeport": "eSysLog",
+        "Function": "read",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SysLogAdapter",
+        "Priority": 0,
+        "Celltype": "tSysLogAdapter",
+        "Callport": "cSysLog",
+        "Calleeport": "eSysLog",
+        "Function": "mask",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SysLogAdapter",
+        "Priority": 0,
+        "Celltype": "tSysLogAdapter",
+        "Callport": "cSysLog",
+        "Calleeport": "eSysLog",
+        "Function": "refer",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SysLogAdapter",
+        "Priority": 0,
+        "Celltype": "tSysLogAdapter",
+        "Callport": "cSysLog",
+        "Calleeport": "eSysLog",
+        "Function": "flush",
+        "Path": [
+
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor1Migratable_SerialPort1",
+    "Celltype": "tSerialPort",
+    "ExclusiveControl": "false",
+    "Accessed": [
+
+    ]
+  },
+  {
+    "Cell": "rProcessor1Migratable_SerialPort1_ReceiveSemaphore",
+    "Celltype": "tSemaphore",
+    "ExclusiveControl": "false",
+    "Accessed": [
+
+    ]
+  },
+  {
+    "Cell": "rProcessor1Migratable_SerialPort1_SendSemaphore",
+    "Celltype": "tSemaphore",
+    "ExclusiveControl": "false",
+    "Accessed": [
+
+    ]
+  },
+  {
+    "Cell": "rProcessor1Migratable_SerialPort1_SerialPortMain",
+    "Celltype": "tSerialPortMain",
+    "ExclusiveControl": "false",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Migratable_SerialAdapter",
+        "Priority": 0,
+        "Celltype": "tSerialAdapter",
+        "Callport": "cSerialPort",
+        "Calleeport": "eSerialPort",
+        "Function": "open",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SerialAdapter",
+        "Priority": 0,
+        "Celltype": "tSerialAdapter",
+        "Callport": "cSerialPort",
+        "Calleeport": "eSerialPort",
+        "Function": "close",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SerialAdapter",
+        "Priority": 0,
+        "Celltype": "tSerialAdapter",
+        "Callport": "cSerialPort",
+        "Calleeport": "eSerialPort",
+        "Function": "read",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SerialAdapter",
+        "Priority": 0,
+        "Celltype": "tSerialAdapter",
+        "Callport": "cSerialPort",
+        "Calleeport": "eSerialPort",
+        "Function": "write",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SerialAdapter",
+        "Priority": 0,
+        "Celltype": "tSerialAdapter",
+        "Callport": "cSerialPort",
+        "Calleeport": "eSerialPort",
+        "Function": "control",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SerialAdapter",
+        "Priority": 0,
+        "Celltype": "tSerialAdapter",
+        "Callport": "cSerialPort",
+        "Calleeport": "eSerialPort",
+        "Function": "refer",
+        "Path": [
+
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor1Migratable_SIOPortTarget1_XUartPs",
+    "Celltype": "tXUartPs",
+    "ExclusiveControl": "true",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Migratable_SIOPortTarget1_ISRInstance",
+        "Priority": 0,
+        "Celltype": "tISR",
+        "Callport": "ciISRBody",
+        "Calleeport": "eiISR",
+        "Function": "main",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_SIOPortTarget1_Terminate",
+        "Priority": 0,
+        "Celltype": "tTerminateRoutine",
+        "Callport": "cTerminateRoutineBody",
+        "Calleeport": "eTerminate",
+        "Function": "main",
+        "Path": [
+
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor1Migratable_SIOPortTarget1_SIOPortMain",
+    "Celltype": "tSIOPortZyboZ7Main",
+    "ExclusiveControl": "false",
+    "Accessed": [
+
+    ]
+  },
+  {
+    "Cell": "rProcessor1Migratable_LogTask_LogTaskMain",
+    "Celltype": "tLogTaskMain",
+    "ExclusiveControl": "true",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Migratable_LogTask_Task",
+        "Priority": "3",
+        "Celltype": "tTask",
+        "Callport": "cTaskBody",
+        "Calleeport": "eLogTaskBody",
+        "Function": "main",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Migratable_LogTask_TerminateRoutine",
+        "Priority": 0,
+        "Celltype": "tTerminateRoutine",
+        "Callport": "cTerminateRoutineBody",
+        "Calleeport": "eLogTaskTerminate",
+        "Function": "main",
+        "Path": [
+
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor1Symmetric_UartTaskbody",
+    "Celltype": "tXUartTaskbody",
+    "ExclusiveControl": "true",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartIsr",
+        "Priority": 0,
+        "Celltype": "tIsrRs",
+        "Callport": "ciIsrBody",
+        "Calleeport": "eiHandlerBody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_Uart",
+            "Celltype": "tXUart",
+            "Callport": "cXUartMain",
+            "Calleeport": "eXUartMain",
+            "Function": "ready_receive"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartIsr",
+        "Priority": 0,
+        "Celltype": "tIsrRs",
+        "Callport": "ciIsrBody",
+        "Calleeport": "eiHandlerBody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_Uart",
+            "Celltype": "tXUart",
+            "Callport": "cXUartMain",
+            "Calleeport": "eXUartMain",
+            "Function": "ready_send"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor1Symmetric_Uart",
+    "Celltype": "tXUart",
+    "ExclusiveControl": "true",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_UartTaskbody",
+            "Celltype": "tXUartTaskbody",
+            "Callport": "cXUart",
+            "Calleeport": "eXUart",
+            "Function": "open"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_UartTaskbody",
+            "Celltype": "tXUartTaskbody",
+            "Callport": "cXUart",
+            "Calleeport": "eXUart",
+            "Function": "put_char"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartIsr",
+        "Priority": 0,
+        "Celltype": "tIsrRs",
+        "Callport": "ciIsrBody",
+        "Calleeport": "eiHandlerBody",
+        "Function": "main",
+        "Path": [
+
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartIsr",
+        "Priority": 0,
+        "Celltype": "tIsrRs",
+        "Callport": "ciIsrBody",
+        "Calleeport": "eiHandlerBody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_Uart",
+            "Celltype": "tXUart",
+            "Callport": "cXUartMain",
+            "Calleeport": "eXUartMain",
+            "Function": "ready_receive"
+          },
+          {
+            "CellName": "rProcessor1Symmetric_UartTaskbody",
+            "Celltype": "tXUartTaskbody",
+            "Callport": "cXUart",
+            "Calleeport": "eXUart",
+            "Function": "get_char"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor2Symmetric_ButtonTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor2Symmetric_TaskBody",
+            "Celltype": "tTaskbody",
+            "Callport": "cXUart",
+            "Calleeport": "eXUart",
+            "Function": "put_char"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor1Symmetric_UartIniBody",
+    "Celltype": "tXUartInterruptInitializeBody",
+    "ExclusiveControl": "false",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartIni",
+        "Priority": 0,
+        "Celltype": "tInitializeRoutineRs",
+        "Callport": "cInitializeRoutineBody",
+        "Calleeport": "eRoutineBody",
+        "Function": "main",
+        "Path": [
+
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor1Symmetric_Dataqueue",
+    "Celltype": "tDataqueueRs",
+    "ExclusiveControl": "true",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartIsr",
+        "Priority": 0,
+        "Celltype": "tIsrRs",
+        "Callport": "ciIsrBody",
+        "Calleeport": "eiHandlerBody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_Uart",
+            "Celltype": "tXUart",
+            "Callport": "cXUartMain",
+            "Calleeport": "eXUartMain",
+            "Function": "ready_receive"
+          },
+          {
+            "CellName": "rProcessor1Symmetric_UartTaskbody",
+            "Celltype": "tXUartTaskbody",
+            "Callport": "cDataqueue",
+            "Calleeport": "eiDataqueue",
+            "Function": "send_force"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor2Symmetric_ButtonTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor2Symmetric_TaskBody",
+            "Celltype": "tTaskbody",
+            "Callport": "cDataqueue",
+            "Calleeport": "eDataqueue",
+            "Function": "receive"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor1Symmetric_Led",
+    "Celltype": "tMioLed",
+    "ExclusiveControl": "false",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_UartTaskbody",
+            "Celltype": "tXUartTaskbody",
+            "Callport": "cLed",
+            "Calleeport": "eLed",
+            "Function": "set_up"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_UartTaskbody",
+            "Celltype": "tXUartTaskbody",
+            "Callport": "cLed",
+            "Calleeport": "eLed",
+            "Function": "light_on"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_UartTaskbody",
+            "Celltype": "tXUartTaskbody",
+            "Callport": "cLed",
+            "Calleeport": "eLed",
+            "Function": "light_off"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor2Symmetric_TaskBody",
+    "Celltype": "tTaskbody",
+    "ExclusiveControl": "false",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor2Symmetric_ButtonTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+
+        ]
+      }
+    ]
+  },
+  {
+    "Cell": "rProcessor2Symmetric_DataqueueLed",
+    "Celltype": "tDataqueueRs",
+    "ExclusiveControl": "true",
+    "Accessed": [
+      {
+        "ActiveCell": "rProcessor1Symmetric_UartTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor1Symmetric_UartTaskbody",
+            "Celltype": "tXUartTaskbody",
+            "Callport": "cDataqueueLed",
+            "Calleeport": "eDataqueue",
+            "Function": "receive"
+          }
+        ]
+      },
+      {
+        "ActiveCell": "rProcessor2Symmetric_ButtonTask",
+        "Priority": "7",
+        "Celltype": "tTaskRs",
+        "Callport": "cTaskBody",
+        "Calleeport": "eTaskbody",
+        "Function": "main",
+        "Path": [
+          {
+            "CellName": "rProcessor2Symmetric_TaskBody",
+            "Celltype": "tTaskbody",
+            "Callport": "cDataqueueLed",
+            "Calleeport": "eDataqueue",
+            "Function": "send_force"
+          }
+        ]
+      }
+    ]
+  }
+]
