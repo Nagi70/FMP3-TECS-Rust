@@ -11,6 +11,8 @@ The `evaluation` directory contains the samples used in the paper. Instructions 
 
       - The sample programs can run with a minimal configuration that does not use the PL part.
 
+      - The project used was the contents extracted from `fmp3_workspace.zip`
+
 2. Target Board
 
    - Zybo Z7_10 Zynq-7010 ARM development board
@@ -54,6 +56,10 @@ All of the following operations are performed on XSDK.
 
 2. Run
 
-   - Use Vitis to program `fmp.elf` to the board.
+   - Unzip `fmp3_workspace.zip`.
+
+   - Open the extracted `fmp3_workspace` in Vitis.
+
+   - In Vitis, write `fmp.elf` to core0 using `launch.json` to run it.
 
 
