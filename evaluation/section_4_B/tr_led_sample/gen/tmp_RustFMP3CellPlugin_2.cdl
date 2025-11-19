@@ -1,3 +1,0 @@
-/* apply CppIfGenCelltypePlugin to celltype 'tMioLed' (celltype of cell 'MioLed') */
-generate( RustFMP3Plugin, ::tMioLed, "lib" ); 
-  
