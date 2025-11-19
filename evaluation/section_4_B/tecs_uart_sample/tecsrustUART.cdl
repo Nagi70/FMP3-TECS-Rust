@@ -1,0 +1,204 @@
+/*
+ *  カーネルオブジェクトの定義
+ */
+import(<kernel.cdl>);
+import(<kernel_rs.cdl>);
+//import("target.cdl");
+import( <target_class.cdl> );
+
+/*
+ *  ターゲット非依存のセルタイプの定義
+ */
+import("syssvc/tSerialPort.cdl");
+import("syssvc/tSerialAdapter.cdl");
+import("syssvc/tSysLog.cdl");
+import("syssvc/tSysLogAdapter.cdl");
+import("syssvc/tLogTask.cdl");
+import("syssvc/tBanner.cdl");
+
+/*
+ *  ターゲット依存部の取り込み
+ */
+import("target.cdl");
+
+region rProcessor1Migratable {
+   /*
+    *		システムログ機能のアダプタの組上げ記述
+    *
+    *  システムログ機能のアダプタは，C言語で記述されたコードから，TECSベー
+    *  スのシステムログ機能を呼び出すためのセルである．システムログ機能の
+    *  サービスコール（syslog，syslog_0〜syslog_5，t_perrorを含む）を呼び
+    *  出さない場合には，以下のセルの組上げ記述を削除してよい．
+    */
+   cell tSysLogAdapter SysLogAdapter {
+     cSysLog = SysLog.eSysLog;
+   };
+
+   /*
+    *		シリアルインタフェースドライバのアダプタの組上げ記述
+    *
+    *  シリアルインタフェースドライバのアダプタは，C言語で記述されたコー
+    *  ドから，TECSベースのシリアルインタフェースドライバを呼び出すための
+    *  セルである．シリアルインタフェースドライバのサービスコールを呼び出
+    *  さない場合には，以下のセルの組上げ記述を削除してよい．
+    */
+   cell tSerialAdapter SerialAdapter {
+     cSerialPort[0] = SerialPort1.eSerialPort;
+   };
+
+   /*
+    *		システムログ機能の組上げ記述
+    *
+    *  システムログ機能を外す場合には，以下のセルの組上げ記述を削除し，コ
+    *  ンパイルオプションに-DTOPPERS_OMIT_SYSLOGを追加すればよい．ただし，
+    *  システムログタスクはシステムログ機能を使用するため，それも外すこと
+    *  が必要である．また，システムログ機能のアダプタも外さなければならな
+    *  い．tecsgenが警告メッセージを出すが，無視してよい．
+    */
+   cell tSysLog SysLog {
+     logBufferSize = 32;					/* ログバッファのサイズ */
+     initLogMask = PL_EXP("LOG_UPTO(LOG_NOTICE)");
+                       /* ログバッファに記録すべき重要度 */
+     initLowMask = PL_EXP("LOG_UPTO(LOG_EMERG)");
+                         /* 低レベル出力すべき重要度 */
+     /* 低レベル出力との結合 */
+     cPutLog = PutLogTarget.ePutLog;
+   };
+
+   /*
+    *		シリアルインタフェースドライバの組上げ記述
+    *
+    *  シリアルインタフェースドライバを外す場合には，以下のセルの組上げ記
+    *  述を削除すればよい．ただし，システムログタスクはシリアルインタフェー
+    *  スドライバを使用するため，それも外すことが必要である．また，シリア
+    *  ルインタフェースドライバのアダプタも外さなければならない．
+    */
+   cell tSerialPort SerialPort1 {
+     receiveBufferSize = 256;			/* 受信バッファのサイズ */
+     sendBufferSize    = 256;			/* 送信バッファのサイズ */
+
+     /* ターゲット依存部との結合 */
+     cSIOPort = SIOPortTarget1.eSIOPort;
+     eiSIOCBR <= SIOPortTarget1.ciSIOCBR;	/* コールバック */
+   };
+
+   /*
+    *		システムログタスクの組上げ記述
+    *
+    *  システムログタスクを外す場合には，以下のセルの組上げ記述を削除すれ
+    *  ばよい．
+    */
+   cell tLogTask LogTask {
+     priority  = 3;					/* システムログタスクの優先度 */
+     stackSize = LogTaskStackSize;	/* システムログタスクのスタックサイズ */
+
+     /* シリアルインタフェースドライバとの結合 */
+     cSerialPort        = SerialPort1.eSerialPort;
+     cnSerialPortManage = SerialPort1.enSerialPortManage;
+
+     /* システムログ機能との結合 */
+     cSysLog = SysLog.eSysLog;
+
+     /* 低レベル出力との結合 */
+     cPutLog = PutLogTarget.ePutLog;
+   };
+
+   /*
+    *		カーネル起動メッセージ出力の組上げ記述
+    *
+    *  カーネル起動メッセージの出力を外す場合には，以下のセルの組上げ記述
+    *  を削除すればよい．
+    */
+   //cell tBanner Banner {
+   //  /* 属性の設定 */
+   //  targetName      = BannerTargetName;
+   //  copyrightNotice = BannerCopyrightNotice;
+   //};
+};
+
+import("tecsrustUART_def.cdl");
+
+// 受信処理
+celltype tXUartTaskbody {
+  call sXUart cXUart;
+  call sDataqueueRs cDataqueue;
+  entry sTaskBody eTaskbody;
+  attr {///
+    uint8_t buffer_size = 128;///
+  };///
+  var {///
+    [size_is(buffer_size)] uint8_t *buffer; ///
+    uint8_t buffer_count = 0; ///
+  };///
+};
+
+[class(FMP,"CLS_PRC1")]
+region rProcessor1Symmetric{
+
+    [generate(RustFMP3Plugin, "TASK, lib")]
+    cell tTaskRs Task1 {
+      /* 呼び口の結合 */
+      cTaskBody = rProcessor1Symmetric::Taskbody.eTaskbody;
+      /* 属性の設定 */
+      id = PL_EXP("TSKID_UART");
+      task_ref = PL_EXP("unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_UART).unwrap())}");
+      priority = 7;
+      stackSize = 2048;
+      attribute = PL_EXP("TA_ACT");
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tXUartTaskbody Taskbody {
+      cXUart = Uart.eXUart;
+      cDataqueue = Dataqueue.eDataqueue;
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tXUart Uart {
+      base_address = PL_EXP("0xE0001000");
+      mode = PL_EXP("0x0020");
+      baudgen = PL_EXP("0x007c");
+      bauddiv = PL_EXP("0x06");
+    };
+
+    [generate(RustFMP3Plugin, "lib, DATAQUEUE")]
+    cell tDataqueueRs Dataqueue {
+      id = PL_EXP("DTQID_UART");
+      dataqueue_ref = PL_EXP("unsafe{itron::dataqueue::DataqueueRef::from_raw_nonnull(NonZeroI32::new(DTQID_UART).unwrap())}");
+      attribute = PL_EXP("TA_NULL");
+      dataCount = 1;
+    };
+};
+
+// 送信処理タスク
+celltype tTaskbody {
+  entry sTaskBody eTaskbody;
+  call sXUart cXUart;
+  call sDataqueueRs cDataqueue;
+};
+
+[class(FMP,"CLS_PRC2")]
+region rProcessor2Symmetric{
+
+    //[generate(RustFMP3Plugin, "TASK, lib")]
+    //cell tTaskRs Task2 {
+    //  /* 呼び口の結合 */
+    //  cTaskBody = rProcessor2Symmetric::TaskBody.eTaskbody;
+    //  /* 属性の設定 */
+    //  id = PL_EXP("TSKID_LOOP");
+    //  task_ref = PL_EXP("unsafe{itron::task::TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LOOP).unwrap())}");
+    //  priority = 7;
+    //  stackSize = 2048;
+    //  attribute = PL_EXP("TA_ACT");
+    //};
+//
+    //[generate(RustFMP3Plugin, "lib")]
+    //cell tTaskbody TaskBody {
+    //  cXUart = rProcessor1Symmetric::Uart.eXUart;
+    //  cDataqueue = rProcessor1Symmetric::Dataqueue.eDataqueue;
+    //};
+};
+
+
+
+
