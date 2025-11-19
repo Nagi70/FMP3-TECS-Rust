@@ -1,9 +1,0 @@
-dir,section,size_hex,size_dec,addr_hex
-ex3,.text,0x8df8,36344,0x100000
-ex3,.rodata,0xf40,3904,0x108df8
-ex3,.ARM.exidx,0x8,8,0x109d38
-ex3,.data,0x40,64,0x109d40
-ex3,.bss,0xe070,57456,0x109d80
-ex3,.comment,0x67,103,0x0
-ex3,.ARM.attributes,0x35,53,0x0
-ex3,Total,0x731ed,471533,
