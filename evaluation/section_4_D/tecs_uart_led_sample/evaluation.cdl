@@ -1,0 +1,117 @@
+import("evaluation_uart_def.cdl");
+import("evaluation_led_def.cdl");
+
+celltype tXUartTaskbody {
+  call sXUartMeasure cXUart;
+  call sLed cLed; ///
+  call siDataqueueRs cDataqueue;
+  call sDataqueueRs cDataqueueLed; ///
+  entry sTaskBody eTaskbody;
+  entry siSioCbr eXUartMain;
+};
+
+celltype tXUartInterruptInitializeBody {
+  entry sRoutineBody eRoutineBody;
+};
+
+[class(FMP,"CLS_PRC1")]
+region rProcessor1Symmetric{
+
+    [generate(RustFMP3Plugin, "TASK, lib")]
+    cell tTaskRs UartTask {
+      cTaskBody = rProcessor1Symmetric::UartTaskbody.eTaskbody;
+      id = C_EXP("TSKID_UART");
+      task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_UART).unwrap())}");
+      priority = 7;
+      stackSize = 2048;
+      attribute = C_EXP("TA_ACT");
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tXUartTaskbody UartTaskbody {
+      cXUart = Uart.eXUart;
+      cLed = Led.eLed; ///
+      cDataqueue = Dataqueue.eiDataqueue;
+      cDataqueueLed = rProcessor2Symmetric::DataqueueLed.eDataqueue; ///
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tXUart Uart {
+      cXUartMain = UartTaskbody.eXUartMain;
+      base_address = C_EXP("0xE0001000");
+      mode = C_EXP("0x0020");
+      baudgen = C_EXP("0x007c");
+      bauddiv = C_EXP("0x06");
+    };
+
+    [generate(RustFMP3Plugin, "INT_SERVICE_ROUTINE, lib")]
+    cell tIsrRs UartIsr {
+      ciIsrBody = Uart.eiHandlerBody;
+      id = C_EXP("ISRID_PRC2");
+      interruptNumber = 82;
+    };
+
+    [generate(RustFMP3Plugin, "INIT_ROUTINE, lib")]
+    cell tInitializeRoutineRs UartIni {
+      cInitializeRoutineBody = UartIniBody.eRoutineBody;
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tXUartInterruptInitializeBody UartIniBody {
+
+    };
+
+    [generate(RustFMP3Plugin, "lib, DATAQUEUE")]
+    cell tDataqueueRs Dataqueue {
+      id = C_EXP("DTQID_UART");
+      dataqueue_ref = C_EXP("unsafe{DataqueueRef::from_raw_nonnull(NonZeroI32::new(DTQID_UART).unwrap())}");
+      attribute = C_EXP("TA_NULL");
+      dataCount = 1;
+    };
+
+    [generate(RustFMP3Plugin, "lib")] ///
+    cell tMioLed Led { ///
+
+    }; ///
+};
+
+celltype tTaskbody {
+  entry sTaskBody eTaskbody;
+  call sXUartMeasure cXUart;
+  call sDataqueueRs cDataqueue;
+  call sDataqueueRs cDataqueueLed; ///
+  var { ///
+    [size_is(8)] uint32_t *buffer = {0, 0, 0, 0, 0, 0, 0, 0}; ///
+    uint32_t buffer_count = 0; ///
+  }; ///
+};
+
+[class(FMP,"CLS_PRC2")]
+region rProcessor2Symmetric{
+
+    [generate(RustFMP3Plugin, "TASK, lib")]
+    cell tTaskRs ButtonTask {
+      cTaskBody = rProcessor2Symmetric::TaskBody.eTaskbody;
+      id = C_EXP("TSKID_LOOP");
+      task_ref = C_EXP("unsafe{TaskRef::from_raw_nonnull(NonZeroI32::new(TSKID_LOOP).unwrap())}");
+      priority = 7;
+      stackSize = 2048;
+      attribute = C_EXP("TA_ACT");
+    };
+
+    [generate(RustFMP3Plugin, "lib")]
+    cell tTaskbody TaskBody {
+      cXUart = rProcessor1Symmetric::Uart.eXUart;
+      cDataqueue = rProcessor1Symmetric::Dataqueue.eDataqueue;
+      cDataqueueLed = DataqueueLed.eDataqueue; ///
+    };
+
+    [generate(RustFMP3Plugin, "lib, DATAQUEUE")] ///
+    cell tDataqueueRs DataqueueLed { ///
+      id = C_EXP("DTQID_LED"); ///
+      dataqueue_ref = C_EXP("unsafe{DataqueueRef::from_raw_nonnull(NonZeroI32::new(DTQID_LED).unwrap())}"); ///
+      attribute = C_EXP("TA_NULL"); ///
+      dataCount = 1; ///
+    }; ///
+
+};

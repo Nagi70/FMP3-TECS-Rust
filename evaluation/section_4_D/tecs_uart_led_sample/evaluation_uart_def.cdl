@@ -1,0 +1,69 @@
+import("syssvc/tSerialPort.cdl");
+import("syssvc/tSerialAdapter.cdl");
+import("syssvc/tSysLog.cdl");
+import("syssvc/tSysLogAdapter.cdl");
+
+/*
+ *  ターゲット依存部からのコールバック
+ */
+[callback]
+signature siSioCbr {
+	void	readySend(void);
+	void	readyReceive(void);
+};
+
+signature sXUartMeasure {
+  void open(void);
+  bool_t putChar([in] uint8_t c);
+  bool_t getChar([out] uint8_t *c);
+};
+
+celltype tXUart {
+  call siSioCbr cXUartMain;
+  entry sXUartMeasure eXUart;
+  entry siHandlerBody eiHandlerBody;
+  attr {
+    uint32_t base_address;
+    uint32_t mode;
+    uint32_t baudgen;
+    uint32_t bauddiv;
+  };
+};
+
+const uint32_t XUART_CR_OFFSET = 0x00;
+const uint32_t XUART_MR_OFFSET = 0x04;
+const uint32_t XUART_IER_OFFSET = 0x08;
+const uint32_t XUART_IDR_OFFSET = 0x0c;
+const uint32_t XUART_ISR_OFFSET = 0x14;
+const uint32_t XUART_BAUDGEN_OFFSET = 0x18;
+const uint32_t XUART_RXTOUT_OFFSET = 0x1c;
+const uint32_t XUART_RXWM_OFFSET = 0x20;
+const uint32_t XUART_SR_OFFSET = 0x2c;
+const uint32_t XUART_FIFO_OFFSET = 0x30;
+const uint32_t XUART_BAUDDIV_OFFSET = 0x34;
+
+const uint32_t XUART_CR_STOPPRK = 0x0100;
+const uint32_t XUART_CR_TX_DIS = 0x0020;
+const uint32_t XUART_CR_TX_EN = 0x0010;
+const uint32_t XUART_CR_RX_DIS = 0x0008;
+const uint32_t XUART_CR_RX_EN = 0x0004;
+const uint32_t XUART_CR_TXRST = 0x0002;
+const uint32_t XUART_CR_RXRST = 0x0001;
+
+const uint32_t XUART_MR_STOPBIT_1 = 0x0000;
+const uint32_t XUART_MR_PARITY_NONE = 0x0020;
+const uint32_t XUART_MR_CHARLEN_8 = 0x0000;
+const uint32_t XUART_MR_CLKSEL = 0x0001;
+const uint32_t XUART_MR_CCLK = 0x0400;
+
+
+const uint32_t XUART_IXR_TXEMPTY = 0x0008;
+const uint32_t XUART_IXR_RXTRIG = 0x0001;
+const uint32_t XUART_IXR_ALL = 0x1fff;
+
+const uint32_t XUART_SR_TXFULL = 0x0010;
+const uint32_t XUART_SR_TXEMPTY = 0x0008;
+const uint32_t XUART_SR_RXEMPTY = 0x0002;
+
+const uint32_t XUART_BAUDGEN_115K = 0x7c;
+const uint32_t XUART_BAUDDIV_115K = 0x06;
