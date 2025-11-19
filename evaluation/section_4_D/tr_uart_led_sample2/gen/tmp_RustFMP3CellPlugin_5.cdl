@@ -1,3 +1,0 @@
-/* apply CppIfGenCelltypePlugin to celltype 'tXUartInterruptInitializeBody' (celltype of cell 'UartIniBody') */
-generate( RustFMP3Plugin, ::tXUartInterruptInitializeBody, "lib" ); 
-  
