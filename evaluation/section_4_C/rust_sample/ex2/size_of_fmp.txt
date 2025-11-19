@@ -1,0 +1,20 @@
+ex2//fmp.elf  :
+section              size       addr
+.text              0x8d30   0x100000
+.rodata             0xf08   0x108d30
+.ARM.exidx            0x8   0x109c38
+.data                0x40   0x109c40
+.bss               0xd910   0x109c80
+.comment             0x67        0x0
+.ARM.attributes      0x35        0x0
+.debug_aranges      0x728        0x0
+.debug_info       0x25cf2        0x0
+.debug_abbrev      0x6ba0        0x0
+.debug_line       0x122dc        0x0
+.debug_frame       0x1830        0x0
+.debug_str         0x4bbc        0x0
+.debug_loc        0x11fed        0x0
+.debug_ranges      0x3c70        0x0
+Total             0x7290b
+
+

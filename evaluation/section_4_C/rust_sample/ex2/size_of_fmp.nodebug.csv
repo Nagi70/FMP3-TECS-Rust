@@ -1,0 +1,9 @@
+dir,section,size_hex,size_dec,addr_hex
+ex2,.text,0x8d30,36144,0x100000
+ex2,.rodata,0xf08,3848,0x108d30
+ex2,.ARM.exidx,0x8,8,0x109c38
+ex2,.data,0x40,64,0x109c40
+ex2,.bss,0xd910,55568,0x109c80
+ex2,.comment,0x67,103,0x0
+ex2,.ARM.attributes,0x35,53,0x0
+ex2,Total,0x7290b,469259,
