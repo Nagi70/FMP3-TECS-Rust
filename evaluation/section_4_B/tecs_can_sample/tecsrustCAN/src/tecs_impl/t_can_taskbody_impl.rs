@@ -99,25 +99,19 @@ impl STaskBody for ETaskbodyForTCanTaskbody{
 					start_u1 = core::ptr::read_volatile(0xF8F00204 as *const u32); // COUNT_U
 					start_l  = core::ptr::read_volatile(0xF8F00200 as *const u32); // COUNT_L
 				}
+			}
 
-				let tx_result = lg.c_can.send(&tx_frame);
+			let tx_result = lg.c_can.send(&tx_frame);
 
+			#[cfg(feature = "send")]
+			{
 				unsafe{ 
 					end_u1 = core::ptr::read_volatile(0xF8F00204 as *const u32); // COUNT_U
 					end_l  = core::ptr::read_volatile(0xF8F00200 as *const u32); // COUNT_L
 				}
-
-				itron::task::delay(itron::time::duration!(ms: 1)).expect("delay failed");
-
-				match tx_result {
-					Ok(_) => {
-						// Successfully sent
-					}
-					Err(_) => {
-						print!("failure: send", );
-					}
-				}
 			}
+
+			itron::task::delay(itron::time::duration!(ms: 1)).expect("delay failed");
 
 			#[cfg(feature = "receive")]
 			{
@@ -125,42 +119,15 @@ impl STaskBody for ETaskbodyForTCanTaskbody{
 					start_u1 = core::ptr::read_volatile(0xF8F00204 as *const u32); // COUNT_U
 					start_l  = core::ptr::read_volatile(0xF8F00200 as *const u32); // COUNT_L
 				}
+			}
 
-				let rx_result = lg.c_can.receive(&mut rx_frame);
+			let rx_result = lg.c_can.receive(&mut rx_frame);
 
+			#[cfg(feature = "receive")]
+			{
 				unsafe{ 
 					end_u1 = core::ptr::read_volatile(0xF8F00204 as *const u32); // COUNT_U
 					end_l  = core::ptr::read_volatile(0xF8F00200 as *const u32); // COUNT_L
-				}
-
-				itron::task::delay(itron::time::duration!(ms: 1)).expect("delay failed");
-
-				match rx_result {
-					Ok(_) => {
-						if rx_frame[0] != x_can_create_id_value(test_message_id, 0, 0, 0, 0) {
-							print!("Loop back error: Invalide ID",);
-						}
-				
-						if (rx_frame[1] >> XCAN_DLCR_DLC_SHIFT) != (x_can_create_dlc_value(frame_data_length) >> XCAN_DLCR_DLC_SHIFT) {
-							print!("Loop back error: Invalide DLC",);
-						}
-			
-						let frame_data = unsafe {
-							core::slice::from_raw_parts(
-								rx_frame.as_ptr().add(2) as *const u8,
-								frame_data_length as usize,
-							)
-						};
-			
-						for (index, &byte) in frame_data.iter().enumerate() {
-							if byte != index as u8 {
-								print!("Loopback error: Invalid data",);
-							}
-						}
-					}
-					Err(_) => {
-						print!("failure: receive", );
-					}
 				}
 			}
 
@@ -177,6 +144,43 @@ impl STaskBody for ETaskbodyForTCanTaskbody{
 				print!("duration is negative,", );
 			}
 
+			match tx_result {
+				Ok(_) => {
+					// Successfully sent
+				}
+				Err(_) => {
+					print!("failure: send", );
+				}
+			}
+
+			match rx_result {
+				Ok(_) => {
+					if rx_frame[0] != x_can_create_id_value(test_message_id, 0, 0, 0, 0) {
+						print!("Loop back error: Invalide ID",);
+					}
+			
+					if (rx_frame[1] >> XCAN_DLCR_DLC_SHIFT) != (x_can_create_dlc_value(frame_data_length) >> XCAN_DLCR_DLC_SHIFT) {
+						print!("Loop back error: Invalide DLC",);
+					}
+		
+					let frame_data = unsafe {
+						core::slice::from_raw_parts(
+							rx_frame.as_ptr().add(2) as *const u8,
+							frame_data_length as usize,
+						)
+					};
+		
+					for (index, &byte) in frame_data.iter().enumerate() {
+						if byte != index as u8 {
+							print!("Loopback error: Invalid data",);
+						}
+					}
+				}
+				Err(_) => {
+					print!("failure: receive", );
+				}
+			}
+
 			itron::task::delay(itron::time::duration!(ms: 10)).expect("delay failed");
 		}
 
@@ -184,4 +188,3 @@ impl STaskBody for ETaskbodyForTCanTaskbody{
 		loop {}
 	}
 }
-

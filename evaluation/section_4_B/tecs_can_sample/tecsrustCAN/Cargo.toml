@@ -7,7 +7,7 @@ edition = "2024"
 itron = { version = "= 0.1.9", features = ["fmp3", "nightly", "unstable"] }
 
 [features]
-default = ["send"]
+default = ["receive"]
 # Local feature flags used with #[cfg(feature = "...")]
 send = []
 receive = []
