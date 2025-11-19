@@ -1,6 +1,0 @@
-
-pub const SIOSENDREADY: u32 = 1;
-pub const SIORECEIVEREADY: u32 = 2;
-pub const DEFAULTTASKSTACKSIZE: u32 = 4096;
-pub const LOGTASKSTACKSIZE: u32 = 4096;
-
