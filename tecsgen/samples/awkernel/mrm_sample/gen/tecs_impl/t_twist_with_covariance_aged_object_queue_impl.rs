@@ -1,0 +1,27 @@
+use crate::tecs_global::*;
+use crate::tecs_celltype::t_twist_with_covariance_aged_object_queue::*;
+use crate::tecs_signature::{s_twist_with_covariance_set::*, s_twist_with_covariance_get::*};
+use awkernel_lib::sync::mutex::MCSNode;
+impl STwistWithCovarianceSet for ESetForTTwistWithCovarianceAgedObjectQueue{
+
+	fn push(&'static self, twist: &TwistWithCovarianceStamped) -> Result<(), ()>{
+		let mut node = MCSNode::new();
+		let mut lg = self.cell.get_cell_ref(&mut node);
+
+	}
+}
+
+impl STwistWithCovarianceGet for EGetForTTwistWithCovarianceAgedObjectQueue{
+
+	fn pop(&'static self) -> Option<TwistWithCovarianceStamped>{
+		let mut node = MCSNode::new();
+		let mut lg = self.cell.get_cell_ref(&mut node);
+
+	}
+	fn pop_increment_age(&'static self) -> Option<TwistWithCovarianceStamped>{
+		let mut node = MCSNode::new();
+		let mut lg = self.cell.get_cell_ref(&mut node);
+
+	}
+}
+

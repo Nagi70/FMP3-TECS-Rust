@@ -1,0 +1,89 @@
+import(<kernel_rs.cdl>);
+
+typedef int_t   PbioDirectionT;
+typedef int_t   PbioPortIdT;
+typedef int_t   PbioErrorT;
+typedef int_t   Option_Ref_a_mut__PupMotorT__;
+typedef int_t   Option_Ref_a_mut__PupUltrasonicSensorT__;
+typedef int_t   bool;
+
+signature sMotor {
+    void setMotorRef( void );
+    void setup( [in] PbioDirectionT positive_direction, [in] bool reset_count );
+    void setSpeed( [in] int32_t speed );
+    void stop( void );
+};
+
+signature sSensor {
+    void setDeviceRef( void );
+    void getDistance( [out] int32_t* distance );
+    void lightOn( void );
+    void lightSet( [in] int32_t bv1, [in] int32_t bv2, [in] int32_t bv3, [in] int32_t bv4 );
+    void lightOff( void );
+};
+
+signature sPowerdown{
+    void powerdown( [in] PbioErrorT error );
+};
+
+[generate (RustASP3Plugin, "lib")]
+celltype tMotor {
+    [inline] entry sMotor eMotor;
+    attr {
+        PbioPortIdT port = C_EXP("PbioPortIdT::PBIO_PORT_ID_$port$");
+    };
+    var {
+       Option_Ref_a_mut__PupMotorT__ motor = C_EXP("None");
+    };
+};
+
+[generate (RustASP3Plugin, "lib")]
+celltype tSensor {
+    [inline] entry sSensor eSensor;
+    attr{
+        PbioPortIdT port = C_EXP("PbioPortIdT::PBIO_PORT_ID_$port$");
+    };
+    var {
+        Option_Ref_a_mut__PupUltrasonicSensorT__ ult = C_EXP("None");
+    };
+};
+
+[generate (RustASP3Plugin, "lib")]
+celltype tTaskbody {
+    entry sTaskBody eTaskbody;
+    call sMotor cMotorA;
+    call sMotor cMotorB;
+    call sSensor cSensor;
+};
+
+[generate (RustASP3Plugin, "lib")]
+celltype tMotorbody {
+    call sMotor cMotor;
+    entry sTaskBody eMotorbody;
+};
+
+[generate (RustASP3Plugin, "lib")]
+celltype tSensorbody {
+    call sSensor cSensor;
+    entry sTaskBody eSensorbody;
+};
+
+[generate (RustASP3Plugin, "lib")]
+celltype tMMbody {
+    call sMotor cMotor1;
+    call sMotor cMotor2;
+    entry sTaskBody eMMbody;
+};
+
+[generate (RustASP3Plugin, "lib")]
+celltype tSSbody {
+    call sSensor cSensor1;
+    call sSensor cSensor2;
+    entry sTaskBody eSSbody;
+};
+
+[generate (RustASP3Plugin, "lib")]
+celltype tPowerdown {
+    [inline] entry sPowerdown ePowerdown1;
+    [inline] entry sPowerdown ePowerdown2;
+};

@@ -1,0 +1,49 @@
+signature sSample {
+    void  print ( [in]int8_t varin, [out]int32_t *varout, [out]int32_t *varout2);
+};
+
+signature sSample2 {
+	void print (void);
+};
+
+[generate( RustGenPlugin, "")]
+celltype tSample {
+	call sSample cPrint;
+	call sSample2 cPrint2;
+};
+
+[generate( RustGenPlugin, "")]
+celltype tPrint {
+	entry sSample ePrint;
+	entry sSample2 ePrint2;
+	call sSample cCalculate;
+	attr{
+        int16_t attribute = 1;
+    };
+    var {
+		int16_t variable = 0;
+	};
+};
+
+[generate(RustGenPlugin, "")]
+celltype tCalculate {
+	entry sSample eCalculate;
+	attr{
+		int32_t attribute = 4;
+	};
+	var{
+		int32_t variable = 3;
+	};
+};
+
+cell tCalculate Calcu{
+};
+
+cell tPrint PrintA {
+	cCalculate = Calcu.eCalculate;
+};
+
+cell tSample Sample {
+	cPrint = PrintA.ePrint;
+	cPrint2 = PrintA.ePrint2;
+};

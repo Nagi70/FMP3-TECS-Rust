@@ -1,0 +1,15 @@
+signature sTf {
+	PLType("nalgebra::Matrix3<f64>") transformCovariance([in] PLType("nalgebra::Matrix3<f64>") cov);
+	PLType("nalgebra::Vector3<f64>") transformVector3([in] PLType("nalgebra::Vector3<f64>") vec);
+};
+
+[generate(RustAWKPlugin, "")]
+celltype tTf {
+    entry sTf eTf;
+    attr {
+        // tf の値 (imu->base)
+        PLType("nalgebra::Unit<nalgebra::Quaternion<f64>>") transform = PL_EXP("nalgebra::Unit::new_unchecked(nalgebra::Quaternion::new("
+            "0.0, 0.0, 0.0, 0.0))"
+        );
+    };
+};

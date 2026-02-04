@@ -1,0 +1,10 @@
+import("struct_define.cdl");
+
+signature sImuMsg {
+};
+
+signature sImuMsg {
+};
+
+signature sFrame {
+};

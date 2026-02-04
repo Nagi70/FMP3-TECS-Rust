@@ -1,0 +1,67 @@
+/* 'Class' post code */
+import("gen/tImuDriver_dag_reactor.cdl");
+
+cell tImuDriverDagReactor ImuDriverDagReactor {
+  cDagReactor = ImuDriver.eReactor;
+};
+
+import("gen/tImuCorrector_dag_reactor.cdl");
+
+cell tImuCorrectorDagReactor ImuCorrectorDagReactor {
+  cDagReactor = ImuCorrector.eReactor;
+};
+
+import("gen/tVehicleVelocityConverter_dag_reactor.cdl");
+
+cell tVehicleVelocityConverterDagReactor VehicleVelocityConverterDagReactor {
+  cDagReactor = VehicleVelocityConverter.eReactor;
+};
+
+import("gen/tGyroOdometer_dag_reactor.cdl");
+
+cell tGyroOdometerDagReactor GyroOdometerDagReactor {
+  cDagReactor = GyroOdometer.eReactor;
+};
+
+import("gen/tStopFilter_dag_reactor.cdl");
+
+cell tStopFilterDagReactor StopFilterDagReactor {
+  cDagReactor = StopFilter.eReactor;
+};
+
+import("gen/tTwist2Accel_dag_reactor.cdl");
+
+cell tTwist2AccelDagReactor Twist2AccelDagReactor {
+  cDagReactor = Twist2Accel.eReactor;
+};
+
+import("gen/tTrajectoryFollower_dag_reactor.cdl");
+
+cell tTrajectoryFollowerDagReactor TrajectoryFollowerDagReactor {
+  cDagReactor = TrajectoryFollower.eReactor;
+};
+
+import("gen/tDummySinkReactorInMrm_dag_sink_reactor.cdl");
+
+cell tDummySinkReactorInMrmDagSinkReactor DummySinkReactorDagSinkReactor {
+  cDagSinkReactor = DummySinkReactor.eReactor;
+};
+
+import("gen/tEkfLocalizer_sink_reactor.cdl");
+
+cell tEkfLocalizerSinkReactor EkfLocalizerSinkReactor {
+  cSinkReactor = EkfLocalizer.eReactor;
+};
+
+import("gen/tDummyPeriodicReactorInMrm_dag_periodic_reactor.cdl");
+
+cell tDummyPeriodicReactorInMrmDagPeriodicReactor DummyHardwareDagPeriodicReactor {
+  cDagPeriodicReactor = DummyHardware.eReactor;
+};
+
+import("gen/tEkfLocalizerTimer_dag_periodic_reactor.cdl");
+
+cell tEkfLocalizerTimerDagPeriodicReactor EkfLocalizerTimerDagPeriodicReactor {
+  cDagPeriodicReactor = EkfLocalizerTimer.eReactor;
+};
+

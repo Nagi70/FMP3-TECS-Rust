@@ -1,0 +1,37 @@
+import("struct_define.cdl");
+import("topic_signature.cdl");
+
+signature sDummyImubody{
+    void main([out] struct Frame* imu);
+};
+
+signature sDummyImuCorrectorbody{
+    void main([in] struct ImuMsg imu_raw);
+};
+
+[generate( RustAWKPlugin, "")]
+celltype tDummyImu{
+    [async] call sDummyImubody cDummyImubody;
+    entry sReactorbody eDummyImu;
+};
+
+[generate( RustAWKPlugin, "")]
+celltype tDummyImuCorrector{
+    [async] call sDummyImuCorrectorbody cDummyImuCorrectorbody;
+    entry sReactorbody eDummyImuCorrector;
+};
+
+[generate( RustAWKPlugin, "")]
+celltype tDummyImubody{
+    [omit] call sFrame cImu;
+    entry sDummyImubody eDummyImubody;
+    var {
+        int32_t i = 0;
+    };
+};
+
+[generate( RustAWKPlugin, "")]
+celltype tDummyImuCorrectorbody{
+    entry sImuMsg eImuRaw;
+    entry sDummyImuCorrectorbody eDummyImuCorrectorbody;
+};

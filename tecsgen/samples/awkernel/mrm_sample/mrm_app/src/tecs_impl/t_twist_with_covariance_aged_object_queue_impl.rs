@@ -1,0 +1,46 @@
+use crate::tecs_global::*;
+use crate::tecs_celltype::t_twist_with_covariance_aged_object_queue::*;
+use crate::tecs_signature::{s_twist_with_covariance_set::*, s_twist_with_covariance_get::*};
+use awkernel_lib::sync::mutex::MCSNode;
+impl STwistWithCovarianceSet for ESetForTTwistWithCovarianceAgedObjectQueue{
+
+	fn push(&self, twist: &TwistWithCovarianceStamped) -> core::result::Result<(), ()> {
+		let mut node = MCSNode::new();
+		let mut lg = self.cell.get_cell_ref(&mut node);
+
+		let mut twist_temp = twist.clone();
+
+		if twist_temp.twist.twist.linear.x.abs() < *lg.threshold_observable_velocity_mps {
+			twist_temp.twist.covariance[0] = 10000.0;
+		}
+
+		lg.var.queue.enqueue((twist_temp, 0)).map_err(|_| ())
+	}
+}
+
+impl STwistWithCovarianceGet for EGetForTTwistWithCovarianceAgedObjectQueue{
+
+	fn pop(&self) -> Option<TwistWithCovarianceStamped> {
+		let mut node = MCSNode::new();
+		let mut lg = self.cell.get_cell_ref(&mut node);
+
+		// C++のAgedObjectQueue::pop()に相当: 先頭を取り出して返す（再キューなし）
+		lg.var.queue.dequeue().map(|(twist, _age)| twist)
+	}
+	fn pop_increment_age(&self) -> Option<TwistWithCovarianceStamped> {
+		let mut node = MCSNode::new();
+		let mut lg = self.cell.get_cell_ref(&mut node);
+
+		// C++のAgedObjectQueue::pop_increment_age()に相当:
+		// 先頭を取り出し、age+1 が max_age 未満なら末尾へ(ageをインクリメントして)再キュー。
+		lg.var.queue.dequeue().map(|(twist, age)| {
+			let new_age = age.saturating_add(1);
+			if new_age < *lg.max_age {
+				// 再キューするので、返却する値とは別に clone が必要
+				lg.var.queue.enqueue((twist.clone(), new_age)).ok();
+			}
+			twist
+		})
+	}
+}
+

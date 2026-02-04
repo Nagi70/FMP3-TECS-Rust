@@ -1,4 +1,0 @@
-[submodule "tecsgen"]
-	path = tecsgen
-	url = https://github.com/Nagi70/TECS-Rust.git
-	branch = master

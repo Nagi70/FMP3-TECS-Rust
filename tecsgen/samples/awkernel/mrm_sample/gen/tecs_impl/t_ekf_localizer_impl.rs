@@ -1,0 +1,20 @@
+use crate::tecs_global::*;
+use crate::tecs_celltype::t_ekf_localizer::*;
+use crate::tecs_signature::{s_twist_with_covariance_set::*, s_twist_with_covariance_stamped::*, s_ekf_localizer::*};
+use awkernel_lib::sync::mutex::MCSNode;
+impl STwistWithCovarianceStamped for ETwistWithCovarianceGForTEkfLocalizer{
+
+	fn send(&'static self, twist_with_covariance: &TwistWithCovarianceStamped) {
+		let mut lg = self.cell.get_cell_ref();
+
+	}
+}
+
+impl SEkfLocalizer for EReactorForTEkfLocalizer{
+
+	fn main(&'static self, twist: &TwistWithCovarianceStamped) {
+		let mut lg = self.cell.get_cell_ref();
+
+	}
+}
+

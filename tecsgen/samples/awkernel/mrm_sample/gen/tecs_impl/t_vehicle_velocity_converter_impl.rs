@@ -1,0 +1,18 @@
+use crate::tecs_global::*;
+use crate::tecs_celltype::t_vehicle_velocity_converter::*;
+use crate::tecs_signature::{s_twist_with_covariance_stamped::*, s_velocity_status::*, s_vehicle_velocity_converter::*};
+use awkernel_lib::sync::mutex::MCSNode;
+impl SVelocityStatus for EVelocityStatusForTVehicleVelocityConverter{
+
+	fn send(&'static self, velocity_status: &VelocityReport) {
+
+	}
+}
+
+impl SVehicleVelocityConverter for EReactorForTVehicleVelocityConverter{
+
+	fn main(&'static self, velocity_status: &VelocityReport, twist_with_covariance: &mut TwistWithCovarianceStamped) {
+
+	}
+}
+

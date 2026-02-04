@@ -1,0 +1,86 @@
+import("struct.cdl");
+import("publish_signature.cdl");
+
+signature sEkfLocalizer {
+    // EKFの更新処理。入力(サブスクライブ)と出力(パブリッシュ)を引数で定義
+    void main( [in] struct TwistWithCovarianceStamped twist );
+};
+
+signature sTwistWithCovarianceSet {
+    PLType("core::result::Result<(), ()>") push( [in] struct TwistWithCovarianceStamped twist );
+};
+
+signature sTwistWithCovarianceGet {
+    PLType("Option<TwistWithCovarianceStamped>") pop( void );
+    PLType("Option<TwistWithCovarianceStamped>") popIncrementAge( void );
+};
+
+[generate(RustAWKPlugin, "DAG_SINK_REACTOR_BODY")]
+celltype tEkfLocalizer {
+
+    call sTwistWithCovarianceSet cTwistWithCovarianceQueue;
+
+    // サブスクライブ用受け口
+    entry sTwistWithCovarianceStamped  eTwistWithCovarianceG;
+
+    // リアクター本体の受け口 (awkernelのルール)
+    entry sEkfLocalizer eReactor;
+
+    // ----- 属性定義 (不変パラメータ) -----
+    attr {
+        // --- awkernel リアクター用属性 ---
+        [omit] PLType("Cow") reactorName = PL_EXP("EkfLocalizer");
+        [omit] PLType("SchedulerType") schedType = PL_EXP("SchedulerType::PrioritizedFIFO(7)");
+        [omit] PLType("Cow") subscribeTopicNames = PL_EXP("TwistWithCovarianceG");
+        [omit] PLType("Duration") relativeDeadline = PL_EXP("Duration::from_secs(1)");
+    };
+};
+
+[generate(RustAWKPlugin, "")]
+celltype tTwistWithCovarianceAgedObjectQueue {
+    entry sTwistWithCovarianceSet eSet;
+    entry sTwistWithCovarianceGet eGet;
+
+    attr {
+        double64_t threshold_observable_velocity_mps = 0.1;
+        int32_t max_age = 10;
+    };
+
+    var {
+        PLType("heapless::spsc::Queue<(TwistWithCovarianceStamped, i32), 128>") queue = PL_EXP("heapless::spsc::Queue::new()");
+    };
+};
+
+import("ekf_module.cdl");
+
+signature sEkfLocalizerTimer {
+    // EKFの更新処理。入力(サブスクライブ)と出力(パブリッシュ)を引数で定義
+    void main( [out] struct KinematicState* kinematic_state );
+};
+
+[generate( RustAWKPlugin, "DAG_PERIODIC_REACTOR_BODY")]
+celltype tEkfLocalizerTimer{
+
+    [omit] call sKinematicState cKinematicState[2];
+
+    call sEkfModule cEkfModule;
+    call sTwistWithCovarianceGet cQueue;
+
+    entry sEkfLocalizerTimer eReactor;
+
+    attr{
+	    [omit] PLType("Cow") reactorName  = PL_EXP("EkfLocalizerTimer");
+	    [omit] PLType("SchedulerType") schedType = PL_EXP("SchedulerType::PrioritizedFIFO(7)");
+	    [omit] PLType("Duration") period = PL_EXP("Duration::from_millis(50)");
+        [omit] PLType("Cow") publishTopicNames = PL_EXP("KinematicState");
+
+        double64_t ekf_rate = 0.01;
+        uint32_t pose_smoothing_steps = 5;
+        uint32_t twist_smoothing_steps = 5;
+    };
+
+    var {
+        double64_t ekf_dt = 0.0;
+        PLType("awkernel_lib::time::Time") last_predict_time = PL_EXP("awkernel_lib::time::Time::zero()");
+    };
+};
