@@ -14,7 +14,7 @@ where
 
 pub struct LockGuardForTIsrRs<'a, T>
 where
-	T: SiHandlerBody + 'static,
+	T: SiHandlerBody,
 {
 	pub ci_isr_body: &'a T,
 	pub id: &'a ID,

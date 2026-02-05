@@ -34,7 +34,7 @@ impl STaskBody for ETaskbodyForTXUartTaskbody{
 					}
 				}
 				Err(e) => {
-					lg.c_x_uart.put_char(&b'E');
+					lg.c_x_uart.put_char(b'E');
 				}
 			}
 		}
@@ -71,7 +71,7 @@ impl SiSioCbr for EXUartMainForTXUartTaskbody{
 		if result {
 			// c_x_uart.put_char(&c);
 			let data: itron::dataqueue::DataElement = c.into();
-			lg.c_dataqueue.send_force(&data);
+			lg.c_dataqueue.send_force(data);
 		}
 	}
 }

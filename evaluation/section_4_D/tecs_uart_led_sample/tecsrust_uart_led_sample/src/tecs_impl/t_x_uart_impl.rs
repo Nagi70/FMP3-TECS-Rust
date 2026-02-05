@@ -36,13 +36,13 @@ impl SXUartMeasure for EXUartForTXUart{
 		}
 
 	}
-	fn put_char(&self, c: &u8) -> bool{
+	fn put_char(&self, c: u8) -> bool{
 		let lg = self.cell.get_cell_ref();
 
 		unsafe{
 			if((read_volatile((*lg.base_address + XUART_SR_OFFSET) as *const u32) & XUART_SR_TXFULL) == 0x00)
 			{
-				write_volatile((*lg.base_address + XUART_FIFO_OFFSET) as *mut u32, *c as u32);
+				write_volatile((*lg.base_address + XUART_FIFO_OFFSET) as *mut u32, c as u32);
 				true
 			}else{
 				false

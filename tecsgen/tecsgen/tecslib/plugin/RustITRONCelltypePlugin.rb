@@ -787,7 +787,17 @@ class RustITRONCelltypePlugin < RustGenCelltypePlugin
 
         gen_rust_lock_guard_structure_header file, celltype, callport_list, use_jenerics_alphabet
 
-        gen_rust_cell_structure_jenerics file, callport_list, use_jenerics_alphabet
+        # gen_rust_cell_structure_jenerics file, callport_list, use_jenerics_alphabet
+
+        if get_number_of_jenerics(use_jenerics_alphabet) != 0 then
+            file.print "\nwhere\n"
+        end
+
+        callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
+            if check_gen_dyn_for_port(callport) == nil then
+                file.print "\t#{alphabet}: #{get_rust_signature_name(callport.get_signature)},\n"
+            end
+        end
 
         file.print "{\n"
 
@@ -889,7 +899,7 @@ class RustITRONCelltypePlugin < RustGenCelltypePlugin
 
                 # get_cell_ref 関数の定義を生成
                 # TODO: get_cell_ref にライフタイムアノテーションが必要かも？
-                file.print "\tpub fn get_cell_ref(&'static self) -> "
+                file.print "\tpub fn get_cell_ref(&self) -> "
 
                 # 返り値のタプル型の要素をまとめるための配列
                 return_tuple_type_list = []

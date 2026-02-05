@@ -26,10 +26,10 @@ pub struct EXUartMainForTXUartTaskbody {
 
 pub struct LockGuardForTXUartTaskbody<'a, T, U, V, W>
 where
-	T: SXUartMeasure + 'static,
-	U: SLed + 'static,
-	V: SiDataqueueRs + 'static,
-	W: SDataqueueRs + 'static,
+	T: SXUartMeasure,
+	U: SLed,
+	V: SiDataqueueRs,
+	W: SDataqueueRs,
 {
 	pub c_x_uart: &'a T,
 	pub c_led: &'a U,
@@ -57,7 +57,7 @@ pub static EXUARTMAINFORRPROCESSOR1SYMMETRIC_UARTTASKBODY: EXUartMainForTXUartTa
 
 impl<T: SXUartMeasure, U: SLed, V: SiDataqueueRs, W: SDataqueueRs> TXUartTaskbody<T, U, V, W> {
 	#[inline]
-	pub fn get_cell_ref(&'static self) -> LockGuardForTXUartTaskbody<'_, T, U, V, W> {
+	pub fn get_cell_ref(&self) -> LockGuardForTXUartTaskbody<'_, T, U, V, W> {
 		LockGuardForTXUartTaskbody {
 			c_x_uart: self.c_x_uart,
 			c_led: self.c_led,

@@ -10,7 +10,7 @@ where
 
 pub struct LockGuardForTInitializeRoutineRs<'a, T>
 where
-	T: SRoutineBody + 'static,
+	T: SRoutineBody,
 {
 	pub c_initialize_routine_body: &'a T,
 }

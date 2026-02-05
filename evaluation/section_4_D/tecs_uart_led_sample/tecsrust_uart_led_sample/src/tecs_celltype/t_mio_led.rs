@@ -29,7 +29,7 @@ pub static ELEDFORRPROCESSOR1SYMMETRIC_LED: ELedForTMioLed = ELedForTMioLed {
 
 impl TMioLed {
 	#[inline]
-	pub fn get_cell_ref(&'static self) -> LockGuardForTMioLed<'_> {
+	pub fn get_cell_ref(&self) -> LockGuardForTMioLed<'_> {
 		LockGuardForTMioLed {
 			data_0: &self.data_0,
 			dirm_0: &self.dirm_0,

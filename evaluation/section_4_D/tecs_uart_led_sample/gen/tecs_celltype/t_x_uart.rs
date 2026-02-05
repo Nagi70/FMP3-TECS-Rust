@@ -22,7 +22,7 @@ pub struct EiHandlerBodyForTXUart {
 
 pub struct LockGuardForTXUart<'a, T>
 where
-	T: SiSioCbr + 'static,
+	T: SiSioCbr,
 {
 	pub c_x_uart_main: &'a T,
 	pub base_address: &'a u32,
@@ -52,7 +52,7 @@ pub static EIHANDLERBODYFORRPROCESSOR1SYMMETRIC_UART: EiHandlerBodyForTXUart = E
 
 impl<T: SiSioCbr> TXUart<T> {
 	#[inline]
-	pub fn get_cell_ref(&'static self) -> LockGuardForTXUart<'_, T> {
+	pub fn get_cell_ref(&self) -> LockGuardForTXUart<'_, T> {
 		LockGuardForTXUart {
 			c_x_uart_main: self.c_x_uart_main,
 			base_address: &self.base_address,

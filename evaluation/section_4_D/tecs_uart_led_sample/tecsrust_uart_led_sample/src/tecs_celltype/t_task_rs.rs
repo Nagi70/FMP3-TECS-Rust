@@ -57,7 +57,7 @@ pub static EITASKFORRPROCESSOR2SYMMETRIC_BUTTONTASK: EiTaskForTTaskRs = EiTaskFo
 
 impl TTaskRs {
 	#[inline]
-	pub fn get_cell_ref(&'static self) -> LockGuardForTTaskRs<'_> {
+	pub fn get_cell_ref(&self) -> LockGuardForTTaskRs<'_> {
 		LockGuardForTTaskRs {
 			c_task_body: self.c_task_body,
 			task_ref: &self.task_ref,

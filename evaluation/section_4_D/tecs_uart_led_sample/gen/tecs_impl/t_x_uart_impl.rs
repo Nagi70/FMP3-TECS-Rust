@@ -7,7 +7,7 @@ impl SXUartMeasure for EXUartForTXUart{
 		let lg = self.cell.get_cell_ref();
 
 	}
-	fn put_char(&self, c: &u8) -> bool{
+	fn put_char(&self, c: u8) -> bool{
 		let lg = self.cell.get_cell_ref();
 
 	}

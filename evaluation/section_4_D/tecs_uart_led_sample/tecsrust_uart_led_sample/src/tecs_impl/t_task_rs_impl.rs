@@ -13,9 +13,9 @@ impl STaskRs for ETaskForTTaskRs{
 		lg.task_ref.activate()
 	}
 	#[inline]
-	fn migrate_and_activate(&self, prcid: &itron::processor::Processor) -> Result<(), itron::error::Error<itron::task::ActivateOnError>> {
+	fn migrate_and_activate(&self, prcid: itron::processor::Processor) -> Result<(), itron::error::Error<itron::task::ActivateOnError>> {
 		let lg = self.cell.get_cell_ref();
-		lg.task_ref.activate_on(*prcid)
+		lg.task_ref.activate_on(prcid)
 	}
 	#[inline]
 	fn cancel_activate(&self) -> Result<usize, itron::error::Error<itron::task::CancelActivateAllError>> {
@@ -23,9 +23,9 @@ impl STaskRs for ETaskForTTaskRs{
 		lg.task_ref.cancel_activate_all()
 	}
 	#[inline]
-	fn migrate(&self, prcid: &itron::processor::Processor) -> Result<(), itron::error::Error<itron::task::MigrateError>> {
+	fn migrate(&self, prcid: itron::processor::Processor) -> Result<(), itron::error::Error<itron::task::MigrateError>> {
 		let lg = self.cell.get_cell_ref();
-		lg.task_ref.migrate(*prcid)
+		lg.task_ref.migrate(prcid)
 	}
 	#[inline]
 	fn get_task_state(&self) -> Result<itron::task::State, itron::error::Error<itron::task::StateError>> {
@@ -33,12 +33,12 @@ impl STaskRs for ETaskForTTaskRs{
 		lg.task_ref.state()
 	}
 	#[inline]
-	fn change_priority(&self, priority: &itron::task::Priority) -> Result<(), itron::error::Error<itron::task::SetPriorityError>> {
+	fn change_priority(&self, priority: itron::task::Priority) -> Result<(), itron::error::Error<itron::task::SetPriorityError>> {
 		let lg = self.cell.get_cell_ref();
-		lg.task_ref.set_priority(*priority)
+		lg.task_ref.set_priority(priority)
 	}
 	#[inline]
-	fn change_sub_priority(&self, subPriority: &itron::abi::uint_t) -> itron::abi::ER {
+	fn change_sub_priority(&self, subPriority: itron::abi::uint_t) -> itron::abi::ER {
 		let lg = self.cell.get_cell_ref();
 		1
 	}

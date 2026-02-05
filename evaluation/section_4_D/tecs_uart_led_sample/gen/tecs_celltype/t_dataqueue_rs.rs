@@ -50,7 +50,7 @@ pub static EIDATAQUEUEFORRPROCESSOR2SYMMETRIC_DATAQUEUELED: EiDataqueueForTDataq
 
 impl TDataqueueRs {
 	#[inline]
-	pub fn get_cell_ref(&'static self) -> LockGuardForTDataqueueRs<'_> {
+	pub fn get_cell_ref(&self) -> LockGuardForTDataqueueRs<'_> {
 		LockGuardForTDataqueueRs {
 			dataqueue_ref: &self.dataqueue_ref,
 		}

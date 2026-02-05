@@ -38,9 +38,9 @@ pub struct ETaskbodyForTTaskbody {
 
 pub struct LockGuardForTTaskbody<'a, T, U, V>
 where
-	T: SXUartMeasure + 'static,
-	U: SDataqueueRs + 'static,
-	V: SDataqueueRs + 'static,
+	T: SXUartMeasure,
+	U: SDataqueueRs,
+	V: SDataqueueRs,
 {
 	pub c_x_uart: &'a T,
 	pub c_dataqueue: &'a U,
@@ -86,7 +86,7 @@ impl<T: SXUartMeasure, U: SDataqueueRs, V: SDataqueueRs> Drop for LockGuardForTT
 
 impl<T: SXUartMeasure, U: SDataqueueRs, V: SDataqueueRs> TTaskbody<T, U, V> {
 	#[inline]
-	pub fn get_cell_ref(&'static self) -> LockGuardForTTaskbody<'_, T, U, V> {
+	pub fn get_cell_ref(&self) -> LockGuardForTTaskbody<'_, T, U, V> {
 		self.ex_ctrl_ref.lock();
 		LockGuardForTTaskbody {
 			c_x_uart: self.c_x_uart,

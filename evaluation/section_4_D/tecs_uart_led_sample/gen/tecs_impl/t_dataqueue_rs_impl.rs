@@ -4,22 +4,22 @@ use crate::tecs_signature::{s_dataqueue_rs::*, si_dataqueue_rs::*};
 impl SDataqueueRs for EDataqueueForTDataqueueRs{
 
 	#[inline]
-	fn send(&self, data: &itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::SendError>>{
+	fn send(&self, data: itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::SendError>>{
 		let lg = self.cell.get_cell_ref();
 
 	}
 	#[inline]
-	fn send_polling(&self, data: &itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::TrySendError>>{
+	fn send_polling(&self, data: itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::TrySendError>>{
 		let lg = self.cell.get_cell_ref();
 
 	}
 	#[inline]
-	fn send_timeout(&self, data: &itron::dataqueue::DataElement, timeout: &itron::time::Timeout) -> Result<(), itron::error::Error<itron::dataqueue::SendTimeoutError>>{
+	fn send_timeout(&self, data: itron::dataqueue::DataElement, timeout: itron::time::Timeout) -> Result<(), itron::error::Error<itron::dataqueue::SendTimeoutError>>{
 		let lg = self.cell.get_cell_ref();
 
 	}
 	#[inline]
-	fn send_force(&self, data: &itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::SendForcedError>>{
+	fn send_force(&self, data: itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::SendForcedError>>{
 		let lg = self.cell.get_cell_ref();
 
 	}
@@ -34,7 +34,7 @@ impl SDataqueueRs for EDataqueueForTDataqueueRs{
 
 	}
 	#[inline]
-	fn receive_timeout(&self, timeout: &itron::time::Timeout) -> Result<itron::dataqueue::DataElement, itron::error::Error<itron::dataqueue::RecvTimeoutError>>{
+	fn receive_timeout(&self, timeout: itron::time::Timeout) -> Result<itron::dataqueue::DataElement, itron::error::Error<itron::dataqueue::RecvTimeoutError>>{
 		let lg = self.cell.get_cell_ref();
 
 	}
@@ -53,12 +53,12 @@ impl SDataqueueRs for EDataqueueForTDataqueueRs{
 impl SiDataqueueRs for EiDataqueueForTDataqueueRs{
 
 	#[inline]
-	fn send_polling(&self, data: &itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::TrySendError>>{
+	fn send_polling(&self, data: itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::TrySendError>>{
 		let lg = self.cell.get_cell_ref();
 
 	}
 	#[inline]
-	fn send_force(&self, data: &itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::SendForcedError>>{
+	fn send_force(&self, data: itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::SendForcedError>>{
 		let lg = self.cell.get_cell_ref();
 
 	}
