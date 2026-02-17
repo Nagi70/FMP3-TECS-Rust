@@ -1236,13 +1236,3 @@ const unsigned_t TOPPERS_cfg_valueof_iniatr_69 = (unsigned_t)(TA_NULL);
 #line 71 "./gen/tecsgen.cfg"
 const signed_t TOPPERS_cfg_valueof_CLASS_69 = (signed_t)(CLS_PRC1);
 
-#line 77 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_static_api_70 = 70;
-#define TECS_RUST_EX_CTRL_1	(<>)
-#line 77 "./gen/tecsgen.cfg"
-const unsigned_t TOPPERS_cfg_valueof_mtxatr_70 = (unsigned_t)(TA_CEILING);
-#line 77 "./gen/tecsgen.cfg"
-const signed_t TOPPERS_cfg_valueof_ceilpri_70 = (signed_t)(1);
-#line 76 "./gen/tecsgen.cfg"
-const signed_t TOPPERS_cfg_valueof_CLASS_70 = (signed_t)(CLS_ALL_PRC1);
-

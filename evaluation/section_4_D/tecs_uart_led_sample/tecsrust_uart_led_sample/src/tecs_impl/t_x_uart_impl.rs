@@ -7,7 +7,7 @@ use core::ptr::{write_volatile, read_volatile};
 use crate::print;
 use crate::tecs_print::*;
 
-impl SXUartMeasure for EXUartForTXUart{
+impl<CONFIG: TXUartConfig> SXUartMeasure for EXUartForTXUart<CONFIG>{
 
 	fn open(&self) {
 		let lg = self.cell.get_cell_ref();
@@ -64,7 +64,7 @@ impl SXUartMeasure for EXUartForTXUart{
 	}
 }
 
-impl SiHandlerBody for EiHandlerBodyForTXUart{
+impl<CONFIG: TXUartConfig> SiHandlerBody for EiHandlerBodyForTXUart<CONFIG>{
 
 	fn main(&self) {
 		let lg = self.cell.get_cell_ref();

@@ -3,42 +3,30 @@ use crate::tecs_signature::{s_x_uart_measure::*, s_led::*, si_dataqueue_rs::*, s
 
 use crate::tecs_celltype::{t_x_uart::*, t_mio_led::*, t_dataqueue_rs::*};
 
-pub struct TXUartTaskbody<T, U, V, W>
-where
-	T: SXUartMeasure + 'static,
-	U: SLed + 'static,
-	V: SiDataqueueRs + 'static,
-	W: SDataqueueRs + 'static,
-{
-	c_x_uart: &'static T,
-	c_led: &'static U,
-	c_dataqueue: &'static V,
-	c_dataqueue_led: &'static W,
+pub struct TXUartTaskbody{
+	c_x_uart: &'static EXUartForTXUart<ConfigUart>,
+	c_led: &'static ELedForTMioLed<ConfigLed>,
+	c_dataqueue: &'static EiDataqueueForTDataqueueRs<ConfigDataqueue>,
+	c_dataqueue_led: &'static EDataqueueForTDataqueueRs<ConfigDataqueueled>,
 }
 
 pub struct ETaskbodyForTXUartTaskbody {
-	pub cell: &'static TXUartTaskbody<EXUartForTXUart, ELedForTMioLed, EiDataqueueForTDataqueueRs, EDataqueueForTDataqueueRs>,
+	pub cell: &'static TXUartTaskbody,
 }
 
 pub struct EXUartMainForTXUartTaskbody {
-	pub cell: &'static TXUartTaskbody<EXUartForTXUart, ELedForTMioLed, EiDataqueueForTDataqueueRs, EDataqueueForTDataqueueRs>,
+	pub cell: &'static TXUartTaskbody,
 }
 
-pub struct LockGuardForTXUartTaskbody<'a, T, U, V, W>
-where
-	T: SXUartMeasure,
-	U: SLed,
-	V: SiDataqueueRs,
-	W: SDataqueueRs,
-{
-	pub c_x_uart: &'a T,
-	pub c_led: &'a U,
-	pub c_dataqueue: &'a V,
-	pub c_dataqueue_led: &'a W,
+pub struct LockGuardForTXUartTaskbody<'a>{
+	pub c_x_uart: &'a EXUartForTXUart<ConfigUart>,
+	pub c_led: &'a ELedForTMioLed<ConfigLed>,
+	pub c_dataqueue: &'a EiDataqueueForTDataqueueRs<ConfigDataqueue>,
+	pub c_dataqueue_led: &'a EDataqueueForTDataqueueRs<ConfigDataqueueled>,
 }
 
 #[unsafe(link_section = ".rodata")]
-static RPROCESSOR1SYMMETRIC_UARTTASKBODY: TXUartTaskbody<EXUartForTXUart, ELedForTMioLed, EiDataqueueForTDataqueueRs, EDataqueueForTDataqueueRs> = TXUartTaskbody {
+static RPROCESSOR1SYMMETRIC_UARTTASKBODY: TXUartTaskbody = TXUartTaskbody {
 	c_x_uart: &EXUARTFORRPROCESSOR1SYMMETRIC_UART,
 	c_led: &ELEDFORRPROCESSOR1SYMMETRIC_LED,
 	c_dataqueue: &EIDATAQUEUEFORRPROCESSOR1SYMMETRIC_DATAQUEUE,
@@ -55,9 +43,9 @@ pub static EXUARTMAINFORRPROCESSOR1SYMMETRIC_UARTTASKBODY: EXUartMainForTXUartTa
 	cell: &RPROCESSOR1SYMMETRIC_UARTTASKBODY,
 };
 
-impl<T: SXUartMeasure, U: SLed, V: SiDataqueueRs, W: SDataqueueRs> TXUartTaskbody<T, U, V, W> {
+impl TXUartTaskbody {
 	#[inline]
-	pub fn get_cell_ref(&self) -> LockGuardForTXUartTaskbody<'_, T, U, V, W> {
+	pub fn get_cell_ref(&'static self) -> LockGuardForTXUartTaskbody {
 		LockGuardForTXUartTaskbody {
 			c_x_uart: self.c_x_uart,
 			c_led: self.c_led,

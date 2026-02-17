@@ -170,15 +170,8 @@ TOPPERS_EMPTY_LABEL(PDQCB *const, _kernel_p_pdqcb_table);
 
 const ID _kernel_tmax_mtxid = (TMIN_MTXID + TNUM_MTXID - 1);
 
-const MTXINIB _kernel_mtxinib_table[TNUM_MTXID] = {
-	{ (TA_CEILING), INT_PRIORITY(1) }
-};
-
-static MTXCB _kernel_mtxcb_TECS_RUST_EX_CTRL_1 __attribute__((section(".kernel_data_CLS_ALL_PRC1"),nocommon));
-
-MTXCB	*const _kernel_p_mtxcb_table[TNUM_MTXID] = {
-	&_kernel_mtxcb_TECS_RUST_EX_CTRL_1
-};
+TOPPERS_EMPTY_LABEL(const MTXINIB, _kernel_mtxinib_table);
+TOPPERS_EMPTY_LABEL(MTXCB *const, _kernel_p_mtxcb_table);
 
 /*
  *  SpinLock Functions
@@ -339,7 +332,6 @@ _kernel_initialize_object(PCB *p_my_pcb)
 	_kernel_initialize_task(p_my_pcb);
 	_kernel_initialize_semaphore(p_my_pcb);
 	_kernel_initialize_dataqueue(p_my_pcb);
-	_kernel_initialize_mutex(p_my_pcb);
 	_kernel_initialize_interrupt(p_my_pcb);
 	_kernel_initialize_exception(p_my_pcb);
 }

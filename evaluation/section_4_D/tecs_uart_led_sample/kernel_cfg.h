@@ -19,8 +19,7 @@
 
 #define TNUM_PDQID	0
 
-#define TNUM_MTXID	1
-#define TECS_RUST_EX_CTRL_1	1
+#define TNUM_MTXID	0
 
 #define TNUM_SPNID	0
 

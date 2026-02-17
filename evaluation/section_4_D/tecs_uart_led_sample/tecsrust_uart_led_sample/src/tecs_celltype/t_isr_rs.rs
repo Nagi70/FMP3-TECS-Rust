@@ -4,25 +4,44 @@ use crate::kernel_cfg::*;
 use crate::tecs_global::*;
 use crate::tecs_signature::si_handler_body::*;
 use crate::tecs_celltype::t_x_uart::*;
-pub struct TIsrRs<T>
-where
-	T: SiHandlerBody + 'static,
-{
-	pub ci_isr_body: &'static T,
-	id: ID,
+pub trait TIsrRsConfig: 'static {
+    const ID: ID;
 }
 
-pub struct LockGuardForTIsrRs<'a, T>
+pub struct TIsrRsId<CONFIG: TIsrRsConfig>(core::marker::PhantomData<CONFIG>);
+impl<CONFIG: TIsrRsConfig> core::ops::Deref for TIsrRsId<CONFIG> {
+    type Target = ID;
+    #[inline(always)]
+    fn deref(&self) -> &ID {
+        &CONFIG::ID
+    }
+}
+
+// Instance Configurations
+pub struct ConfigUartisr;
+impl TIsrRsConfig for ConfigUartisr {
+    const ID: ID = ISRID_PRC2;
+}
+
+pub struct TIsrRs<CONFIG>
 where
-	T: SiHandlerBody,
+	CONFIG: TIsrRsConfig,
 {
-	pub ci_isr_body: &'a T,
-	pub id: &'a ID,
+	pub ci_isr_body: &'static EiHandlerBodyForTXUart<ConfigUart>,
+	_phantom: core::marker::PhantomData<CONFIG>,
+}
+
+pub struct LockGuardForTIsrRs<'a, CONFIG: TIsrRsConfig>
+where
+	CONFIG: TIsrRsConfig,
+{
+	pub ci_isr_body: &'a EiHandlerBodyForTXUart<ConfigUart>,
+	pub id: TIsrRsId<CONFIG>,
 }
 
 #[unsafe(link_section = ".rodata")]
-pub static RPROCESSOR1SYMMETRIC_UARTISR: TIsrRs<EiHandlerBodyForTXUart> = TIsrRs {
+pub static RPROCESSOR1SYMMETRIC_UARTISR: TIsrRs<ConfigUartisr> = TIsrRs {
 	ci_isr_body: &EIHANDLERBODYFORRPROCESSOR1SYMMETRIC_UART,
-	id: ISRID_PRC2,
+	_phantom: core::marker::PhantomData,
 };
 

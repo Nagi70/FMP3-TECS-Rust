@@ -40,6 +40,83 @@
 require 'set'
 require_tecsgen_lib "RustGenCelltypePlugin.rb"
 
+class Cell
+
+    def gen_rust_cell_structure_header_initialize_specifier file
+        # セルタイプに async 呼び口がある場合は、pub を付与する
+        # lib.rsから関数を呼び出すため
+        if RustAWKCelltypePlugin.check_async_callport_in_celltype(self.get_celltype) then
+            file.print "pub "
+        end
+    end
+
+    # rodata セクション指定を削除
+    def gen_rust_entryport_structure_initialize_specifier file
+    end
+
+    # 変数構造体と 以下のルールに沿った初期化を生成
+    # 排他制御有りのセルのみ -> TECSMutexedVariable 構造体の初期化を生成
+    # 排他制御無しのセルのみ -> TECSRawVariable 構造体の初期化を生成
+    # 両方混在するセルタイプ -> TECSVariable enum の初期化を生成
+    def gen_rust_variable_structure_initialize file, plugin
+        celltype = self.get_celltype
+        if celltype.get_var_list.length != 0 then
+            mutex_mode = RustAWKCelltypePlugin.check_gen_mutex_or_not_for_celltype(celltype)
+
+            case mutex_mode
+            when "mix"
+                file.print "static #{self.get_global_name.to_s.upcase}VAR: TECSVariable<#{get_rust_celltype_name(celltype)}Var> = TECSVariable::"
+                if self.check_exclusive_control == true then
+                    file.print "Mutexed(awkernel_lib::sync::mutex::Mutex::new(\n"
+                else
+                    file.print "Raw(TECSSyncVar { unsafe_var: core::cell::UnsafeCell::new(\n"
+                end
+            when "mutex"
+                file.print "static #{self.get_global_name.to_s.upcase}VAR: awkernel_lib::sync::mutex::Mutex<#{get_rust_celltype_name(celltype)}Var> = awkernel_lib::sync::mutex::Mutex::new(\n"
+            when "none"
+                file.print "static #{self.get_global_name.to_s.upcase}VAR: TECSSyncVar<#{get_rust_celltype_name(celltype)}Var> = TECSSyncVar { unsafe_var: core::cell::UnsafeCell::new(\n"
+            end
+
+            file.print "\t#{get_rust_celltype_name(celltype)}Var {\n"
+            gen_comments_safe_reason file
+            # 変数構造体のフィールドの初期化を生成
+            self.gen_rust_variable_structure_field_initialize(file, plugin)
+
+            case mutex_mode
+            when "mix"
+                if self.check_exclusive_control == true then
+                    file.print "\t}\n"
+                    file.print "));\n"
+                else
+                    file.print "\t}),\n"
+                    file.print "});\n\n"
+                end
+            when "mutex"
+                file.print "\t}\n"
+                file.print ");\n\n"
+            when "none"
+                file.print "\t})\n"
+                file.print "};\n\n"
+            end
+        end
+    end
+
+    def gen_comments_safe_reason file
+        case self.check_exclusive_control
+        when true
+            file.print "/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the mutex object.\n"
+        else
+            case self.check_multiple_accessed
+            when true
+                # root に近いコンポーネントで排他制御を行っている場合
+                file.print "/// This UnsafeCell is accessed by multiple tasks, but is secure because it is accessed exclusively, with exclusive control applied to the component closest to root.\n"
+            else
+                file.print "/// This UnsafeCell is safe because it is only accessed by one task due to the call flow and component structure of TECS.\n"
+            end
+        end
+    end
+end
+
 #== celltype プラグインの共通の親クラス
 class RustAWKCelltypePlugin < RustGenCelltypePlugin
     CLASS_NAME_SUFFIX = ""
@@ -53,7 +130,7 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
     @@use_periodic_reactor_gen = false
     @@use_reactor_gen = false
     @@use_sink_reactor_gen = false
-    @@reactor_api_list = []
+    @@reactor_nodes = []
     @@non_default_impl_type_list = ["awkernel_lib::time::Time"] # defaultの実装がない型のリスト(awkernelのTime型など)
     @@dag_reactor_body_celltype_list = []
     @@dag_sink_reactor_body_celltype_list = []
@@ -205,7 +282,9 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
             suffix = "Reactor"
         end
 
-        file.print "import(\"#{$gen}/#{celltype.get_global_name}_#{file_suffix}.cdl\");\n\n"
+        if !celltype.get_cell_list.empty?
+            file.print "import(\"#{$gen}/#{celltype.get_global_name}_#{file_suffix}.cdl\");\n\n"
+        end
 
         # cell定義の生成
         celltype.get_cell_list.each do |cell|
@@ -290,7 +369,9 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
             suffix = "SinkReactor"
         end
 
-        file.print "import(\"#{$gen}/#{celltype.get_global_name}_#{file_suffix}.cdl\");\n\n"
+        if !celltype.get_cell_list.empty?
+            file.print "import(\"#{$gen}/#{celltype.get_global_name}_#{file_suffix}.cdl\");\n\n"
+        end
 
         celltype.get_cell_list.each do |cell|
             file.print <<~CDL
@@ -377,7 +458,9 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
             suffix = "PeriodicReactor"
         end
 
-        file.print "import(\"#{$gen}/#{celltype.get_global_name}_#{file_suffix}.cdl\");\n\n"
+        if !celltype.get_cell_list.empty?
+            file.print "import(\"#{$gen}/#{celltype.get_global_name}_#{file_suffix}.cdl\");\n\n"
+        end
 
         celltype.get_cell_list.each do |cell|
             file.print <<~CDL
@@ -524,26 +607,20 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
     def get_topic_type port
         signature = port.get_signature
         func_array = signature.get_function_head_array
-        if func_array.length == 0 then
-          puts "error: #{signature.get_global_name.to_s} has no function head"
-          exit 1
-        elsif func_array.length > 1 then
-          puts "warning: #{signature.get_global_name.to_s} has multiple function heads. Use the first one this time."
+
+        if func_array.length != 0 then
+            puts "error: #{signature.get_global_name.to_s} has function heads. Please define the empty signaure for topic port using the name s + \"topic type\""
+            exit 1
         end
-  
-        first_func = func_array.first
-        param_list = first_func.get_paramlist
-        if param_list.get_items.length == 0 then
-          puts "error: #{signature.get_global_name.to_s} has no argument. Please define a topic argument in the signature."
-          exit 1
-        elsif param_list.get_items.length > 1 then
-          puts "warning: #{signature.get_global_name.to_s} has multiple arguments. Use the first one this time."
-        end
-  
-        first_param = param_list.get_items.first
-        return c_type_to_rust_type(first_param.get_type)
+
+        signature_name = signature.get_global_name.to_s
+        # 先頭の s を取り除いたものをトピックの型とする
+        topic_type = signature_name.slice(1..-1)
+
+        return topic_type
     end
 
+    # リアクターボディシグニチャの引数から、パブリッシュするトピックとサブスクライブするトピックを取得する
     def get_topic_list_from_callback_signature signature
 
         # パブリッシュするトピックとサブスクライブするトピックを取得する
@@ -630,31 +707,11 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
 
         file.print "use tecs_global::*;\n\n"
 
-        if @@use_periodic_reactor_gen then
-            # file.print "use tecs_celltype::t_dag_periodic_reactor::*;\n"
-            # file.print "use tecs_signature::s_periodic_reactorbody::*;\n\n"
-        end
-        if @@use_reactor_gen then
-            # file.print "use tecs_celltype::t_dag_reactor::*;\n"
-            # file.print "use tecs_signature::s_reactorbody::*;\n\n"
-        end
-        if @@use_sink_reactor_gen then
-            # file.print "use tecs_celltype::t_dag_sink_reactor::*;\n"
-            # file.print "use tecs_signature::s_sink_reactorbody::*;\n\n"
-        end
-
-        # file.print "use tecs_signature::s_reactorbody::*;\n\n"
-
         file.print "pub async fn run() {\n\n"
         file.print "\twait_microsec(1000000);\n\n"
-        file.print "\tlet dag = create_dag();\n\n"
 
-        @@reactor_api_list.each do |reactor_api|
-            file.print reactor_api
-            file.print "\n\n"
-        end
+        analyze_and_generate_dags file
 
-        file.print "\tlet _ = finish_create_dags(&[dag.clone()]).await;\n"
         file.print "}\n"
     end
 
@@ -662,7 +719,7 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
         @@use_periodic_reactor_gen = true
 
         suffix = "DagPeriodicReactor"
-        api = "dag.register_periodic_reactor"
+        api = "%{dag}.register_periodic_reactor"
         if !in_dag then
             suffix = "PeriodicReactor"
             api = "spawn_periodic_reactor"
@@ -696,7 +753,7 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
             # TODO: 型に応じて適切な初期化をする必要がある
             # TODO: オリジナルの型に対応させるのは難しいかもしれない
             publish_topic_hash.each do |topic_arg_name, (topic_type)|
-                reactor_api += "\t\t\tlet mut #{topic_arg_name}: #{topic_type} = Default::default();\n"
+                reactor_api += "\t\t\tlet mut #{topic_arg_name}: #{topic_type} = #{topic_type}::const_init();\n"
             end
 
             reactor_api += "\t\t\ttecs_celltype::#{snake_case(celltype.get_global_name.to_s)}::#{cell.get_global_name.to_s.upcase}.#{snake_case(c_dag_periodic_reactor.get_name.to_s)}.#{c_dag_periodic_reactor.get_signature.get_function_head_array.first.get_name}("
@@ -720,7 +777,9 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
 
             reactor_api += "\t\t},\n"
 
-            reactor_api += "\t\tvec![Cow::from(\"#{cell.get_attr_initializer("publishTopicNames".to_sym).to_s}\")],\n"
+            p_topics = extract_tecs_topics(cell.get_attr_initializer("publishTopicNames".to_sym))
+            publish_topics_str = p_topics.map { |t| "Cow::from(\"#{t}\")" }.join(', ')
+            reactor_api += "\t\tvec![#{publish_topics_str}],\n"
 
             # TODO: sched_type 属性の初期値を明確にする必要がある。現在は、スケジューラ名 (FIFOなど)のみを想定している
             reactor_api += "\t\t#{cell.get_attr_initializer("schedType".to_sym).to_s},\n"
@@ -729,17 +788,24 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
             reactor_api += "\t)\n"
             reactor_api += "\t.await;"
 
-            @@reactor_api_list << reactor_api
+            @@reactor_nodes << {
+                cell: cell,
+                celltype: celltype,
+                in_dag: in_dag,
+                publish_topics: p_topics,
+                subscribe_topics: [],
+                code: reactor_api
+            }
         end
 
-        @@reactor_api_list.uniq!
+        @@reactor_nodes.uniq! { |n| n[:code] }
     end
 
     def add_dag_reactor_api file, celltype, in_dag=true
         @@use_reactor_gen = true
 
         suffix = "DagReactor"
-        api = "dag.register_reactor"
+        api = "%{dag}.register_reactor"
         if !in_dag then
             suffix = "Reactor"
             api = "spawn_reactor"
@@ -789,7 +855,7 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
             # TODO: 型に応じて適切な初期化をする必要がある
             # TODO: オリジナルの型に対応させるのは難しいかもしれない
             publish_topic_hash.each do |topic_arg_name, (topic_type)|
-                reactor_api += "\t\t\tlet mut #{topic_arg_name}: #{topic_type} = Default::default();\n"
+                reactor_api += "\t\t\tlet mut #{topic_arg_name}: #{topic_type} = #{topic_type}::const_init();\n"
             end
 
             reactor_api += "\t\t\ttecs_celltype::#{snake_case(celltype.get_global_name.to_s)}::#{cell.get_global_name.to_s.upcase}.#{snake_case(c_dag_reactor.get_name.to_s)}.#{c_dag_reactor.get_signature.get_function_head_array.first.get_name}("
@@ -816,27 +882,38 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
             reactor_api += "\t\t},\n"
 
             # subscribeTopicNames 引数を生成する
-            reactor_api += "\t\tvec![Cow::from(\"#{cell.get_attr_initializer("subscribeTopicNames".to_sym).to_s}\")],\n"
+            s_topics = extract_tecs_topics(cell.get_attr_initializer("subscribeTopicNames".to_sym))
+            subscribe_topics_str = s_topics.map { |t| "Cow::from(\"#{t}\")" }.join(', ')
+            reactor_api += "\t\tvec![#{subscribe_topics_str}],\n"
 
             # publishTopicNames 引数を生成する
-            reactor_api += "\t\tvec![Cow::from(\"#{cell.get_attr_initializer("publishTopicNames".to_sym).to_s}\")],\n"
+            p_topics = extract_tecs_topics(cell.get_attr_initializer("publishTopicNames".to_sym))
+            publish_topics_str = p_topics.map { |t| "Cow::from(\"#{t}\")" }.join(', ')
+            reactor_api += "\t\tvec![#{publish_topics_str}],\n"
 
             # TODO: sched_type 属性の初期値を明確にする必要がある。現在は、スケジューラ名 (FIFOなど)のみを想定している
             reactor_api += "\t\t#{cell.get_attr_initializer("schedType".to_sym).to_s},\n"
             reactor_api += "\t)\n"
             reactor_api += "\t.await;"
 
-            @@reactor_api_list << reactor_api
+            @@reactor_nodes << {
+                cell: cell,
+                celltype: celltype,
+                in_dag: in_dag,
+                publish_topics: p_topics,
+                subscribe_topics: s_topics,
+                code: reactor_api
+            }
         end
 
-        @@reactor_api_list.uniq!
+        @@reactor_nodes.uniq! { |n| n[:code] }
     end
 
     def add_dag_sink_reactor_api file, celltype, in_dag=true
         @@use_sink_reactor_gen = true
 
         suffix = "DagSinkReactor"
-        api = "dag.register_sink_reactor"
+        api = "%{dag}.register_sink_reactor"
         if !in_dag then
             suffix = "SinkReactor"
             api = "spawn_sink_reactor"
@@ -890,7 +967,9 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
             reactor_api += "\t\t},\n"
 
             # subscribeTopicNames 引数を生成する
-            reactor_api += "\t\tvec![Cow::from(\"#{cell.get_attr_initializer("subscribeTopicNames".to_sym).to_s}\")],\n"
+            s_topics = extract_tecs_topics(cell.get_attr_initializer("subscribeTopicNames".to_sym))
+            subscribe_topics_str = s_topics.map { |t| "Cow::from(\"#{t}\")" }.join(', ')
+            reactor_api += "\t\tvec![#{subscribe_topics_str}],\n"
 
             # TODO: sched_type 属性の初期値を明確にする必要がある。現在は、スケジューラ名 (FIFOなど)のみを想定している
             reactor_api += "\t\t#{cell.get_attr_initializer("schedType".to_sym).to_s},\n"
@@ -898,10 +977,18 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
             reactor_api += "\t)\n"
             reactor_api += "\t.await;"
 
-            @@reactor_api_list << reactor_api
+            @@reactor_nodes << {
+                cell: cell,
+                celltype: celltype,
+                in_dag: in_dag,
+                publish_topics: [],
+                subscribe_topics: s_topics,
+                code: reactor_api
+            }
+
         end
 
-        @@reactor_api_list.uniq!
+        @@reactor_nodes.uniq! { |n| n[:code] }
     end
 
     #----------------------------------------
@@ -973,7 +1060,7 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
     def gen_use_mutex file
 
         # TODO: 将来的に排他制御の選択肢を増やす可能性がある
-        case check_gen_mutex_or_not_for_celltype @celltype
+        case RustAWKCelltypePlugin.check_gen_mutex_or_not_for_celltype @celltype
         when "mutex"
             file.print "use awkernel_lib::sync::mutex::{MCSNode, Mutex, LockGuard};\n"
         when "mix"
@@ -990,11 +1077,12 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
 
     # ミューテックスを適用するセルそうでないセルが混在するセルタイプかどうかを判断する
     # TOPPERSでは、ミューテックスとセマフォどちらかを適用する
-    def check_gen_mutex_or_not_for_celltype celltype
+    def self.check_gen_mutex_or_not_for_celltype celltype
         check_mutex = []
 
         celltype.get_cell_list.each{ |cell|
-            check_mutex.push(check_exclusive_control_for_cell cell).uniq!
+            val = cell.check_exclusive_control ? "mutex" : "none"
+            check_mutex.push(val).uniq!
         }
 
         # ・ミューテックスを適用するセルと排他制御を使わないセルが混在する場合、check_mutex の中に
@@ -1009,30 +1097,8 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
         end
     end
 
-    # セル構造体の呼び口フィールドの定義を生成
-    # TODO: ユーザが定義するReactorbodyセルタイプの呼び口をpublicにする必要がある
-    def gen_rust_cell_structure_callport file, callport_list, use_jenerics_alphabet
 
-        plugin_option = @plugin_arg_str.split(",").map(&:strip)
-
-        callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
-            # async 指定子がある場合は、pub を付与する
-            # リアクターAPIのコールバック関数で、各ルーチンの呼び口を呼び出す生成をするため、pub が必要になる
-            if callport.is_async? then
-                file.print "\tpub #{snake_case(callport.get_name.to_s)}: &'static "
-            else
-                file.print "\t#{snake_case(callport.get_name.to_s)}: &'static "
-            end
-
-            if check_gen_dyn_for_port(callport) == nil then
-                file.print "#{alphabet},\n"
-            else
-                file.print "(#{check_gen_dyn_for_port(callport)} + Sync + Send),\n"
-            end
-        end
-    end
-
-    def check_async_callport_in_celltype celltype
+    def self.check_async_callport_in_celltype celltype
         celltype.get_port_list.each{ |port|
             if port.get_port_type == :CALL && port.is_async? then
                 return true
@@ -1041,403 +1107,11 @@ class RustAWKCelltypePlugin < RustGenCelltypePlugin
         return false
     end
 
-    # セルの構造体の初期化の先頭部を生成
-    # rodata セクション指定を削除
-    def gen_rust_cell_structure_header_initialize file, cell
-        # セルタイプに async 呼び口がある場合は、pub を付与する
-        # lib.rsから関数を呼び出すため
-        if check_async_callport_in_celltype(cell.get_celltype) then
-            file.print "pub "
-        end
-        file.print "static #{cell.get_global_name.to_s.upcase}: #{get_rust_celltype_name(cell.get_celltype)}"
-    end
-
-    # 受け口構造体の初期化を生成
-    # rodata セクション指定を削除
-    def gen_rust_entryport_structure_initialize file, celltype, cell
-        celltype.get_port_list.each{ |port|
-            if port.get_port_type == :ENTRY then
-
-                # 空のシグニチャの場合は、初期化を生成しない
-                if port.get_signature.get_function_head_array.length == 0 then
-                    next
-                end
-
-                # 受け口構造体の初期化を生成
-                # 一つの受け口構造体がもつセルは１つ
-                file.print "pub static #{port.get_name.to_s.upcase}FOR#{cell.get_global_name.to_s.upcase}: #{camel_case(snake_case(port.get_name.to_s))}For#{get_rust_celltype_name(celltype)} = #{camel_case(snake_case(port.get_name.to_s))}For#{get_rust_celltype_name(celltype)} {\n"
-                file.print "\tcell: &#{cell.get_global_name.to_s.upcase},\n"
-                file.print "};\n\n"
-            end
-        }
-    end
-
-    # セル構造体の変数フィールドの定義を生成
-    def gen_rust_cell_structure_variable file, celltype
-        if celltype.get_var_list.length != 0 then
-            file.print "\tvariable: &'static TECSVariable<#{get_rust_celltype_name(celltype)}Var>,\n"
-        end
-    end
-
-    # ロックガード構造体のヘッダーを生成
-    def gen_rust_lock_guard_structure_header file, celltype, callport_list, use_jenerics_alphabet
-        file.print "pub struct LockGuardFor#{get_rust_celltype_name(celltype)}"
-
-        file.print "<'a"
-        # use_jenerics_alphabet と callport_list の要素数が等しいことを前提としている
-        callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
-            if check_gen_dyn_for_port(callport) == nil then
-                file.print ", #{alphabet}"
-            end
-        end
-        file.print ">"
-
-    end
-
-    # ロックガード構造体の呼び口への参照の定義を生成
-    def gen_rust_lock_guard_structure_callport file, callport_list, use_jenerics_alphabet
-        callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
-            if check_gen_dyn_for_port(callport) == nil then
-                file.print "\tpub #{snake_case(callport.get_name.to_s)}: &'a #{alphabet},\n"
-            else
-                file.print "\tpub #{snake_case(callport.get_name.to_s)}: &'a (#{check_gen_dyn_for_port(callport)} + Sync + Send),\n"
-            end
-        end
-    end
-
-    # ロックガード構造体の属性への参照の定義を生成
-    def gen_rust_lock_guard_structure_attribute file, celltype
-        celltype.get_attribute_list.each{ |attr|
-            if attr.is_omit? then
-                next
-            else
-                file.print "\tpub #{attr.get_name.to_s}: "
-                file.print "&'a #{c_type_to_rust_type(attr.get_type)},\n"
-                # str = c_type_to_rust_type(attr.get_type)
-                # 属性や変数のフィールドに構造体がある場合は，ライフタイムを付与する必要がある
-                # file.print "&'a #{str},\n"
-            end
-        }
-    end
-
-    # ロックガード構造体の変数への参照の定義を生成
-    def gen_rust_lock_guard_structure_variable file, celltype
-        if celltype.get_var_list.length != 0 then
-            file.print "\tpub var: TECSVarGuard<'a, #{get_rust_celltype_name(celltype)}Var>,\n"
-        end
-    end
 
     def gen_use_in_tecs_global_rs file
         # file.print("use awkernel_lib::time::Time;\n")
     end
 
-    # awkernelのTime型など、defaultの実装がない型への特別な対応を生成する
-    def gen_default_impl_for_custom_struct file, struct
-        file.print("impl Default for #{camel_case(snake_case(struct.get_name.to_s.sub(/^_+/, "")))} {\n")
-        file.print("\tfn default() -> Self {\n")
-        file.print("\t\tSelf {\n")
-        struct.get_members_decl.get_items.each do |m|
-            if @@non_default_impl_type_list.include?(c_type_to_rust_type(m.get_type)) then
-                # defaultの実装がない型の場合は、特別な値を生成する
-                case c_type_to_rust_type(m.get_type)
-                    when "awkernel_lib::time::Time"
-                        file.print("\t\t\t#{m.get_name}: awkernel_lib::time::Time::zero(),\n")
-                    else
-                        file.print("\t\t\t#{m.get_name}: Default::default(),\n")
-                end
-            else
-                # defaultの実装がある型の場合は、Default::default()を生成する
-                file.print("\t\t\t#{m.get_name}: Default::default(),\n")
-            end
-        end
-        file.print("\t\t}\n")
-        file.print("\t}\n")
-        file.print("}\n\n")
-    end
-
-    # ロックガード構造体の定義を生成
-    def gen_rust_lock_guard_structure file, celltype, callport_list, use_jenerics_alphabet
-
-        if check_only_entryport_celltype(celltype) then
-            return
-        end
-
-        gen_rust_lock_guard_structure_header file, celltype, callport_list, use_jenerics_alphabet
-
-        gen_rust_cell_structure_jenerics file, callport_list, use_jenerics_alphabet
-
-        file.print "{\n"
-
-        gen_rust_lock_guard_structure_callport file, callport_list, use_jenerics_alphabet
-
-        gen_rust_lock_guard_structure_attribute file, celltype
-
-        gen_rust_lock_guard_structure_variable file, celltype
-
-        gen_rust_cell_structure_ex_ctrl_ref file, celltype
-
-        file.print "}\n\n"
-
-    end
-
-    def gen_rust_get_cell_ref file, celltype, callport_list, use_jenerics_alphabet
-        # セルタイプに受け口がない場合は，生成しない
-        # 受け口がないならば，get_cell_ref 関数が呼ばれることは現状無いため
-        celltype.get_port_list.each{ |port|
-            if port.get_port_type == :ENTRY then
-                jenerics_flag = true
-                file.print "impl"
-
-                # impl のジェネリクスを生成
-                callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
-                    # 呼び口が動的ディスパッチの場合は、ジェネリクスを生成しない
-                    if check_gen_dyn_for_port(callport) == nil then
-                        if jenerics_flag then
-                            jenerics_flag = false
-                            file.print "<#{alphabet}: #{get_rust_signature_name(callport.get_signature)}"
-                        else
-                            file.print ", #{alphabet}: #{get_rust_signature_name(callport.get_signature)}"
-                        end
-                    end
-                end
-
-                file.print ">" if jenerics_flag == false
-
-                # impl する型を生成
-                file.print " #{get_rust_celltype_name(celltype)}"
-                if check_only_entryport_celltype(celltype) then
-                else
-                    impl_first = true
-                    callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
-                        if check_gen_dyn_for_port(callport) == nil then
-                            if impl_first then
-                                impl_first = false
-                                file.print "<#{alphabet}"
-                            else
-                                file.print ", #{alphabet}"
-                            end
-                        end
-                    end
-                    file.print ">" if impl_first == false
-                end
-                file.print " {\n"
-                # インライン化
-                file.print "\t#[inline]\n"
-
-                # get_cell_ref 関数の定義を生成
-                file.print "\tpub fn get_cell_ref"
-
-                # セルタイプに変数がある場合は、引数にnodeをとる
-                if celltype.get_var_list.length != 0 then
-                    # ノードのライフタイムアノテーションは 'node とする
-                    file.print "<'node>(&'static self, node: &'node mut awkernel_lib::sync::mutex::MCSNode<#{get_rust_celltype_name(celltype)}Var>) -> "
-                else
-                    file.print "(&'static self) -> "
-                end
-
-                file.print "LockGuardFor#{get_rust_celltype_name(celltype)}"
-
-                # TECS/Rust において、dyn な呼び口は、ジェネリクス参照ではなくトレイトオブジェクトへの参照として表現される
-                # そのため、use_jenerics_alphabet にトレイトオブジェクトが入っている場合は、その生成をスキップする
-                # セルタイプ構造体にライフタイムアノテーションが必要かどうか判定する(必要 -> 呼び口を持っている)
-                # TODO: ライフタイムアノテーションの判定は厳格にする必要がある
-                # check_lifetime_annotation_for_celltype_structure から変更
-                if check_only_entryport_celltype(celltype) then
-                else
-                    lock_guard_first = true
-                    if celltype.get_var_list.length != 0 then
-                        file.print "<'node"
-                        lock_guard_first = false
-                    end
-                    # use_jenerics_alphabet と callport_list の要素数が等しいことを前提としている
-                    callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
-                        if check_gen_dyn_for_port(callport) == nil then
-                            if lock_guard_first then
-                                lock_guard_first = false
-                                file.print "<#{alphabet}"
-                            else
-                                file.print ", #{alphabet}"
-                            end
-                        end
-                    end
-                    file.print ">" if lock_guard_first == false
-                end
-
-                file.print " {\n"
-
-                lock_guard_filed_name = []
-                lock_guard_field_value = []
-
-                callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
-                    lock_guard_filed_name.push("#{snake_case(callport.get_name.to_s)}")
-                    lock_guard_field_value.push("self.#{snake_case(callport.get_name.to_s)}")
-                end
-
-                celltype.get_attribute_list.each do |attr|
-                    if attr.is_omit? then
-                        next
-                    end
-                    lock_guard_filed_name.push(attr.get_name)
-                    lock_guard_field_value.push("&self.#{attr.get_name}")
-                end
-
-                if celltype.get_var_list.length != 0 then
-                    lock_guard_filed_name.push("var")
-                    lock_guard_field_value.push("self.variable.lock(node)")
-                end
-
-                file.print "\t\tLockGuardFor#{get_rust_celltype_name(celltype)} {\n"
-
-                lock_guard_filed_name.each_with_index do |field_name, index|
-                    file.print "\t\t\t#{field_name}: #{lock_guard_field_value[index]},\n"
-                end
-                
-                file.print "\t\t}"
-                
-                
-                file.print"\n\t}\n}\n"
-                # get_cell_ref 関数を生成するのは1回だけでいいため，break する
-                break
-
-            end # if port.get_port_type == :ENTRY then
-        } # celltype.get_port_list.each
-    end
-
-    # 変数構造体と TECSVariable enum の初期化を生成
-    def gen_rust_variable_structure_initialize file, cell
-        if @celltype.get_var_list.length != 0 then
-            file.print "static #{cell.get_global_name.to_s.upcase}VAR: TECSVariable<#{get_rust_celltype_name(cell.get_celltype)}Var> = TECSVariable::"
-
-            # セルに排他制御が必要かどうか
-            if check_exclusive_control_for_cell(cell) == true then
-                file.print "Mutexed(awkernel_lib::sync::mutex::Mutex::new(\n"
-            else
-                file.print "Raw(TECSSyncVar { unsafe_var: core::cell::UnsafeCell::new(\n"
-            end
-
-            file.print "\t#{get_rust_celltype_name(cell.get_celltype)}Var {\n"
-            gen_comments_safe_reason file, cell
-            # 変数構造体のフィールドの初期化を生成
-            gen_rust_variable_structure_field_initialize(file, cell)
-
-            if check_exclusive_control_for_cell(cell) == true then
-                file.print "\t}\n"
-                file.print "));\n"
-            else
-                file.print "\t}),\n"
-                file.print "});\n\n"
-            end
-        end
-    end
-
-    def gen_comments_safe_reason file, cell
-        case check_exclusive_control_for_cell cell
-        when true
-            file.print "/// This UnsafeCell is accessed by multiple tasks, but is safe because it is operated exclusively by the mutex object.\n"
-        else
-            case check_multiple_accessed_for_cell cell
-            when true
-                # root に近いコンポーネントで排他制御を行っている場合
-                file.print "/// This UnsafeCell is accessed by multiple tasks, but is secure because it is accessed exclusively, with exclusive control applied to the component closest to root.\n"
-            else
-                file.print "/// This UnsafeCell is safe because it is only accessed by one task due to the call flow and component structure of TECS.\n"
-            end
-        end
-    end
-
-    def gen_use_for_impl_file file, celltype
-        super(file, celltype)
-        file.print "use awkernel_lib::sync::mutex::MCSNode;\n"
-    end
-
-    # セルタイプ構造体にライフタイムアノテーションが必要かどうかを判定する関数
-    def check_lifetime_annotation_for_celltype_structure celltype, callport_list
-
-        # 呼び口は受け口構造体に繋がっており、受け口構造体は必ずライフタイムアノテーションが必要であるため、trueを返す
-        if callport_list.length >= 1 then
-            return true
-        end
-
-        # ライフタイムアノテーションが必要な属性があるかどうか
-        celltype.get_attribute_list.each{ |attr|
-            if attr.is_omit? then
-                next
-            else
-                attr_type_name = attr.get_type.get_type_str
-                if check_lifetime_annotation_for_type(attr_type_name) then
-                    return true
-                end
-            end
-        }
-
-        # 変数があるかどうか
-        # awkernelでは、変数への参照を必ず持つため、trueを返す
-        return true if celltype.get_var_list.length != 0
-
-        return false
-    end
-
-    # セルタイプに受け口がある場合，受け口関数を生成する
-    def gen_rust_entryport_function file, celltype, callport_list
-        # セルタイプに受け口がある場合，impl を生成する
-        celltype.get_port_list.each{ |port|
-            if port.get_port_type == :ENTRY then
-                sig = port.get_signature
-
-                file.print "impl #{camel_case(snake_case(port.get_signature.get_global_name.to_s))} for #{camel_case(snake_case(port.get_name.to_s))}For#{get_rust_celltype_name(celltype)}{\n\n"
-
-                sig_param_str_list, _, lifetime_flag = get_sig_param_str sig
-
-                # 空の関数を生成
-                sig.get_function_head_array.each{ |func_head|
-                    # 関数のインライン化
-                    if port.is_inline? then
-                        file.print "\t#[inline]\n"
-                    end
-                    file.print "\tfn #{get_rust_function_name(func_head)}"
-                    # おそらく不要
-                    # if lifetime_flag then
-                    #     file.print "<'a>"
-                    # end
-                    file.print"(&'static self"
-                    # param_num と sig_param_str_list の要素数が等しいことを前提としている
-                    param_num = func_head.get_paramlist.get_items.size
-                    param_num.times do
-                        current_param = sig_param_str_list.shift
-                        if current_param == "ignore" then
-                            next
-                        end
-                        file.print "#{current_param}"
-                    end
-                    file.print ") "
-
-                    # 返り値の型がunknown,つまりvoidのときは，-> を生成しない
-                    if c_type_to_rust_type(func_head.get_return_type) != "unknown" then
-                        file.print "-> #{c_type_to_rust_type(func_head.get_return_type)}"
-                    end
-
-                    file.print "{\n"
-
-                    if check_only_entryport_celltype(celltype) then
-                    else
-                        if celltype.get_var_list.length != 0 then
-                            # ロックガードで覆う場合の生成
-                            file.print "\t\tlet mut node = MCSNode::new();\n"
-                            file.print "\t\tlet mut lg = self.cell.get_cell_ref(&mut node);\n"
-                        else
-                            file.print "\t\tlet mut lg = self.cell.get_cell_ref();\n"
-                        end
-                    end
-                    file.print "\n"
-                    file.print"\t}\n"
-                }
-
-                file.print "}\n\n"
-
-            else
-            end
-        }
-    end
 
     # Cargo.toml の設定を変更する
     def change_cargo_toml path
@@ -1478,6 +1152,13 @@ pub enum TECSVariable<T: core::marker::Send>{
     Raw(TECSSyncVar<T>),
 }
 
+impl<T: core::marker::Send> TECSSyncVar<T> {
+    #[inline(always)]
+    pub fn lock<'a>(&'a self, _node: &'a mut MCSNode<T>) -> &'a mut T {
+        unsafe { &mut *self.unsafe_var.get() }
+    }
+}
+
 impl<'a, T: core::marker::Send> TECSVariable<T>{
     #[inline]
 	pub fn lock(&'a self, node: &'a mut MCSNode<T>) -> TECSVarGuard<'a, T>{
@@ -1495,7 +1176,7 @@ pub enum TECSVarGuard<'a, T: core::marker::Send>{
 
 impl<'a, T: core::marker::Send> core::ops::Deref for TECSVarGuard<'a, T> {
     type Target = T;
-    #[inline]
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         match self {
             TECSVarGuard::Mutexed(g)  => &*g,
@@ -1505,7 +1186,7 @@ impl<'a, T: core::marker::Send> core::ops::Deref for TECSVarGuard<'a, T> {
 }
 
 impl<'a, T: core::marker::Send> core::ops::DerefMut for TECSVarGuard<'a, T> {
-    #[inline]
+    #[inline(always)]
     fn deref_mut(&mut self) -> &mut Self::Target {
         match self {
             TECSVarGuard::Mutexed(g)  => &mut *g,
@@ -1563,6 +1244,503 @@ impl<'a, T: core::marker::Send> core::ops::DerefMut for TECSVarGuard<'a, T> {
         # copy_gen_files_to_cargo "kernel_cfg.rs", nil
 
         gen_tecs_variable_rs
+    end
+
+    def analyze_and_generate_dags file
+        # 1. Split into connected components
+        components, non_dag_nodes = analyze_dag_groups(@@reactor_nodes)
+
+        # 2. Validate components
+        if !validate_dag_components(components)
+            # puts "warning: skipping DAG generation due to validation errors (might be incomplete collection)"
+            return
+        end
+
+        # 3. Generate code for each component (DAG)
+        dag_vars = []
+        components.each_with_index do |nodes, i|
+            # --- ソースノードを特定して最後に移動する ---
+            topic_publishers = {}
+            nodes.each do |node|
+                node[:publish_topics].each { |t| topic_publishers[t] = node }
+            end
+
+            source_nodes = []
+            other_nodes = []
+            nodes.each do |node|
+                # 同一DAG内の他のノードからパブリッシュされるトピックをサブスクライブしているか確認
+                has_incoming = node[:subscribe_topics].any? { |t| topic_publishers.key?(t) }
+                if has_incoming
+                    other_nodes << node
+                else
+                    source_nodes << node
+                end
+            end
+            # ソースノードを最後に持ってくる
+            nodes = other_nodes + source_nodes
+            # --------------------------------------------
+
+            dag_var = "dag#{i + 1}"
+            dag_vars << dag_var
+            file.print "\tlet #{dag_var} = create_dag();\n"
+            nodes.each do |node|
+                # Replace dag variable in the template code
+                file.print node[:code].gsub("%{dag}", dag_var)
+                file.print "\n\n"
+            end
+        end
+
+        # 4. Generate code for non-dag nodes
+        non_dag_nodes.each do |node|
+            file.print node[:code].gsub("%{dag}.", "") # Remove dag prefix
+            file.print "\n\n"
+        end
+
+        # 5. finish_create_dags call with error handling
+        if !dag_vars.empty?
+            file.print "\tlet dag_result = finish_create_dags(&["
+            file.print dag_vars.map { |v| "#{v}.clone()" }.join(", ")
+            file.print "]).await;\n\n"
+            
+            file.print "\tmatch dag_result {\n"
+            file.print "\t\tOk(_) => {},\n"
+            file.print "\t\tErr(errors) => {\n"
+            file.print "\t\t\tlog::error!(\"Failed to create DAG. Found {} error(s):\", errors.len());\n"
+            file.print "\t\t\tfor (i, e) in errors.iter().enumerate() {\n"
+            file.print "\t\t\t\tlog::error!(\"  Error[{}]: {}\", i, e);\n"
+            file.print "\t\t\t}\n"
+            file.print "\t\t\treturn;\n"
+            file.print "\t\t},\n"
+            file.print "\t}\n"
+        end
+    end
+
+    def analyze_dag_groups(nodes)
+        dag_nodes = nodes.select { |n| n[:in_dag] }
+        non_dag_nodes = nodes.select { |n| !n[:in_dag] }
+
+        # Topic connectivity mapping
+        topic_to_nodes = Hash.new { |h, k| h[k] = [] }
+        dag_nodes.each do |node|
+            (node[:publish_topics] + node[:subscribe_topics]).uniq.each do |topic|
+                topic_to_nodes[topic] << node
+            end
+        end
+
+        # Find connected components (BFS)
+        visited = {}
+        components = []
+        dag_nodes.each do |node|
+            next if visited[node]
+            component = []
+            queue = [node]
+            visited[node] = true
+            while !queue.empty?
+                curr = queue.shift
+                component << curr
+                (curr[:publish_topics] + curr[:subscribe_topics]).uniq.each do |topic|
+                    topic_to_nodes[topic].each do |neighbor|
+                        next if visited[neighbor]
+                        visited[neighbor] = true
+                        queue << neighbor
+                    end
+                end
+            end
+            components << component
+        end
+        return components, non_dag_nodes
+    end
+
+    def validate_dag_components(components)
+        all_publishers = Hash.new { |h, k| h[k] = [] }
+        valid = true
+        
+        components.each_with_index do |component, i|
+            dag_id = i + 1
+            topic_publishers = Hash.new { |h, k| h[k] = [] }
+            topic_subscribers = Hash.new { |h, k| h[k] = [] }
+            
+            component.each do |node|
+                node[:publish_topics].each do |t| 
+                    topic_publishers[t] << node
+                    all_publishers[t] << node
+                end
+                node[:subscribe_topics].each { |t| topic_subscribers[t] << node }
+            end
+
+            # 1. Multiple Publishers in same DAG
+            topic_publishers.each do |topic, pubs|
+                if pubs.size > 1
+                    puts "error: DAG##{dag_id}: Topic '#{topic}' has multiple publishers: #{pubs.map{|n| n[:cell].get_global_name}.join(', ')}"
+                    valid = false
+                end
+            end
+
+            # 2. Cycle detection (DFS)
+            visited = {}
+            stack = {}
+            component.each do |node|
+                if !visited[node]
+                    if has_dag_cycle?(node, topic_subscribers, visited, stack)
+                        puts "error: DAG##{dag_id} contains a cycle involving node '#{node[:cell].get_global_name}'"
+                        valid = false
+                    end
+                end
+            end
+            
+            # 3. Source/Sink count
+            sources = []
+            sinks = []
+            component.each do |node|
+                has_incoming = node[:subscribe_topics].any? { |t| topic_publishers.key?(t) }
+                has_outgoing = node[:publish_topics].any? { |t| topic_subscribers.key?(t) }
+                sources << node if !has_incoming
+                sinks << node if !has_outgoing
+            end
+
+            if sources.size > 1
+                puts "error: DAG##{dag_id} has multiple source nodes: #{sources.map{|n| n[:cell].get_global_name}.join(', ')}"
+                valid = false
+            end
+            if sinks.size > 1
+                puts "error: DAG##{dag_id} has multiple sink nodes: #{sinks.map{|n| n[:cell].get_global_name}.join(', ')}"
+                valid = false
+            end
+        end
+
+        # 4. Inter-DAG Topic Conflict (One publisher per topic globally for now)
+        all_publishers.each do |topic, pubs|
+            if pubs.size > 1
+                puts "error: Topic '#{topic}' has multiple publishers across DAGs: #{pubs.map{|n| n[:cell].get_global_name}.join(', ')}"
+                valid = false
+            end
+        end
+        return valid
+    end
+
+    def has_dag_cycle?(node, topic_subscribers, visited, stack)
+        visited[node] = true
+        stack[node] = true
+        
+        node[:publish_topics].each do |topic|
+            (topic_subscribers[topic] || []).each do |neighbor|
+                if !visited[neighbor]
+                    return true if has_dag_cycle?(neighbor, topic_subscribers, visited, stack)
+                elsif stack[neighbor]
+                    return true
+                end
+            end
+        end
+        
+        stack[node] = false
+        false
+    end
+
+    def extract_tecs_topics(attr_expr)
+        s = attr_expr.to_s
+        content = s
+        if s =~ /PL_EXP\s*\(\s*"(.*)"\s*\)/
+            content = $1
+        elsif s =~ /"(.*)"/
+            content = $1
+        end
+        # Split by comma and strip quotes/spaces from each element
+        content.split(',').map { |t| t.strip.gsub(/\A["']|["']\z/, "") }.reject(&:empty?)
+    end
+
+end
+
+# AWK 向け Celltype メソッドオーバーライド
+# RustAWKCelltypePlugin が使用される場合に、Celltype メソッドを上書きする
+class Celltype
+    include RustGenHelper
+
+    # セル構造体の呼び口フィールドの specifier を生成
+    def check_rust_cell_structure_callport_specifier callport
+        #  async 指定子がある場合は、pub を付与する
+        # リアクターAPIのコールバック関数で、各ルーチンの呼び口を呼び出す生成をするため、pub が必要になる
+        if callport.is_async? then
+            return "pub "
+        else
+            return ""
+        end
+    end
+
+    # セル構造体の変数フィールドの定義を生成（AWK版）
+    def gen_rust_cell_structure_variable file
+        if self.get_var_list.length != 0 then
+            case RustAWKCelltypePlugin.check_gen_mutex_or_not_for_celltype(self)
+            when "mix"
+                file.print "\tvariable: &'static TECSVariable<#{get_rust_celltype_name(self)}Var>,\n"
+            when "mutex"
+                file.print "\tvariable: &'static awkernel_lib::sync::mutex::Mutex<#{get_rust_celltype_name(self)}Var>,\n"
+            when "none"
+                file.print "\tvariable: &'static TECSSyncVar<#{get_rust_celltype_name(self)}Var>,\n"
+            end
+        end
+    end
+
+    # ロックガード構造体のヘッダーを生成（AWK版）
+    def gen_rust_lock_guard_structure_header file, callport_list, use_jenerics_alphabet
+        file.print "pub struct LockGuardFor#{get_rust_celltype_name(self)}"
+
+        params = []
+        # シングルトン最適化が行われ、ロックガードに属性以外の要素が存在しない場合、ライフタイムは不要
+        if is_lock_guard_lifetime_required?(callport_list, use_jenerics_alphabet) then
+            params << "'a"
+        end
+
+        # 属性があれば CONFIG を出す
+        if self.get_attribute_list.any? { |attr| !attr.is_omit? } then
+            params << "CONFIG: #{get_rust_celltype_name(self)}Config"
+        end
+        
+        if params.length > 0 then
+            file.print "<"
+            file.print params.join(", ")
+            file.print ">"
+        end
+
+    end
+
+    # ロックガード構造体の呼び口への参照の定義を生成（AWK版）
+    def gen_rust_lock_guard_structure_callport file, callport_list, use_jenerics_alphabet
+        callport_list.zip(use_jenerics_alphabet).each do |callport, alphabet|
+            if check_gen_dyn_for_port(callport) == nil then
+                file.print "\tpub #{snake_case(callport.get_name.to_s)}: &'a #{alphabet},\n"
+            else
+                file.print "\tpub #{snake_case(callport.get_name.to_s)}: &'a (#{check_gen_dyn_for_port(callport)} + Sync + Send),\n"
+            end
+        end
+    end
+
+    # ロックガード構造体の属性への参照の定義を生成（AWK版）
+    def gen_rust_lock_guard_structure_attribute file
+        self.get_attribute_list.each{ |attr|
+            if attr.is_omit? then
+                next
+            else
+                file.print "\tpub #{attr.get_name.to_s}: "
+                if is_attribute_optimization?(self) then
+                    celltype_name_camel = get_rust_celltype_name(self)
+                    attr_name_camel = camel_case(attr.get_name.to_s)
+                    file.print "#{celltype_name_camel}#{attr_name_camel}<CONFIG>,\n"
+                else
+                    file.print "&'a #{c_type_to_rust_type(attr.get_type)},\n"
+                end
+            end
+        }
+        # CONFIG が存在し、ZST 最適化でない場合は PhantomData が必要
+        has_attr = self.get_attribute_list.any? { |attr| !attr.is_omit? }
+        if has_attr && !is_attribute_optimization?(self) then
+            file.print "\t_phantom: core::marker::PhantomData<CONFIG>,\n"
+        end
+    end
+
+    # ロックガード構造体の変数への参照の定義を生成（AWK版）
+    def gen_rust_lock_guard_structure_variable file
+        if self.get_var_list.length != 0 then
+            case RustAWKCelltypePlugin.check_gen_mutex_or_not_for_celltype(self)
+            when "mix"
+                file.print "\tpub var: TECSVarGuard<'a, #{get_rust_celltype_name(self)}Var>,\n"
+            when "mutex"
+                file.print "\tpub var: awkernel_lib::sync::mutex::LockGuard<'a, #{get_rust_celltype_name(self)}Var>,\n"
+            when "none"
+                file.print "\tpub var: &'a mut #{get_rust_celltype_name(self)}Var,\n"
+            end
+        end
+    end
+
+    # ロックガード構造体の定義を生成（AWK版）
+    def gen_rust_lock_guard_structure file, callport_list, use_jenerics_alphabet
+
+        if check_only_entryport_celltype then
+            return
+        end
+
+        gen_rust_lock_guard_structure_header file, callport_list, use_jenerics_alphabet
+
+        gen_rust_cell_structure_jenerics file, callport_list, use_jenerics_alphabet
+
+        file.print "{\n"
+
+        gen_rust_lock_guard_structure_callport file, callport_list, use_jenerics_alphabet
+
+        gen_rust_lock_guard_structure_attribute file
+
+        gen_rust_lock_guard_structure_variable file
+
+        file.print "}\n\n"
+
+    end
+
+    def gen_rust_get_cell_ref_header file, callport_list, use_jenerics_alphabet
+        # インライン化
+        file.print "\t#[inline]\n"
+
+        # get_cell_ref 関数の定義を生成
+        file.print "\tpub fn get_cell_ref"
+
+        # 関数のジェネリクス引数を整理
+        fn_params = []
+        if self.get_var_list.length != 0 then
+            fn_params << "'node"
+        end
+
+        if fn_params.length > 0 then
+            file.print "<#{fn_params.join(", ")}>"
+        end
+
+        # セルタイプに変数がある場合は、引数にnodeをとる
+        if self.get_var_list.length != 0 then
+            file.print "(&'static self, node: &'node mut awkernel_lib::sync::mutex::MCSNode<#{get_rust_celltype_name(self)}Var>) -> "
+        else
+            file.print "(&'static self) -> "
+        end
+
+        file.print "LockGuardFor#{get_rust_celltype_name(self)}"
+
+        # 属性の有無を確認
+        has_attr = self.get_attribute_list.any? { |attr| !attr.is_omit? }
+
+        # 以前は is_attribute_optimization? (フル定数化) の場合のみ CONFIG を出していたが、
+        # size_first (非 ZST) の場合でも LockGuard は CONFIG を要求するため、
+        # has_attr があれば常に CONFIG を出力するように変更する。
+        if has_attr then
+            lock_guard_first = true
+            if self.get_var_list.length != 0 then
+                file.print "<'node"
+                lock_guard_first = false
+            end
+            # CONFIG ジェネリクス
+            if lock_guard_first then
+                if is_zst_optimization?(self) then
+                    file.print "<CONFIG"
+                else
+                    file.print "<ConfigDefault#{get_rust_celltype_name(self)}"
+                end
+                lock_guard_first = false
+            else
+                if is_zst_optimization?(self) then
+                    file.print ", CONFIG"
+                else
+                    file.print ", ConfigDefault#{get_rust_celltype_name(self)}"
+                end
+            end
+
+            file.print ">"
+        elsif check_only_entryport_celltype then
+        else
+            lock_guard_first = true
+            if self.get_var_list.length != 0 then
+                file.print "<'node"
+                lock_guard_first = false
+            end
+            file.print ">" if lock_guard_first == false
+        end
+
+        file.print " {\n"
+    end
+
+    # ロックガードの変数フィールドの生成はOSに依存するので、各プラグインでオーバーライドする
+    def gen_rust_lock_guard_initialize_variable file
+        if self.get_var_list.length != 0 then
+            file.print "\t\t\tvar: self.variable.lock(node),\n"
+        end
+    end
+
+    # implファイルのuse文を生成する（AWK版）
+    def gen_use_for_impl_file file
+        gen_use_for_impl_file_base file
+        file.print "use awkernel_lib::sync::mutex::MCSNode;\n"
+    end
+
+    # セルタイプに受け口がある場合，受け口関数を生成する（AWK版）
+    def gen_rust_entryport_function file, callport_list
+        # セルタイプに受け口がある場合，impl を生成する
+        self.get_port_list.each{ |port|
+            if port.get_port_type == :ENTRY then
+                sig = port.get_signature
+
+                # 空のシグニチャの場合は、impl を生成しない
+                if sig.get_function_head_array.length == 0 then
+                    next
+                end
+
+                # ENTRY_PORT マーカーを出力
+                port_name = snake_case(port.get_name.to_s)
+                file.print "\n// #[<ENTRY_PORT>]# #{camel_case(port_name)}\n"
+                file.print "//   entry port: #{camel_case(port_name)}\n"
+                file.print "//   signature:  #{camel_case(snake_case(port.get_signature.get_global_name.to_s))}\n"
+                file.print "// #[</ENTRY_PORT>]#\n"
+                file.print "\n"
+
+                if is_attribute_optimization?(self) then
+                    file.print "impl<CONFIG: #{get_rust_celltype_name(self)}Config> #{camel_case(snake_case(port.get_signature.get_global_name.to_s))} for #{camel_case(snake_case(port.get_name.to_s))}For#{get_rust_celltype_name(self)}<CONFIG> {\n\n"
+                else
+                    file.print "impl #{camel_case(snake_case(port.get_signature.get_global_name.to_s))} for #{camel_case(snake_case(port.get_name.to_s))}For#{get_rust_celltype_name(self)}{\n\n"
+                end
+
+                sig_param_str_list, _, lifetime_flag = sig.get_sig_param_str
+
+                # 空の関数を生成
+                sig.get_function_head_array.each{ |func_head|
+                    # ENTRY_FUNC マーカーを出力
+                    func_name = get_rust_function_name(func_head)
+                    file.print "\t// #[<ENTRY_FUNC>]# #{camel_case(port_name)}_#{func_name}\n"
+                    file.print "\t// #[</ENTRY_FUNC>]#\n"
+                    # 関数のインライン化
+                    if port.is_inline? then
+                        file.print "\t#[inline]\n"
+                    end
+                    file.print "\tfn #{func_name}"
+                    # おそらく不要
+                    # if lifetime_flag then
+                    #     file.print "<'a>"
+                    # end
+                    file.print"(&self"
+                    # param_num と sig_param_str_list の要素数が等しいことを前提としている
+                    param_num = func_head.get_paramlist.get_items.size
+                    param_num.times do
+                        current_param = sig_param_str_list.shift
+                        if current_param == "ignore" then
+                            next
+                        end
+                        file.print "#{current_param}"
+                    end
+                    file.print ") "
+
+                    # 返り値の型がunknown,つまりvoidのときは，-> を生成しない
+                    if c_type_to_rust_type(func_head.get_return_type) != "unknown" then
+                        file.print "-> #{c_type_to_rust_type(func_head.get_return_type)}"
+                    end
+
+                    file.print "{\n"
+
+                    if check_only_entryport_celltype then
+                    else
+                        if self.get_var_list.length != 0 then
+                            # ロックガードで覆う場合の生成
+                            file.print "\t\tlet mut node = MCSNode::new();\n"
+                            file.print "\t\tlet mut lg = self.cell.get_cell_ref(&mut node);\n"
+                        else
+                            file.print "\t\tlet mut lg = self.cell.get_cell_ref();\n"
+                        end
+                    end
+                    file.print "\n"
+                    file.print"\t}\n"
+                }
+
+                file.print "}\n\n"
+
+            else
+            end
+        }
+
+        # POSTAMBLE マーカーを出力
+        file.print "// #[<POSTAMBLE>]#\n"
+        file.print "//   Put non-entry functions below.\n"
+        file.print "// #[</POSTAMBLE>]#\n"
     end
 
 end

@@ -3,7 +3,7 @@ use crate::tecs_celltype::t_mio_led::*;
 use crate::tecs_signature::s_led::*;
 use core::ptr::{write_volatile, read_volatile};
 
-impl SLed for ELedForTMioLed{
+impl<CONFIG: TMioLedConfig> SLed for ELedForTMioLed<CONFIG>{
 
 	#[inline]
 	fn set_up(&self) {

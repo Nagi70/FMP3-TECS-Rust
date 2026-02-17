@@ -5,7 +5,7 @@ use itron::abi::*;
 use itron::task::*;
 use itron::error::Error;
 use itron::processor::Processor;
-impl STaskRs for ETaskForTTaskRs{
+impl<CONFIG: TTaskRsConfig> STaskRs for ETaskForTTaskRs<CONFIG>{
 
 	#[inline]
 	fn activate(&self) -> Result<(), itron::error::Error<itron::task::ActivateError>> {
@@ -93,7 +93,7 @@ impl STaskRs for ETaskForTTaskRs{
 	}
 }
 
-impl SiTaskRs for EiTaskForTTaskRs{
+impl<CONFIG: TTaskRsConfig> SiTaskRs for EiTaskForTTaskRs<CONFIG>{
 
 	#[inline]
 	fn activate(&self) -> itron::abi::ER {

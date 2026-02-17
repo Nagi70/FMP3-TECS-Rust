@@ -4,7 +4,7 @@ use crate::tecs_signature::{s_dataqueue_rs::*, si_dataqueue_rs::*};
 use itron::dataqueue::*;
 use itron::error::*;
 use itron::time::*;
-impl SDataqueueRs for EDataqueueForTDataqueueRs{
+impl<CONFIG: TDataqueueRsConfig> SDataqueueRs for EDataqueueForTDataqueueRs<CONFIG>{
 
 	#[inline]
 	fn send(&self, data: itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::SendError>> {
@@ -54,7 +54,7 @@ impl SDataqueueRs for EDataqueueForTDataqueueRs{
 	}
 }
 
-impl SiDataqueueRs for EiDataqueueForTDataqueueRs{
+impl<CONFIG: TDataqueueRsConfig> SiDataqueueRs for EiDataqueueForTDataqueueRs<CONFIG>{
 
 	#[inline]
 	fn send_polling(&self, data: itron::dataqueue::DataElement) -> Result<(), itron::error::Error<itron::dataqueue::TrySendError>> {

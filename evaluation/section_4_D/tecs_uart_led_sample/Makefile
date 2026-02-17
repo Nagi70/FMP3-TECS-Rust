@@ -55,7 +55,7 @@ TARGET = zybo_z7_gcc
 #  使い方の例:
 #    make ENABLE_TECS_RUST_OPT=0
 #
-ENABLE_TECS_RUST_OPT = 
+ENABLE_TECS_RUST_OPT = 1
 
 ifeq ($(ENABLE_TECS_RUST_OPT),1)
 CFG1_EXTRA_DEPS := tecs_rust_opt
